@@ -28,7 +28,7 @@ Open repo directory
 cd ski-resort-management
 ```
 #### Backend
->Note: Backend and frontend have to be build separately
+>Note: Backend and frontend have to be built separately
 
 Go to server directory
 ```
