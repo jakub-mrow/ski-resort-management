@@ -3,11 +3,12 @@ import pytest
 
 @pytest.mark.django_db
 def test_task_create(client):
-    data = {"description": "test description"}
-    response = client.post('/api/tasks/', data=data)
+    data = {"description": "test description", "beds": 4, "price": 2000}
+    response = client.post('/api/rooms/', data=data)
+
     assert response.status_code == 201
 
-    response = client.get('/api/tasks/')
+    response = client.get('/api/rooms/')
 
     assert response.status_code == 200
 

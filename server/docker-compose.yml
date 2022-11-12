@@ -5,6 +5,7 @@ services:
     restart: unless-stopped
     image: postgres
     container_name: postgres-ski-resort-management
+    hostname: postgres-ski-resort
     volumes:
       - "postgres:/var/lib/postgresql/data"
     environment:
