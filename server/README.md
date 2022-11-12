@@ -2,6 +2,7 @@
 
 
 * [Developers guide](#developers-guide)
+* [Git flow](#git-flow)
 
 
 ## Developers guide
@@ -23,3 +24,12 @@ Now you can run example queries
 ```
 select * from skiresort_room;
 ```
+
+
+## Git flow
+
+Each feature should be developed and tested on different branch.
+```
+git checkout -b "branch name"
+```
+Create pull request on github to merge to main
