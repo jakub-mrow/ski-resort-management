@@ -40,6 +40,13 @@ Build image and run container
 docker-compose build
 docker-compose up 
 ```
+
+For the app to work properly it is advised to run database migrations
+
+```
+docker-compose exec django manage migrate
+```
+
 To kill container use
 ```
 docker-compose down
