@@ -1,11 +1,11 @@
 version: "3.3"
 
 services:
-  postgres-ski-resort-management:
+  db-postgres:
     restart: unless-stopped
     image: postgres
-    container_name: postgres-ski-resort-management
-    hostname: postgres-ski-resort
+    container_name: db-postgres
+    hostname: db-postgres
     volumes:
       - "postgres:/var/lib/postgresql/data"
     environment:
@@ -34,7 +34,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     depends_on:
-      - postgres-ski-resort-management
+      - db-postgres
 
 volumes:
   postgres:
