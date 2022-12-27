@@ -33,12 +33,26 @@ class EmployeeSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class GuestSerializer(serializers.ModelSerializer):
+    social_security_number = serializers.CharField(required=False)
+    surname = serializers.CharField(required=False)
+    name = serializers.CharField(required=False)
+    email = serializers.EmailField(required=False)
+    address = serializers.CharField(required=False)
+    #reservations = ReservationSerializer(many=True, required=False)
+
+    class Meta:
+        model = models.Guest
+        fields = "__all__"
+
+
 class ReservationSerializer(serializers.ModelSerializer):
     #room = RoomSerializer()
     date_from = serializers.CharField(required=False, max_length=128)
     date_to = serializers.CharField(required=False, max_length=128)
     number_of_people = serializers.IntegerField(required=False)
     #employee = EmployeeSerializer()
+    #guest = GuestSerializer()
 
     class Meta:
         model = models.Reservation
@@ -50,14 +64,4 @@ class ReservationSerializer(serializers.ModelSerializer):
         return reservation
 
 
-class GuestSerializer(serializers.ModelSerializer):
-    social_security_number = serializers.CharField(required=False)
-    surname = serializers.CharField(required=False)
-    name = serializers.CharField(required=False)
-    email = serializers.EmailField(required=False)
-    address = serializers.CharField(required=False)
-    reservations = ReservationSerializer(many=True, required=False)
 
-    class Meta:
-        model = models.Guest
-        fields = "__all__"
