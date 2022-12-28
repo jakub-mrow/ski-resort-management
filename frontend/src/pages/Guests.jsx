@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { Header } from '../components';
 
-import { getGuests } from '../api/getGuests';
+import { getGuests, deleteGuest } from '../api/guestReguests';
 
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -37,10 +37,12 @@ const Guests = () => {
     }
 
     const handleDelete = (id) => {
-        // delete only from table
-        setGuests(guests.filter((item) => item.id !== id))
-        // TODO
-        // send request to backend to delete from database
+        try {
+            deleteGuest(id);
+            setGuests(guests.filter((item) => item.id !== id))
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     const actionColumn = [
@@ -51,7 +53,7 @@ const Guests = () => {
             renderCell: (params) => {
                 return (
                     <div className="p-2 space-x-4">
-                        <Button variant="contained" onClick={() => console.log("test")}>Edit</Button>
+                        <Button variant="contained" onClick={() => console.log("TODO")}>Edit</Button>
                         <Button variant="contained" onClick={() => handleDelete(params.row.id)}>Delete</Button>
                     </div>
                 )
