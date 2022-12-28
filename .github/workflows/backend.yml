@@ -2,12 +2,12 @@ name: CI/CD for backend
 on:
   push:
     paths:
-        - server/**
+      - server/**
   pull_request:
     branches:
       - main
     paths:
-        - server/**
+      - server/**
 
 jobs:
   continuous-integration:
