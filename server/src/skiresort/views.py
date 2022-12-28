@@ -27,12 +27,12 @@ class RoomViewSet(viewsets.ModelViewSet):
         room_serializer = serializers.RoomSerializer(data=request.data)
         room_serializer.is_valid(raise_exception=True)
 
-        logging.info("Creating task")
-        # task submit
+        logging.info("Creating Room")
+        # Room submit
         room_serializer.save()
-        logging.info("Task created")
+        logging.info("Room created")
 
-        return Response({"msg": "Task created"}, status=status.HTTP_201_CREATED)
+        return Response({"msg": "Room created"}, status=status.HTTP_201_CREATED)
 
 
     def list(self, request):
@@ -51,7 +51,7 @@ class GuestViewSet(viewsets.ModelViewSet):
 
     def create(self, request):
         """
-                Submit a new room.
+        Add a new guest
         """
         guest_serializer = serializers.GuestSerializer(data=request.data)
         guest_serializer.is_valid(raise_exception=True)
@@ -62,12 +62,26 @@ class GuestViewSet(viewsets.ModelViewSet):
 
     def list(self, request):
         """
-        List all the rooms.
+        List all the guests.
         """
         qs = models.Guest.objects.all()
         guest_serializer = serializers.GuestSerializer(qs, many=True)
 
         return Response(guest_serializer.data, status=status.HTTP_200_OK)
+
+    def destroy(self, request, pk):
+        try:
+            if models.Guest.objects.filter(pk=pk).exists():
+                guest = models.Guest.objects.filter(pk=pk).first()
+
+                guest.delete()
+
+                return Response(data={"msg": "Guest deleted successfully"}, status=status.HTTP_200_OK)
+            else:
+                return Response(data={"msg": "Guest with pk {} does not exist".format(pk)}, status=status.HTTP_404_NOT_FOUND)
+
+        except Exception as exc:
+            return Response(data={"msg": "Internal Server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class ReservationViewSet(viewsets.ModelViewSet):
