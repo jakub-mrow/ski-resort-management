@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MaxValueValidator
 
 
 class User(models.Model):
@@ -18,7 +19,7 @@ class Room(models.Model):
 
 
 class Guest(models.Model):
-    social_security_number = models.IntegerField(help_text="Polish social security number PESEL")
+    social_security_number = models.BigIntegerField(help_text="Polish social security number PESEL", validators=[MaxValueValidator(99999999999)])
     surname = models.CharField(max_length=128)
     name = models.CharField(max_length=128)
     email = models.EmailField()
@@ -26,7 +27,7 @@ class Guest(models.Model):
 
 
 class Employee(models.Model):
-    social_security_number = models.IntegerField(help_text="Polish social security number PESEL")
+    social_security_number = models.BigIntegerField(help_text="Polish social security number PESEL", validators=[MaxValueValidator(99999999999)])
     surname = models.CharField(max_length=128)
     name = models.CharField(max_length=128)
     job = models.CharField(max_length=128)
