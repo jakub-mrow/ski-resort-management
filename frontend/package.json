@@ -6,6 +6,7 @@
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@mui/material": "^5.11.2",
+    "@mui/x-data-grid": "^5.17.17",
     "@syncfusion/ej2": "^19.4.48",
     "@syncfusion/ej2-react-grids": "^19.4.50",
     "@syncfusion/ej2-react-popups": "^19.4.52",

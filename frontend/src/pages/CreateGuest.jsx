@@ -4,6 +4,8 @@ import { Header } from '../components';
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
+import { postGuest } from '../api/postGuest';
+
 import Button from '@mui/material/Button';
 
 import TextField from '@mui/material/TextField';
@@ -19,7 +21,9 @@ function CreateGuest() {
     
     const {register, handleSubmit, formState: { errors }} = useForm();
 
-    const onSubmit = (data) => {console.log(data)}
+    const onSubmit = (data) => {
+        postGuest(data)
+    }
 
     return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
@@ -32,7 +36,7 @@ function CreateGuest() {
                     type="number" 
                     label="Social security number" 
                     variant="outlined"
-                    {...register("socialNum", {
+                    {...register("social_security_number", {
                         required: "Social security number is required",
                         pattern: {
                             value: /^\d{11}$/,
@@ -62,15 +66,25 @@ function CreateGuest() {
                 />
                 <TextField 
                     id="outlined-basic" 
-                    label="Job" 
+                    label="Email address" 
                     variant="outlined" 
-                    {...register("job", {required: "Job is required"})}
-                    error={!!errors?.job}
-                    helperText={errors?.job ? errors.job.message : null}   
+                    {...register("email", {required: "Email is required"})}
+                    error={!!errors?.email}
+                    helperText={errors?.email ? errors.email.message : null}   
                      
                 />
 
                 <TextField 
+                    id="outlined-basic" 
+                    label="Address" 
+                    variant="outlined" 
+                    {...register("address", {required: "Email is required"})}
+                    error={!!errors?.address}
+                    helperText={errors?.address ? errors.address.message : null}   
+                     
+                />
+
+                {/* <TextField 
                     id="outlined-basic" 
                     label="Salary" 
                     variant="outlined"
@@ -85,7 +99,7 @@ function CreateGuest() {
                     error={!!errors?.salary}
                     helperText={errors?.salary ? errors.salary.message : null}     
                     InputProps={{startAdornment: <InputAdornment position="start">$</InputAdornment>}}
-                />
+                /> */}
 
                 <Button type="submit" variant="contained" >Add guest</Button>
                 <Button variant="contained" onClick={routeChange}>Back</Button>
