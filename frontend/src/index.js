@@ -7,16 +7,7 @@ import App from './App';
 import { ContextProvider } from './context/ContextProvider';
 import { Login } from './pages/';
 
-function CheckLogin(props) {
-    const isLoggedIn = props.isLoggedIn;
-    if (isLoggedIn) {
-        return <ContextProvider><App/></ContextProvider>;
-    }
-    return <Login/>;
-}
-
-
 ReactDOM.render(
-    <CheckLogin isLoggedIn={true}/>,
+    <ContextProvider><App/></ContextProvider>,
     document.getElementById('root')
 );

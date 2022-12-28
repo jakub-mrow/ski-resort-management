@@ -37,7 +37,7 @@ export const sidebarLinks = [
           icon: <IoMdContacts />,
         },
         {
-          name: 'customers',
+          name: 'guests',
           icon: <RiContactsLine />,
         },
       ],
