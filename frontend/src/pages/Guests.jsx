@@ -120,7 +120,7 @@ const Guests = () => {
                 </Box>
             </div>
         
-            <div class="flex flex-col space-y-4 mx-auto justify-center items-center">
+            <div className="flex flex-col space-y-4 mx-auto justify-center items-center">
                 <Button variant="contained" onClick={routeChange}>Add new guest</Button>
             </div>
         </div>

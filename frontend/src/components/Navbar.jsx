@@ -8,7 +8,6 @@ import avatar from '../data/avatar.jpg';
 
 import { UserProfile } from '.';
 import { MdKeyboardArrowDown } from 'react-icons/md';
-import { windowResize } from '@syncfusion/ej2/richtexteditor';
 
 const NavButton = ( {title, customFunc, icon, color, dotColor}) => (
   <TooltipComponent content={title} position="BottomCenter">
