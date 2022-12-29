@@ -9,7 +9,6 @@ import { postGuest } from '../api/guestReguests';
 import { Button, Alert, Snackbar } from '@mui/material';
 
 import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
 
 function CreateGuest() {
     const [showAlert, setShowAlert] = useState(null);

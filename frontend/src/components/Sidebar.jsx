@@ -3,7 +3,6 @@ import { Link, NavLink } from 'react-router-dom';
 
 import { SiShopware} from 'react-icons/si';
 import { MdOutlineCancel } from 'react-icons/md';
-import { AiOutlineMenu } from 'react-icons/ai';
 
 import { sidebarLinks } from '../data/sidebar-links';
 import { useStateContext } from '../context/ContextProvider';
