@@ -4,3 +4,4 @@ export { default as Information } from './Information'
 export { default as Employees } from './Employees';
 export { default as Guests} from './Guests';
 export { default as CreateGuest} from './CreateGuest';
+export { default as EditGuest} from './EditGuest';

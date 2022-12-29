@@ -13,6 +13,7 @@ export const ContextProvider = ({ children }) => {
     const [activeMenu, setActiveMenu] = useState(true);
     const [isClicked, setIsClicked] = useState(initialState);
     const [screenSize, setScreenSize] = useState(undefined);
+    const [guestObject, setGuestObject] = useState({});
     const [authenticated, setauthenticated] = useState(localStorage.getItem(localStorage.getItem("authenticated") || false));
 
     const handleClick = (clicked) => setIsClicked({ ...initialState, [clicked]: true});
@@ -25,7 +26,9 @@ export const ContextProvider = ({ children }) => {
                                          handleClick,
                                          screenSize,
                                          setScreenSize,
-                                         initialState}}>
+                                         initialState,
+                                         guestObject,
+                                         setGuestObject}}>
             {children}
         </StateContext.Provider>
     )
