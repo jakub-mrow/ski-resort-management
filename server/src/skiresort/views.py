@@ -10,7 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 logger = logging.getLogger(__name__)
 
 
-class RoomViewSet(viewsets.ModelViewSet):
+class RoomsViewSet(viewsets.ModelViewSet):
     """
     Return information about task.
     """
@@ -45,7 +45,7 @@ class RoomViewSet(viewsets.ModelViewSet):
         return Response(room_serializer.data, status=status.HTTP_200_OK)
 
 
-class GuestViewSet(viewsets.ModelViewSet):
+class GuestsViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.GuestSerializer
     queryset = models.Guest.objects.all()
 
@@ -84,7 +84,7 @@ class GuestViewSet(viewsets.ModelViewSet):
             return Response(data={"msg": "Internal Server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class ReservationViewSet(viewsets.ModelViewSet):
+class ReservationsViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ReservationSerializer
     queryset = models.Reservation.objects.all()
 
@@ -107,7 +107,7 @@ class ReservationViewSet(viewsets.ModelViewSet):
         return Response(reservation_serializer.data, status=status.HTTP_200_OK)
 
 
-class EmployeeViewSet(viewsets.ModelViewSet):
+class EmployeesViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.EmployeeSerializer
     queryset = models.Employee.objects.all()
 
