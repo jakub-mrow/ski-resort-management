@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { Header } from '../components';
 
-import { getGuests, deleteGuest } from '../api/guestReguests';
+import { getGuests, deleteGuest } from '../api/guestRequests';
 
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
