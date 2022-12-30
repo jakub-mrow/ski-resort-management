@@ -4,7 +4,7 @@ import { Header } from '../components';
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import { postGuest } from '../api/guestReguests';
+import { postGuest } from '../api/guestRequests';
 
 import { Button, Alert, Snackbar } from '@mui/material';
 

@@ -1,5 +1,5 @@
-export async function getEmployees(){
-    const endpoint = "http://localhost:8000/api/employees/"
+export async function getGuests(){
+    const endpoint = "http://localhost:8000/api/guests/"
 
     const response = await fetch(endpoint, { 
         method: "GET"
@@ -10,12 +10,12 @@ export async function getEmployees(){
         return json;
     }
 
-    throw new Error('Response ${response.status}: ${response.statusText} - ${await response.text()}');
+    throw new Error(`Response ${response.status}: ${response.statusText} - ${await response.text()}`);
 }
 
 
-export async function postEmployee(data) {
-    const endpoint = "http://localhost:8000/api/employees/";
+export async function postGuest(data) {
+    const endpoint = "http://localhost:8000/api/guests/";
 
     console.log(JSON.stringify(data));
 
@@ -31,11 +31,12 @@ export async function postEmployee(data) {
         return true;
     }
 
-    throw new Error('Response ${response.status}: ${response.statusText} - ${await response.text()}');
+    throw new Error(`Response ${response.status}: ${response.statusText} - ${await response.text()}`);
 }
 
-export async function deleteEmployee(id) {
-    const endpoint = `http://localhost:8000/api/employees/${id}/`;
+
+export async function deleteGuest(id) {
+    const endpoint = `http://localhost:8000/api/guests/${id}/`;
 
     const response = await fetch(endpoint, {
         headers: {
@@ -48,11 +49,12 @@ export async function deleteEmployee(id) {
         return true;
     }
 
-    throw new Error('Response ${response.status}: ${response.statusText} - ${await response.text()}');
+    throw new Error(`Response ${response.status}: ${response.statusText} - ${await response.text()}`);
 }
 
-export async function updateEmployee(id, data) {
-    const endpoint = `http://localhost:8000/api/employees/${id}/`;
+
+export async function updateGuest(id, data) {
+    const endpoint = `http://localhost:8000/api/guests/${id}/`;
 
     const response = await fetch(endpoint, {
         headers: {
@@ -69,8 +71,9 @@ export async function updateEmployee(id, data) {
     throw new Error(`Response ${response.status}: ${response.statusText} - ${await response.text()}`);
 }
 
-export async function getEmployee(id) {
-    const endpoint = `http://localhost:8000/api/employees/${id}/`;
+
+export async function getGuest(id) {
+    const endpoint = `http://localhost:8000/api/guests/${id}/`;
 
     const response = await fetch(endpoint, {
         headers: {
