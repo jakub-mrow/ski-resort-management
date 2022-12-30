@@ -112,6 +112,9 @@ class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = models.Employee.objects.all()
 
     def create(self, request):
+        """
+        Add a new employee
+        """
         employee_serializer = serializers.EmployeeSerializer(data=request.data)
         employee_serializer.is_valid(raise_exception=True)
 
@@ -122,9 +125,23 @@ class EmployeeViewSet(viewsets.ModelViewSet):
 
     def list(self, request):
         """
-        List all the rooms.
+        List all the employees.
         """
         qs = models.Employee.objects.all()
         employee_serializer = serializers.EmployeeSerializer(qs, many=True)
 
         return Response(employee_serializer.data, status=status.HTTP_200_OK)
+
+    def destroy(self, request, pk):
+        try:
+            if models.Employee.objects.filter(pk=pk).exists():
+                employee = models.Employee.objects.filter(pk=pk).first()
+
+                employee.delete()
+
+                return Response(data={"msg": "Employee deleted successfully"}, status=status.HTTP_200_OK)
+            else:
+                return Response(data={"msg": "Employee with pk {} does not exist".format(pk)}, status=status.HTTP_404_NOT_FOUND)
+
+        except Exception as exc:
+            return Response(data={"msg": "Internal Server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
