@@ -37,8 +37,8 @@ class Employee(models.Model):
 class Reservation(models.Model):
     guest = models.ForeignKey(Guest, on_delete=models.CASCADE, related_name="reservations")
     room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name="rooms")
-    date_from = models.CharField(max_length=128)
-    date_to = models.CharField(max_length=128)
+    date_from = models.DateField()
+    date_to = models.DateField()
     number_of_people = models.IntegerField()
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="reservations")
 

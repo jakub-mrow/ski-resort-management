@@ -47,8 +47,8 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
 class ReservationSerializer(serializers.ModelSerializer):
     #room = RoomSerializer()
-    date_from = serializers.CharField(max_length=128)
-    date_to = serializers.CharField(max_length=128)
+    date_from = serializers.DateField()
+    date_to = serializers.DateField()
     number_of_people = serializers.IntegerField()
     #employee = EmployeeSerializer()
     #guest = GuestSerializer()
