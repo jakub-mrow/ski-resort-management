@@ -5,3 +5,4 @@ export { default as Employees } from './Employees';
 export { default as CreateEmployee} from './CreateEmployee';
 export { default as Guests} from './Guests';
 export { default as CreateGuest} from './CreateGuest';
+export { default as EditGuest} from './EditGuest';
