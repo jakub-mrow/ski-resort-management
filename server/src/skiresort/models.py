@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.validators import MaxValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class User(models.Model):
@@ -11,15 +11,15 @@ class User(models.Model):
 
 
 class Room(models.Model):
-    room_id = models.IntegerField(null=True)
-    wing = models.CharField(null=True, max_length=128)
+    room_id = models.IntegerField()
+    wing = models.CharField(max_length=128)
     description = models.CharField(max_length=128, help_text="Task description")
-    beds = models.IntegerField(blank=True, null=True, help_text="Number of beds in a room")
-    price = models.PositiveIntegerField(blank=True, null=True, help_text="Price of the room")
+    beds = models.PositiveIntegerField(help_text="Number of beds in a room")
+    price = models.FloatField(validators=[MinValueValidator(0.0)], help_text="Price of the room")
 
 
 class Guest(models.Model):
-    social_security_number = models.BigIntegerField(help_text="Polish social security number PESEL", validators=[MaxValueValidator(99999999999)])
+    social_security_number = models.CharField(max_length=11, help_text="Polish social security number PESEL")
     surname = models.CharField(max_length=128)
     name = models.CharField(max_length=128)
     email = models.EmailField()
@@ -27,11 +27,11 @@ class Guest(models.Model):
 
 
 class Employee(models.Model):
-    social_security_number = models.BigIntegerField(help_text="Polish social security number PESEL", validators=[MaxValueValidator(99999999999)])
+    social_security_number = models.CharField(max_length=11, help_text="Polish social security number PESEL")
     surname = models.CharField(max_length=128)
     name = models.CharField(max_length=128)
     job = models.CharField(max_length=128)
-    salary = models.IntegerField()
+    salary = models.FloatField(validators=[MinValueValidator(0.0)])
 
 
 class Reservation(models.Model):
@@ -41,3 +41,60 @@ class Reservation(models.Model):
     date_to = models.CharField(max_length=128)
     number_of_people = models.IntegerField()
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="reservations")
+
+
+class Dish(models.Model):
+    name = models.CharField(max_length=128)
+    description = models.CharField(max_length=256)
+    calories = models.PositiveIntegerField()
+    cost = models.FloatField(validators=[MinValueValidator(0.0)])
+    price = models.FloatField(validators=[MinValueValidator(0.0)])
+
+
+class Dessert(models.Model):
+    name = models.CharField(max_length=128)
+    description = models.CharField(max_length=256)
+    calories = models.PositiveIntegerField()
+    cost = models.FloatField(validators=[MinValueValidator(0.0)])
+    price = models.FloatField(validators=[MinValueValidator(0.0)])
+
+
+class Meal(models.Model):
+    date = models.DateField()
+    time_of_day = models.CharField(max_length=128)
+    guest = models.ForeignKey(Guest, on_delete=models.CASCADE, related_name="meals")
+    dish = models.ForeignKey(Dish, on_delete=models.CASCADE, related_name="meals")
+    dessert = models.ForeignKey(Dessert, on_delete=models.CASCADE, related_name="meals")
+
+
+class Gear(models.Model):
+    code = models.CharField(max_length=128)
+    type = models.CharField(max_length=256)
+    name = models.CharField(max_length=128)
+    brand = models.CharField(max_length=128)
+    size = models.CharField(max_length=128)
+
+
+class Rental(models.Model):
+    date_from = models.DateField()
+    date_to = models.DateField()
+    price = models.FloatField(validators=[MinValueValidator(0.0)])
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="rentals")
+    gear = models.ForeignKey(Gear, on_delete=models.CASCADE, related_name="rentals")
+    guest = models.ForeignKey(Guest, on_delete=models.CASCADE, related_name="rentals")
+
+
+class Localization(models.Model):
+    name = models.CharField(max_length=128)
+    address = models.CharField(max_length=256)
+
+
+class Task(models.Model):
+    name = models.CharField(max_length=128)
+    description = models.CharField(max_length=256)
+
+
+class Duty(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="duties")
+    localization = models.ForeignKey(Localization, on_delete=models.CASCADE, related_name="duties")
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name="duties")
