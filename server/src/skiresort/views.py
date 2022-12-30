@@ -266,7 +266,7 @@ class GearViewSet(viewsets.ModelViewSet):
         """
         List all the gear.
         """
-        qs = models.Rental.objects.all()
+        qs = models.Gear.objects.all()
         gear_serializer = serializers.GearSerializer(qs, many=True)
 
         return Response(gear_serializer.data, status=status.HTTP_200_OK)
