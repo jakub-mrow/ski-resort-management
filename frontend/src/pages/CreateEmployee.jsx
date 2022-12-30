@@ -76,7 +76,7 @@ function CreateEmployee() {
 
                 <TextField 
                     id="outlined-basic"
-                    type="salary" 
+                    type="number" 
                     label="Salary" 
                     variant="outlined"
                     {...register("salary", {
@@ -89,23 +89,6 @@ function CreateEmployee() {
                     error={!!errors?.salary}
                     helperText={errors?.salary ? errors.salary.message : null}
                 />
-
-                {/* <TextField 
-                    id="outlined-basic" 
-                    label="Salary" 
-                    variant="outlined"
-                    type="number"
-                    {...register("salary", {
-                        required: "Salary is required",
-                        pattern: {
-                            value: /^\d*[1-9]\d*$/,
-                            message: "Value must be greater than 0"
-                        }
-                    })}
-                    error={!!errors?.salary}
-                    helperText={errors?.salary ? errors.salary.message : null}     
-                    InputProps={{startAdornment: <InputAdornment position="start">$</InputAdornment>}}
-                /> */}
 
                 <Button type="submit" variant="contained" >Add employee</Button>
                 <Button variant="contained" onClick={routeChange}>Back</Button>
