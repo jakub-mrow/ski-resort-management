@@ -90,9 +90,9 @@ class DessertSerializer(serializers.ModelSerializer):
 class MealSerializer(serializers.ModelSerializer):
     date = serializers.DateField()
     time_of_day = serializers.CharField(max_length=128)
-    guest = GuestSerializer()
-    dish = DishSerializer()
-    dessert = DessertSerializer()
+    # guest = GuestSerializer()
+    # dish = DishSerializer()
+    # dessert = DessertSerializer()
 
     class Meta:
         model = models.Meal
@@ -120,9 +120,9 @@ class RentalSerializer(serializers.ModelSerializer):
     date_from = serializers.DateField()
     date_to = serializers.DateField()
     price = serializers.FloatField()
-    employee = EmployeeSerializer()
-    gear = GearSerializer()
-    guest = GuestSerializer()    
+    # employee = EmployeeSerializer()
+    # gear = GearSerializer()
+    # guest = GuestSerializer()    
 
     class Meta:
         model = models.Rental
@@ -153,9 +153,9 @@ class TaskSerializer(serializers.ModelSerializer):
 
 
 class DutySerializer(serializers.ModelSerializer):
-    employee = EmployeeSerializer()
-    localization = LocalizationSerializer()
-    task = TaskSerializer()    
+    # employee = EmployeeSerializer()
+    # localization = LocalizationSerializer()
+    # task = TaskSerializer()    
 
     class Meta:
         model = models.Duty

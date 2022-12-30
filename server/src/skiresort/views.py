@@ -273,8 +273,8 @@ class GearViewSet(viewsets.ModelViewSet):
 
 
 class DutiesViewSet(viewsets.ModelViewSet):
-    serializer_class = serializers.GearSerializer
-    queryset = models.Gear.objects.all()
+    serializer_class = serializers.DutySerializer
+    queryset = models.Duty.objects.all()
 
     def create(self, request):
         """
