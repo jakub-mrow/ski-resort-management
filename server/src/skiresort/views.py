@@ -5,6 +5,7 @@ from skiresort import models, serializers
 from rest_framework import permissions, status, viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 
 
 logger = logging.getLogger(__name__)
@@ -128,3 +129,33 @@ class EmployeeViewSet(viewsets.ModelViewSet):
         employee_serializer = serializers.EmployeeSerializer(qs, many=True)
 
         return Response(employee_serializer.data, status=status.HTTP_200_OK)
+
+
+class ReservationData(APIView):
+    """
+    Return employees, guests and rooms to choose from when making reservations
+    """
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, requset):
+        try:
+            employees_qs = models.Employee.objects.all()
+            employee_serializer = serializers.EmployeeSerializer(employees_qs, many=True)
+
+            guests_qs = models.Guest.objects.all()
+            guest_serializer = serializers.GuestSerializer(guests_qs, many=True)
+
+            rooms_qs = models.Room.objects.all()
+            room_serializer = serializers.RoomSerializer(rooms_qs, many=True)
+
+            return_data = {
+                "employees": employee_serializer.data,
+                "guests": guest_serializer.data,
+                "rooms": room_serializer.data
+            }
+
+            return Response(data=return_data, status=status.HTTP_200_OK)
+
+        except Exception as exc:
+            return Response(data={"msg": "Internal server error", "detail": str(exc)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

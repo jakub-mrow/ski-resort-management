@@ -11,5 +11,6 @@ router.register("reservations", views.ReservationViewSet, "reservations")
 router.register("employees", views.EmployeeViewSet, "employees")
 
 urlpatterns = [
-    re_path("", include(router.urls))
+    re_path("", include(router.urls)),
+    re_path("reservation_data", views.ReservationData.as_view(), name="reservation_data")
 ]

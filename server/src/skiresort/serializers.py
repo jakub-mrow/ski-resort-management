@@ -1,5 +1,4 @@
 from rest_framework import serializers
-
 from skiresort import models
 
 
@@ -62,6 +61,3 @@ class ReservationSerializer(serializers.ModelSerializer):
         reservation = models.Reservation.objects.create(**validated_data)
 
         return reservation
-
-
-
