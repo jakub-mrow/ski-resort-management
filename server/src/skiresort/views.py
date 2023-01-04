@@ -11,7 +11,7 @@ from rest_framework.views import APIView
 logger = logging.getLogger(__name__)
 
 
-class RoomViewSet(viewsets.ModelViewSet):
+class RoomsViewSet(viewsets.ModelViewSet):
     """
     Return information about task.
     """
@@ -46,7 +46,7 @@ class RoomViewSet(viewsets.ModelViewSet):
         return Response(room_serializer.data, status=status.HTTP_200_OK)
 
 
-class GuestViewSet(viewsets.ModelViewSet):
+class GuestsViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.GuestSerializer
     queryset = models.Guest.objects.all()
 
@@ -121,11 +121,14 @@ class ReservationsViewSet(viewsets.ModelViewSet):
             return Response(data={"msg": "Internal Server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class EmployeeViewSet(viewsets.ModelViewSet):
+class EmployeesViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.EmployeeSerializer
     queryset = models.Employee.objects.all()
 
     def create(self, request):
+        """
+        Add a new employee
+        """
         employee_serializer = serializers.EmployeeSerializer(data=request.data)
         employee_serializer.is_valid(raise_exception=True)
 
@@ -136,12 +139,26 @@ class EmployeeViewSet(viewsets.ModelViewSet):
 
     def list(self, request):
         """
-        List all the rooms.
+        List all the employees.
         """
         qs = models.Employee.objects.all()
         employee_serializer = serializers.EmployeeSerializer(qs, many=True)
 
         return Response(employee_serializer.data, status=status.HTTP_200_OK)
+
+    def destroy(self, request, pk):
+        try:
+            if models.Employee.objects.filter(pk=pk).exists():
+                employee = models.Employee.objects.filter(pk=pk).first()
+
+                employee.delete()
+
+                return Response(data={"msg": "Employee deleted successfully"}, status=status.HTTP_200_OK)
+            else:
+                return Response(data={"msg": "Employee with pk {} does not exist".format(pk)}, status=status.HTTP_404_NOT_FOUND)
+
+        except Exception as exc:
+            return Response(data={"msg": "Internal Server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class ReservationData(APIView):
@@ -172,3 +189,203 @@ class ReservationData(APIView):
 
         except Exception as exc:
             return Response(data={"msg": "Internal server error", "detail": str(exc)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class DessertsViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.DessertSerializer
+    queryset = models.Dessert.objects.all()
+
+    def create(self, request):
+        """
+        Add a new dessert
+        """
+        dessert_serializer = serializers.DessertSerializer(data=request.data)
+        dessert_serializer.is_valid(raise_exception=True)
+
+        dessert_serializer.save()
+
+        return Response({"msg": "Dessert created"}, status=status.HTTP_201_CREATED)
+
+    def list(self, request):
+        """
+        List all the desserts.
+        """
+        qs = models.Dessert.objects.all()
+        dessert_serializer = serializers.DessertSerializer(qs, many=True)
+
+        return Response(dessert_serializer.data, status=status.HTTP_200_OK)
+
+
+class DishesViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.DishSerializer
+    queryset = models.Dish.objects.all()
+
+    def create(self, request):
+        """
+        Add a new dish
+        """
+        dish_serializer = serializers.DishSerializer(data=request.data)
+        dish_serializer.is_valid(raise_exception=True)
+
+        dish_serializer.save()
+
+        return Response({"msg": "Dish created"}, status=status.HTTP_201_CREATED)
+
+    def list(self, request):
+        """
+        List all the dishes.
+        """
+        qs = models.Dish.objects.all()
+        dish_serializer = serializers.DishSerializer(qs, many=True)
+
+        return Response(dish_serializer.data, status=status.HTTP_200_OK)
+
+
+class MealsViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.MealSerializer
+    queryset = models.Meal.objects.all()
+
+    def create(self, request):
+        """
+        Add a new meal
+        """
+        meal_serializer = serializers.MealSerializer(data=request.data)
+        meal_serializer.is_valid(raise_exception=True)
+
+        meal_serializer.save()
+
+        return Response({"msg": "Meal created"}, status=status.HTTP_201_CREATED)
+
+    def list(self, request):
+        """
+        List all the meals.
+        """
+        qs = models.Meal.objects.all()
+        meal_serializer = serializers.MealSerializer(qs, many=True)
+
+        return Response(meal_serializer.data, status=status.HTTP_200_OK)
+
+
+class RentalsViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.RentalSerializer
+    queryset = models.Rental.objects.all()
+
+    def create(self, request):
+        """
+        Add a new rental
+        """
+        rental_serializer = serializers.RentalSerializer(data=request.data)
+        rental_serializer.is_valid(raise_exception=True)
+
+        rental_serializer.save()
+
+        return Response({"msg": "Rental created"}, status=status.HTTP_201_CREATED)
+
+    def list(self, request):
+        """
+        List all the rentals.
+        """
+        qs = models.Rental.objects.all()
+        rental_serializer = serializers.RentalSerializer(qs, many=True)
+
+        return Response(rental_serializer.data, status=status.HTTP_200_OK)
+
+
+class GearViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.GearSerializer
+    queryset = models.Gear.objects.all()
+
+    def create(self, request):
+        """
+        Add a new gear
+        """
+        gear_serializer = serializers.GearSerializer(data=request.data)
+        gear_serializer.is_valid(raise_exception=True)
+
+        gear_serializer.save()
+
+        return Response({"msg": "Gear created"}, status=status.HTTP_201_CREATED)
+
+    def list(self, request):
+        """
+        List all the gear.
+        """
+        qs = models.Gear.objects.all()
+        gear_serializer = serializers.GearSerializer(qs, many=True)
+
+        return Response(gear_serializer.data, status=status.HTTP_200_OK)
+
+
+class DutiesViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.DutySerializer
+    queryset = models.Duty.objects.all()
+
+    def create(self, request):
+        """
+        Add a new duty
+        """
+        duty_serializer = serializers.DutySerializer(data=request.data)
+        duty_serializer.is_valid(raise_exception=True)
+
+        duty_serializer.save()
+
+        return Response({"msg": "Duty created"}, status=status.HTTP_201_CREATED)
+
+    def list(self, request):
+        """
+        List all the duties.
+        """
+        qs = models.Duty.objects.all()
+        duty_serializer = serializers.DutySerializer(qs, many=True)
+
+        return Response(duty_serializer.data, status=status.HTTP_200_OK)
+
+
+class TasksViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.TaskSerializer
+    queryset = models.Task.objects.all()
+
+    def create(self, request):
+        """
+        Add a new task
+        """
+        task_serializer = serializers.TaskSerializer(data=request.data)
+        task_serializer.is_valid(raise_exception=True)
+
+        task_serializer.save()
+
+        return Response({"msg": "Task created"}, status=status.HTTP_201_CREATED)
+
+    def list(self, request):
+        """
+        List all the tasks.
+        """
+        qs = models.Task.objects.all()
+        task_serializer = serializers.TaskSerializer(qs, many=True)
+
+        return Response(task_serializer.data, status=status.HTTP_200_OK)
+
+
+class LocalizationsViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.LocalizationSerializer
+    queryset = models.Localization.objects.all()
+
+    def create(self, request):
+        """
+        Add a new localization
+        """
+        localization_serializer = serializers.LocalizationSerializer(data=request.data)
+        localization_serializer.is_valid(raise_exception=True)
+
+        localization_serializer.save()
+
+        return Response({"msg": "Localization created"}, status=status.HTTP_201_CREATED)
+
+    def list(self, request):
+        """
+        List all the localizations.
+        """
+        qs = models.Localization.objects.all()
+        localization_serializer = serializers.LocalizationSerializer(qs, many=True)
+
+        return Response(localization_serializer.data, status=status.HTTP_200_OK)

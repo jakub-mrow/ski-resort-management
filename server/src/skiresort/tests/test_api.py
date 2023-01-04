@@ -4,6 +4,7 @@ import pytest
 @pytest.mark.django_db
 def test_task_create(client):
     pass
+    # assert False
     # data = {"description": "test description", "beds": 4, "price": 2000}
     # response = client.post('/api/rooms/', data=data)
 

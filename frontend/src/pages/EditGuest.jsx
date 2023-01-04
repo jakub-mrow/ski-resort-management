@@ -4,7 +4,7 @@ import { Header } from '../components';
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import { updateGuest, getGuest } from '../api/guestReguests';
+import { updateGuest, getGuest } from '../api/guestRequests';
 import { useStateContext } from '../context/ContextProvider';
 
 import { Button, Alert, Snackbar } from '@mui/material';
@@ -65,15 +65,15 @@ const EditGuest = () => {
                             type="number" 
                             label="Social security number" 
                             variant="outlined"
-                            {...register("socialNum", {
+                            {...register("social_security_number", {
                                 required: "Social security number is required",
                                 pattern: {
                                     value: /\d{11}/,
                                     message: "Number must consist of 11 digits"
                                 }
                             })}
-                            error={!!errors?.socialNum}
-                            helperText={errors?.socialNum ? errors.socialNum.message : null}
+                            error={!!errors?.social_security_number}
+                            helperText={errors?.social_security_number ? errors.social_security_number.message : null}
                             defaultValue={guestObject.social_security_number}
                         />
 

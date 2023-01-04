@@ -40,6 +40,10 @@ export const sidebarLinks = [
           name: 'guests',
           icon: <RiContactsLine />,
         },
+        {
+          name: 'dishes',
+          icon: <RiContactsLine />,
+        },
       ],
     },
     // {
