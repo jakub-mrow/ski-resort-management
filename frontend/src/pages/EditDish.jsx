@@ -83,7 +83,6 @@ const EditDish = () => {
 
                         <TextField 
                             id="outlined-basic"
-                            type="number" 
                             label="Calories" 
                             variant="outlined"
                             {...register("calories", {
@@ -100,14 +99,13 @@ const EditDish = () => {
 
                         <TextField 
                             id="outlined-basic"
-                            type="number" 
                             label="Preparation cost" 
                             variant="outlined"
                             {...register("cost", {
                                 required: "Cost is required",
                                 pattern: {
-                                    value: /^\d*[1-9]\d*$/,
-                                    message: "Cost must be greater than 0"
+                                    value: /^\d+(\.\d{1,2})?$/,
+                                    message: "Cost must have max 2 decimal digits"
                                 }
                             })}
                             error={!!errors?.cost}
@@ -117,14 +115,13 @@ const EditDish = () => {
 
                         <TextField 
                             id="outlined-basic"
-                            type="number" 
                             label="Menu price" 
                             variant="outlined"
                             {...register("price", {
                                 required: "Price is required",
                                 pattern: {
-                                    value: /^\d*[1-9]\d*$/,
-                                    message: "Price must be greater than 0"
+                                    value: /^\d+(\.\d{1,2})?$/,
+                                    message: "Price must have max 2 decimal digits"
                                 }
                             })}
                             error={!!errors?.price}
