@@ -13,3 +13,6 @@ export { default as EditDish} from './EditDish';
 export { default as Desserts} from './Desserts';
 export { default as CreateDessert} from './CreateDessert';
 export { default as EditDessert} from './EditDessert';
+export { default as Gear} from './Gear';
+export { default as CreateGear} from './CreateGear';
+export { default as EditGear} from './EditGear';

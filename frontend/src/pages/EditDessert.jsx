@@ -49,7 +49,7 @@ const EditDessert = () => {
         }
 
         setAlertSeverity("success");
-        setShowAlert("Dish edited successfully!");
+        setShowAlert("Dessert edited successfully!");
     }
 
 

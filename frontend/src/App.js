@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import { Navbar, Sidebar } from './components';
 
-import { Dashboard, Information, Employees, CreateEmployee, EditEmployee, Guests, CreateGuest, EditGuest, Dishes, CreateDish, EditDish, Desserts, CreateDessert, EditDessert } from './pages';
+import { Dashboard, Information, Employees, CreateEmployee, EditEmployee, Guests, CreateGuest, EditGuest, Dishes, CreateDish, EditDish, Desserts, CreateDessert, EditDessert, Gear, CreateGear, EditGear } from './pages';
 
 import { useStateContext } from './context/ContextProvider';
 import './App.css'
@@ -48,6 +48,9 @@ const App = () => {
                                 <Route path="/desserts" element={<Desserts/>}></Route>
                                 <Route path="/desserts/create" element={<CreateDessert/>}></Route>
                                 <Route path="/desserts/:id/edit" element={<EditDessert/>}></Route>
+                                <Route path="/gear" element={<Gear/>}></Route>
+                                <Route path="/gear/create" element={<CreateGear/>}></Route>
+                                <Route path="/gear/:id/edit" element={<EditGear/>}></Route>
                             </Routes>
                         </div>
 
