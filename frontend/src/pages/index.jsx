@@ -19,3 +19,6 @@ export { default as EditGear} from './EditGear';
 export { default as Localizations} from './Localizations';
 export { default as CreateLocalization} from './CreateLocalization';
 export { default as EditLocalization} from './EditLocalization';
+export { default as Tasks} from './Tasks';
+export { default as CreateTask} from './CreateTask';
+export { default as EditTask} from './EditTask';

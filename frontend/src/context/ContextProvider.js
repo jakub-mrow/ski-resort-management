@@ -19,6 +19,7 @@ export const ContextProvider = ({ children }) => {
     const [dessertObject, setDessertObject] = useState({});
     const [gearObject, setGearObject] = useState({});
     const [localizationObject, setLocalizationObject] = useState({});
+    const [taskObject, setTaskObject] = useState({});
     const [authenticated, setauthenticated] = useState(localStorage.getItem(localStorage.getItem("authenticated") || false));
 
     const handleClick = (clicked) => setIsClicked({ ...initialState, [clicked]: true});
@@ -43,7 +44,9 @@ export const ContextProvider = ({ children }) => {
                                          gearObject,
                                          setGearObject,
                                          localizationObject,
-                                         setLocalizationObject}}>
+                                         setLocalizationObject,
+                                         taskObject,
+                                         setTaskObject}}>
             {children}
         </StateContext.Provider>
     )
