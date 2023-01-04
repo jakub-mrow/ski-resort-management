@@ -85,7 +85,7 @@ class GuestViewSet(viewsets.ModelViewSet):
             return Response(data={"msg": "Internal Server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class ReservationViewSet(viewsets.ModelViewSet):
+class ReservationsViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ReservationSerializer
     queryset = models.Reservation.objects.all()
 
@@ -94,7 +94,6 @@ class ReservationViewSet(viewsets.ModelViewSet):
         reservation_serializer.is_valid(raise_exception=True)
 
         reservation_serializer.save()
-
 
         return Response(data={"msg": "Reservation created"}, status=status.HTTP_201_CREATED)
 
@@ -106,6 +105,20 @@ class ReservationViewSet(viewsets.ModelViewSet):
         reservation_serializer = serializers.ReservationSerializer(qs, many=True)
 
         return Response(reservation_serializer.data, status=status.HTTP_200_OK)
+
+    def destroy(self, request, pk):
+        try:
+            if models.Reservation.objects.filter(pk=pk).exists():
+                reservation = models.Reservation.objects.filter(pk=pk).first()
+
+                reservation.delete()
+
+                return Response(data={"msg": "Reservation deleted successfully"}, status=status.HTTP_200_OK)
+            else:
+                return Response(data={"msg": "Reservation with id {} does not exist".format(pk)}, status=status.HTTP_404_NOT_FOUND)
+
+        except Exception as exc:
+            return Response(data={"msg": "Internal Server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class EmployeeViewSet(viewsets.ModelViewSet):

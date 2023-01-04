@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import { Navbar, Sidebar } from './components';
-import { Dashboard, Information, Employees, Guests, CreateGuest, EditGuest } from './pages';
+import { Dashboard, Information, Employees, Guests, CreateGuest, EditGuest, Reservations, CreateReservation } from './pages';
 
 import { useStateContext } from './context/ContextProvider';
 import './App.css'
@@ -39,6 +39,10 @@ const App = () => {
                                 <Route path="/guests" element={<Guests/>}></Route>
                                 <Route path="/guests/create" element={<CreateGuest/>}></Route>
                                 <Route path="/guests/:id/edit" element={<EditGuest/>}></Route>
+
+                                <Route path="/reservations" element={<Reservations/>}></Route>
+                                <Route path="/reservations/create" element={<CreateReservation/>}></Route>
+                                <Route path="/reservations/:id/edit" element={<Reservations/>}></Route>
                             </Routes>
                         </div>
 

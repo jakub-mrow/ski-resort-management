@@ -7,7 +7,7 @@ from skiresort import views
 router = DefaultRouter()
 router.register("rooms", views.RoomViewSet, "room")
 router.register("guests", views.GuestViewSet, "guests")
-router.register("reservations", views.ReservationViewSet, "reservations")
+router.register("reservations", views.ReservationsViewSet, "reservations")
 router.register("employees", views.EmployeeViewSet, "employees")
 
 urlpatterns = [
