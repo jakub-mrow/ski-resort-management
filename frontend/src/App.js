@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import { Navbar, Sidebar } from './components';
 
-import { Dashboard, Information, Employees, CreateEmployee, EditEmployee, Guests, CreateGuest, EditGuest, Dishes, CreateDish, EditDish, Desserts, CreateDessert, EditDessert, Gear, CreateGear, EditGear } from './pages';
+import { Dashboard, Information, Employees, CreateEmployee, EditEmployee, Guests, CreateGuest, EditGuest, Dishes, CreateDish, EditDish, Desserts, CreateDessert, EditDessert, Gear, CreateGear, EditGear, Localizations, CreateLocalization, EditLocalization } from './pages';
 
 import { useStateContext } from './context/ContextProvider';
 import './App.css'
@@ -51,6 +51,9 @@ const App = () => {
                                 <Route path="/gear" element={<Gear/>}></Route>
                                 <Route path="/gear/create" element={<CreateGear/>}></Route>
                                 <Route path="/gear/:id/edit" element={<EditGear/>}></Route>
+                                <Route path="/localizations" element={<Localizations/>}></Route>
+                                <Route path="/localizations/create" element={<CreateLocalization/>}></Route>
+                                <Route path="/localizations/:id/edit" element={<EditLocalization/>}></Route>
                             </Routes>
                         </div>
 

@@ -16,3 +16,6 @@ export { default as EditDessert} from './EditDessert';
 export { default as Gear} from './Gear';
 export { default as CreateGear} from './CreateGear';
 export { default as EditGear} from './EditGear';
+export { default as Localizations} from './Localizations';
+export { default as CreateLocalization} from './CreateLocalization';
+export { default as EditLocalization} from './EditLocalization';

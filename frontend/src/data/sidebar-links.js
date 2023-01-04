@@ -5,7 +5,7 @@ import { BsKanban, BsBarChart, BsBoxSeam, BsCurrencyDollar, BsShield, BsChatLeft
 import { BiColorFill } from 'react-icons/bi';
 import { IoMdContacts } from 'react-icons/io';
 import { RiContactsLine, RiStockLine } from 'react-icons/ri';
-import {FaUtensils, FaCookieBite, FaSkiing} from 'react-icons/fa';
+import {FaUtensils, FaCookieBite, FaSkiing, FaMapMarkerAlt} from 'react-icons/fa';
 import { MdOutlineSupervisorAccount } from 'react-icons/md';
 import { HiOutlineRefresh } from 'react-icons/hi';
 import { TiTick } from 'react-icons/ti';
@@ -52,6 +52,10 @@ export const sidebarLinks = [
         {
           name: 'gear',
           icon: <FaSkiing />,
+        },
+        {
+          name: 'localizations',
+          icon: <FaMapMarkerAlt />,
         },
       ],
     },
