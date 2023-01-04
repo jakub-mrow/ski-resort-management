@@ -10,3 +10,6 @@ export { default as EditGuest} from './EditGuest';
 export { default as Dishes} from './Dishes';
 export { default as CreateDish} from './CreateDish';
 export { default as EditDish} from './EditDish';
+export { default as Desserts} from './Desserts';
+export { default as CreateDessert} from './CreateDessert';
+export { default as EditDessert} from './EditDessert';
