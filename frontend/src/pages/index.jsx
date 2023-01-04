@@ -22,3 +22,6 @@ export { default as EditLocalization} from './EditLocalization';
 export { default as Tasks} from './Tasks';
 export { default as CreateTask} from './CreateTask';
 export { default as EditTask} from './EditTask';
+export { default as Rooms} from './Rooms';
+export { default as CreateRoom} from './CreateRoom';
+export { default as EditRoom} from './EditRoom';
