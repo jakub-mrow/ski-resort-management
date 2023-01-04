@@ -13,6 +13,7 @@ import { useStateContext } from '../context/ContextProvider';
 
 function Reservations() {
     const [reservations, setReservations] = useState([]);
+    const { reservationObject, setReservationObject } = useStateContext();
 
     const fetchReservations = async () => {
         const reservations = await getReservations();
@@ -22,6 +23,10 @@ function Reservations() {
     useEffect(() => {
         fetchReservations();
     }, [])
+
+    const sendReservationData = (data) => {
+        setReservationObject(data);
+    }
 
 
     let navigate = useNavigate(); 
@@ -56,7 +61,7 @@ function Reservations() {
                 return (
                     <div className="p-2 space-x-4">
                         <Button variant="contained" onClick={() => {
-                            // sendGuestData(params.row);
+                            sendReservationData(params.row);
                             navigateEditRoute(params.row.id)}}>Edit</Button>
                         <Button variant="contained" onClick={() => handleDeleteReservation(params.row.id)}>Delete</Button>
                     </div>

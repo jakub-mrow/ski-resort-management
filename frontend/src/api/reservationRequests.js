@@ -67,3 +67,22 @@ export async function postReservation(data) {
 
     throw new Error(`Response ${response.status}: ${response.statusText} - ${await response.text()}`);
 }
+
+
+export async function updateReservation(id, data) {
+    const endpoint = `http://localhost:8000/api/reservations/${id}/`;
+
+    const response = await fetch(endpoint, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: "PUT",
+        body: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+        return true;
+    }
+
+    throw new Error(`Response ${response.status}: ${response.statusText} - ${await response.text()}`);
+}
