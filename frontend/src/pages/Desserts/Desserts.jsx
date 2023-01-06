@@ -2,48 +2,48 @@ import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
-import { Header } from '../components';
+import { Header } from '../../components';
 
-import { getRooms, deleteRoom } from '../api/roomRequests';
+import { getDesserts, deleteDessert } from '../../api/dessertRequests';
 
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
-import { useStateContext } from '../context/ContextProvider';
+import { useStateContext } from '../../context/ContextProvider';
 
-const Rooms = () => {
+const Desserts = () => {
 
-    const [rooms, setRooms] = useState([]);
-    const { roomObject, setRoomObject } = useStateContext();
+    const [desserts, setDesserts] = useState([]);
+    const { dessertObject, setDessertObject } = useStateContext();
 
-    const sendRoomData = (data) => {
-        setRoomObject(data)
+    const sendDessertData = (data) => {
+        setDessertObject(data)
     }
 
-    const fetchRooms = async () => {
-        const rooms = await getRooms();
-        setRooms(rooms);
+    const fetchDesserts = async () => {
+        const desserts = await getDesserts();
+        setDesserts(desserts);
     }
 
     useEffect(() => {
-        fetchRooms();
+        fetchDesserts();
     }, [])
 
     let navigate = useNavigate(); 
     const routeChange = () =>{ 
-        let path = `/rooms/create`; 
+        let path = `/desserts/create`; 
         navigate(path);
     }
 
     const navigateEditRoute = (id) => {
-        let path = `/rooms/${id}/edit`;
+        let path = `/desserts/${id}/edit`;
         navigate(path)
     }
 
     const handleDelete = (id) => {
         try {
-            deleteRoom(id);
-            setRooms(rooms.filter((item) => item.id !== id))
+            deleteDessert(id);
+            setDesserts(desserts.filter((item) => item.id !== id))
         } catch (error) {
             console.log(error)
         }
@@ -58,7 +58,7 @@ const Rooms = () => {
                 return (
                     <div className="p-2 space-x-4">
                         <Button variant="contained" onClick={() => {
-                            sendRoomData(params.row);
+                            sendDessertData(params.row);
                             navigateEditRoute(params.row.id)}}>Edit</Button>
                         <Button variant="contained" onClick={() => handleDelete(params.row.id)}>Delete</Button>
                     </div>
@@ -69,13 +69,8 @@ const Rooms = () => {
 
     const columns = [
         {
-            field: "room_id",
-            headerName: "Room number",
-            width: 200
-        },
-        {
-            field: "wing",
-            headerName: "Wing",
+            field: "name",
+            headerName: "Name",
             width: 200
         },
         {
@@ -84,25 +79,30 @@ const Rooms = () => {
             width: 300
         },
         {
-            field: "beds",
-            headerName: "Number of beds",
+            field: "calories",
+            headerName: "Calories",
+            width: 200
+        },
+        {
+            field: "cost",
+            headerName: "Preparation cost",
             width: 200
         },
         {
             field: "price",
-            headerName: "Price per night",
+            headerName: "Menu price",
             width: 200
         }
     ]
 
     return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl space-y-4">
-        <Header category="Page" title="Rooms" />
+        <Header category="Page" title="Desserts" />
 
         <div className="flex flex-wrap lg:flex-nowrap justify-center">
             <Box sx={{ height: 400, width: '100%' }}>
                 <DataGrid
-                    rows={rooms}
+                    rows={desserts}
                     columns={columns.concat(actionColumn)}
                     pageSize={5}
                     rowsPerPageOptions={[5]}
@@ -114,9 +114,9 @@ const Rooms = () => {
         </div>
 
         <div class="flex flex-col space-y-4 mx-auto justify-center items-center">
-            <Button variant="contained" onClick={routeChange}>Add new room</Button>
+            <Button variant="contained" onClick={routeChange}>Add new dessert</Button>
         </div>
     </div>
     )
 };
-export default Rooms;
+export default Desserts;

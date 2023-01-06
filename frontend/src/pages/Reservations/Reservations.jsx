@@ -2,14 +2,14 @@ import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
-import { Header } from '../components';
+import { Header } from '../../components';
 
-import { getReservations, deleteReservation } from '../api/reservationRequests';
+import { getReservations, deleteReservation } from '../../api/reservationRequests';
 
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
-import { useStateContext } from '../context/ContextProvider';
+import { useStateContext } from '../../context/ContextProvider';
 
 function Reservations() {
     const [reservations, setReservations] = useState([]);

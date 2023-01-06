@@ -2,48 +2,48 @@ import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
-import { Header } from '../components';
+import { Header } from '../../components';
 
-import { getGearList, deleteGear } from '../api/gearRequests';
+import { getTasks, deleteTask } from '../../api/taskRequests';
 
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
-import { useStateContext } from '../context/ContextProvider';
+import { useStateContext } from '../../context/ContextProvider';
 
-const Gear = () => {
+const Tasks = () => {
 
-    const [gear, setGear] = useState([]);
-    const { gearObject, setGearObject } = useStateContext();
+    const [tasks, setTasks] = useState([]);
+    const { taskObject, setTaskObject } = useStateContext();
 
-    const sendGearData = (data) => {
-        setGearObject(data)
+    const sendTaskData = (data) => {
+        setTaskObject(data)
     }
 
-    const fetchGear = async () => {
-        const gear = await getGearList();
-        setGear(gear);
+    const fetchTasks = async () => {
+        const tasks = await getTasks();
+        setTasks(tasks);
     }
 
     useEffect(() => {
-        fetchGear();
+        fetchTasks();
     }, [])
 
     let navigate = useNavigate(); 
     const routeChange = () =>{ 
-        let path = `/gear/create`; 
+        let path = `/tasks/create`; 
         navigate(path);
     }
 
     const navigateEditRoute = (id) => {
-        let path = `/gear/${id}/edit`;
+        let path = `/tasks/${id}/edit`;
         navigate(path)
     }
 
     const handleDelete = (id) => {
         try {
-            deleteGear(id);
-            setGear(gear.filter((item) => item.id !== id))
+            deleteTask(id);
+            setTasks(tasks.filter((item) => item.id !== id))
         } catch (error) {
             console.log(error)
         }
@@ -58,7 +58,7 @@ const Gear = () => {
                 return (
                     <div className="p-2 space-x-4">
                         <Button variant="contained" onClick={() => {
-                            sendGearData(params.row);
+                            sendTaskData(params.row);
                             navigateEditRoute(params.row.id)}}>Edit</Button>
                         <Button variant="contained" onClick={() => handleDelete(params.row.id)}>Delete</Button>
                     </div>
@@ -69,40 +69,25 @@ const Gear = () => {
 
     const columns = [
         {
-            field: "code",
-            headerName: "Code",
-            width: 200
-        },
-        {
-            field: "type",
-            headerName: "Type",
-            width: 200
-        },
-        {
             field: "name",
             headerName: "Name",
-            width: 300
-        },
-        {
-            field: "brand",
-            headerName: "Brand",
             width: 200
         },
         {
-            field: "size",
-            headerName: "Size",
-            width: 200
+            field: "description",
+            headerName: "Description",
+            width: 400
         }
     ]
 
     return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl space-y-4">
-        <Header category="Page" title="Gear" />
+        <Header category="Page" title="Tasks" />
 
         <div className="flex flex-wrap lg:flex-nowrap justify-center">
             <Box sx={{ height: 400, width: '100%' }}>
                 <DataGrid
-                    rows={gear}
+                    rows={tasks}
                     columns={columns.concat(actionColumn)}
                     pageSize={5}
                     rowsPerPageOptions={[5]}
@@ -114,9 +99,9 @@ const Gear = () => {
         </div>
 
         <div class="flex flex-col space-y-4 mx-auto justify-center items-center">
-            <Button variant="contained" onClick={routeChange}>Add new gear</Button>
+            <Button variant="contained" onClick={routeChange}>Add new task</Button>
         </div>
     </div>
     )
 };
-export default Gear;
+export default Tasks;

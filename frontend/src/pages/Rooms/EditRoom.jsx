@@ -1,32 +1,32 @@
 import React, { useEffect, useState } from 'react'
 
-import { Header } from '../components';
+import { Header } from '../../components';
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import { updateDish, getDish } from '../api/dishRequests';
-import { useStateContext } from '../context/ContextProvider';
+import { updateRoom, getRoom } from '../../api/roomRequests';
+import { useStateContext } from '../../context/ContextProvider';
 
 import { Button, Alert, Snackbar } from '@mui/material';
 
 
 import TextField from '@mui/material/TextField';
 
-const EditDish = () => {
+const EditRoom = () => {
     const {register, handleSubmit, formState: { errors }} = useForm();
-    const { dishObject, setDishObject } = useStateContext();
+    const { roomObject, setRoomObject } = useStateContext();
     const [showAlert, setShowAlert] = useState(null);
     const [alertSeverity, setAlertSeverity] = useState("error");
 
     const params = useParams();
 
     useEffect(() => {
-        const fetchDish = async () => {
-            const data = await getDish(params.id)
+        const fetchRoom = async () => {
+            const data = await getRoom(params.id)
         }
         const fetchOrRedirect = async () => {
             try {
-                await fetchDish();
+                await fetchRoom();
             } catch(error) {
                 routeChange();
             }
@@ -37,38 +37,55 @@ const EditDish = () => {
 
     let navigate = useNavigate(); 
     const routeChange = () =>{ 
-        let path = '/dishes'; 
+        let path = '/rooms'; 
         navigate(path);
     }
 
     const onSubmit = async (data) => {
-        const response = await updateDish(params.id, data);
+        const response = await updateRoom(params.id, data);
         if (!response) {
             setShowAlert("Internal server error");
             return;
         }
 
         setAlertSeverity("success");
-        setShowAlert("Dish edited successfully!");
+        setShowAlert("Room edited successfully!");
     }
 
 
     return (
         <>
             <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-                <Header category="Page" title="Edit dish" />
+                <Header category="Page" title="Edit room" />
 
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div class="flex flex-col space-y-4 mx-auto justify-center items-center">
 
                         <TextField 
-                            id="outlined-basic" 
-                            label="Name" 
+                            id="outlined-basic"
+                            type="number" 
+                            label="Room number" 
                             variant="outlined"
-                            {...register("name", {required: "Name is required"})}
-                            error={!!errors?.name}
-                            helperText={errors?.name ? errors.name.message : null} 
-                            defaultValue={dishObject.name}
+                            {...register("room_id", {
+                                required: "Room number is required",
+                                pattern: {
+                                    value: /^\d*[1-9]\d*$/,
+                                    message: "Room number must be greater than 0"
+                                }
+                            })}
+                            error={!!errors?.room_id}
+                            helperText={errors?.room_id ? errors.room_id.message : null} 
+                            defaultValue={roomObject.room_id}
+                        />
+
+                        <TextField 
+                            id="outlined-basic" 
+                            label="Wing" 
+                            variant="outlined"
+                            {...register("wing", {required: "Wing is required"})}
+                            error={!!errors?.wing}
+                            helperText={errors?.wing ? errors.wing.message : null} 
+                            defaultValue={roomObject.wing}
                         />
 
                         <TextField 
@@ -78,44 +95,29 @@ const EditDish = () => {
                             {...register("description", {required: "Description is required"})}
                             error={!!errors?.description}
                             helperText={errors?.description ? errors.description.message : null} 
-                            defaultValue={dishObject.description}
+                            defaultValue={roomObject.description}
                         />
 
                         <TextField 
                             id="outlined-basic"
-                            label="Calories" 
+                            type="number" 
+                            label="Number of beds" 
                             variant="outlined"
-                            {...register("calories", {
-                                required: "Calories are required",
+                            {...register("beds", {
+                                required: "Number of beds is required",
                                 pattern: {
                                     value: /^\d*[1-9]\d*$/,
-                                    message: "Calories must be greater than 0"
+                                    message: "Number of beds must be greater than 0"
                                 }
                             })}
-                            error={!!errors?.calories}
-                            helperText={errors?.calories ? errors.calories.message : null}
-                            defaultValue={dishObject.calories}
+                            error={!!errors?.beds}
+                            helperText={errors?.beds ? errors.beds.message : null} 
+                            defaultValue={roomObject.beds}
                         />
 
                         <TextField 
                             id="outlined-basic"
-                            label="Preparation cost" 
-                            variant="outlined"
-                            {...register("cost", {
-                                required: "Cost is required",
-                                pattern: {
-                                    value: /^\d+(\.\d{1,2})?$/,
-                                    message: "Cost must have max 2 decimal digits"
-                                }
-                            })}
-                            error={!!errors?.cost}
-                            helperText={errors?.cost ? errors.cost.message : null}
-                            defaultValue={dishObject.cost}
-                        />
-
-                        <TextField 
-                            id="outlined-basic"
-                            label="Menu price" 
+                            label="Price per night" 
                             variant="outlined"
                             {...register("price", {
                                 required: "Price is required",
@@ -125,11 +127,11 @@ const EditDish = () => {
                                 }
                             })}
                             error={!!errors?.price}
-                            helperText={errors?.price ? errors.price.message : null}
-                            defaultValue={dishObject.price}
+                            helperText={errors?.price ? errors.price.message : null} 
+                            defaultValue={roomObject.price}
                         />
 
-                        <Button type="submit" variant="contained">Edit dish</Button>
+                        <Button type="submit" variant="contained">Edit room</Button>
                         <Button variant="contained" onClick={routeChange}>Back</Button>
                     </div>
             </form>
@@ -140,4 +142,4 @@ const EditDish = () => {
     </>
     );
   };
-export default EditDish;
+export default EditRoom;

@@ -2,48 +2,48 @@ import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
-import { Header } from '../components';
+import { Header } from '../../components';
 
-import { getTasks, deleteTask } from '../api/taskRequests';
+import { getDishes, deleteDish } from '../../api/dishRequests';
 
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
-import { useStateContext } from '../context/ContextProvider';
+import { useStateContext } from '../../context/ContextProvider';
 
-const Tasks = () => {
+const Dishes = () => {
 
-    const [tasks, setTasks] = useState([]);
-    const { taskObject, setTaskObject } = useStateContext();
+    const [dishes, setDishes] = useState([]);
+    const { dishObject, setDishObject } = useStateContext();
 
-    const sendTaskData = (data) => {
-        setTaskObject(data)
+    const sendDishData = (data) => {
+        setDishObject(data)
     }
 
-    const fetchTasks = async () => {
-        const tasks = await getTasks();
-        setTasks(tasks);
+    const fetchDishes = async () => {
+        const dishes = await getDishes();
+        setDishes(dishes);
     }
 
     useEffect(() => {
-        fetchTasks();
+        fetchDishes();
     }, [])
 
     let navigate = useNavigate(); 
     const routeChange = () =>{ 
-        let path = `/tasks/create`; 
+        let path = `/dishes/create`; 
         navigate(path);
     }
 
     const navigateEditRoute = (id) => {
-        let path = `/tasks/${id}/edit`;
+        let path = `/dishes/${id}/edit`;
         navigate(path)
     }
 
     const handleDelete = (id) => {
         try {
-            deleteTask(id);
-            setTasks(tasks.filter((item) => item.id !== id))
+            deleteDish(id);
+            setDishes(dishes.filter((item) => item.id !== id))
         } catch (error) {
             console.log(error)
         }
@@ -58,7 +58,7 @@ const Tasks = () => {
                 return (
                     <div className="p-2 space-x-4">
                         <Button variant="contained" onClick={() => {
-                            sendTaskData(params.row);
+                            sendDishData(params.row);
                             navigateEditRoute(params.row.id)}}>Edit</Button>
                         <Button variant="contained" onClick={() => handleDelete(params.row.id)}>Delete</Button>
                     </div>
@@ -76,18 +76,33 @@ const Tasks = () => {
         {
             field: "description",
             headerName: "Description",
-            width: 400
+            width: 300
+        },
+        {
+            field: "calories",
+            headerName: "Calories",
+            width: 200
+        },
+        {
+            field: "cost",
+            headerName: "Preparation cost",
+            width: 200
+        },
+        {
+            field: "price",
+            headerName: "Menu price",
+            width: 200
         }
     ]
 
     return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl space-y-4">
-        <Header category="Page" title="Tasks" />
+        <Header category="Page" title="Dishes" />
 
         <div className="flex flex-wrap lg:flex-nowrap justify-center">
             <Box sx={{ height: 400, width: '100%' }}>
                 <DataGrid
-                    rows={tasks}
+                    rows={dishes}
                     columns={columns.concat(actionColumn)}
                     pageSize={5}
                     rowsPerPageOptions={[5]}
@@ -99,9 +114,9 @@ const Tasks = () => {
         </div>
 
         <div class="flex flex-col space-y-4 mx-auto justify-center items-center">
-            <Button variant="contained" onClick={routeChange}>Add new task</Button>
+            <Button variant="contained" onClick={routeChange}>Add new dish</Button>
         </div>
     </div>
     )
 };
-export default Tasks;
+export default Dishes;
