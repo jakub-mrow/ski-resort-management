@@ -50,7 +50,7 @@ export const ContextProvider = ({ children }) => {
                                          taskObject,
                                          setTaskObject,
                                          roomObject,
-                                         setRoomObject
+                                         setRoomObject,
                                          reservationObject,
                                          setReservationObject}}>
             {children}
