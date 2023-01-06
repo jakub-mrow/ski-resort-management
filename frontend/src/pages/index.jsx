@@ -7,3 +7,6 @@ export { default as EditEmployee} from './EditEmployee';
 export { default as Guests} from './Guests';
 export { default as CreateGuest} from './CreateGuest';
 export { default as EditGuest} from './EditGuest';
+export { default as Reservations } from './Reservations';
+export { default as CreateReservation } from './CreateReservation';
+export { default as EditReservation } from './EditReservation';

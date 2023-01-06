@@ -5,6 +5,7 @@ from skiresort import models, serializers
 from rest_framework import permissions, status, viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 
 
 logger = logging.getLogger(__name__)
@@ -94,7 +95,6 @@ class ReservationsViewSet(viewsets.ModelViewSet):
 
         reservation_serializer.save()
 
-
         return Response(data={"msg": "Reservation created"}, status=status.HTTP_201_CREATED)
 
     def list(self, request):
@@ -105,6 +105,20 @@ class ReservationsViewSet(viewsets.ModelViewSet):
         reservation_serializer = serializers.ReservationSerializer(qs, many=True)
 
         return Response(reservation_serializer.data, status=status.HTTP_200_OK)
+
+    def destroy(self, request, pk):
+        try:
+            if models.Reservation.objects.filter(pk=pk).exists():
+                reservation = models.Reservation.objects.filter(pk=pk).first()
+
+                reservation.delete()
+
+                return Response(data={"msg": "Reservation deleted successfully"}, status=status.HTTP_200_OK)
+            else:
+                return Response(data={"msg": "Reservation with id {} does not exist".format(pk)}, status=status.HTTP_404_NOT_FOUND)
+
+        except Exception as exc:
+            return Response(data={"msg": "Internal Server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class EmployeesViewSet(viewsets.ModelViewSet):
@@ -145,6 +159,36 @@ class EmployeesViewSet(viewsets.ModelViewSet):
 
         except Exception as exc:
             return Response(data={"msg": "Internal Server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class ReservationData(APIView):
+    """
+    Return employees, guests and rooms to choose from when making reservations
+    """
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, requset):
+        try:
+            employees_qs = models.Employee.objects.all()
+            employee_serializer = serializers.EmployeeSerializer(employees_qs, many=True)
+
+            guests_qs = models.Guest.objects.all()
+            guest_serializer = serializers.GuestSerializer(guests_qs, many=True)
+
+            rooms_qs = models.Room.objects.all()
+            room_serializer = serializers.RoomSerializer(rooms_qs, many=True)
+
+            return_data = {
+                "employees": employee_serializer.data,
+                "guests": guest_serializer.data,
+                "rooms": room_serializer.data
+            }
+
+            return Response(data=return_data, status=status.HTTP_200_OK)
+
+        except Exception as exc:
+            return Response(data={"msg": "Internal server error", "detail": str(exc)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class DessertsViewSet(viewsets.ModelViewSet):
