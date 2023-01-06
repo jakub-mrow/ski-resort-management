@@ -3,7 +3,15 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import { Navbar, Sidebar } from './components';
 
-import { Dashboard, Information, Employees, CreateEmployee, EditEmployee, Guests, CreateGuest, EditGuest, Dishes, CreateDish, EditDish, Desserts, CreateDessert, EditDessert, Gear, CreateGear, EditGear, Localizations, CreateLocalization, EditLocalization, Tasks, CreateTask, EditTask, Rooms, CreateRoom, EditRoom } from './pages';
+import { Dashboard, Information, Employees, CreateEmployee, EditEmployee, 
+         Guests, CreateGuest, EditGuest, 
+         Reservations, CreateReservation, EditReservation, 
+         Dishes, CreateDish, EditDish, 
+         Desserts, CreateDessert, EditDessert, 
+         Gear, CreateGear, EditGear, 
+         Localizations, CreateLocalization, EditLocalization, 
+         Tasks, CreateTask, EditTask, 
+         Rooms, CreateRoom, EditRoom } from './pages';
 
 import { useStateContext } from './context/ContextProvider';
 import './App.css'
@@ -60,6 +68,9 @@ const App = () => {
                                 <Route path="/rooms" element={<Rooms/>}></Route>
                                 <Route path="/rooms/create" element={<CreateRoom/>}></Route>
                                 <Route path="/rooms/:id/edit" element={<EditRoom/>}></Route>
+                                <Route path="/reservations" element={<Reservations/>}></Route>
+                                <Route path="/reservations/create" element={<CreateReservation/>}></Route>
+                                <Route path="/reservations/:id/edit" element={<EditReservation/>}></Route>
                             </Routes>
                         </div>
 

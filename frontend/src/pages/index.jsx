@@ -25,3 +25,6 @@ export { default as EditTask} from './EditTask';
 export { default as Rooms} from './Rooms';
 export { default as CreateRoom} from './CreateRoom';
 export { default as EditRoom} from './EditRoom';
+export { default as Reservations } from './Reservations';
+export { default as CreateReservation } from './CreateReservation';
+export { default as EditReservation } from './EditReservation';
