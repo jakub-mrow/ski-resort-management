@@ -87,7 +87,7 @@ function CreateGuest() {
                         id="outlined-basic" 
                         label="Address" 
                         variant="outlined" 
-                        {...register("address", {required: "Email is required"})}
+                        {...register("address", {required: "Address is required"})}
                         error={!!errors?.address}
                         helperText={errors?.address ? errors.address.message : null}   
                         

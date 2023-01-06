@@ -3,7 +3,15 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import { Navbar, Sidebar } from './components';
 
-import { Dashboard, Information, Employees, CreateEmployee, EditEmployee, Guests, CreateGuest, EditGuest, Reservations, CreateReservation, EditReservation } from './pages';
+import { Dashboard, Information, Employees, CreateEmployee, EditEmployee, 
+         Guests, CreateGuest, EditGuest, 
+         Reservations, CreateReservation, EditReservation, 
+         Dishes, CreateDish, EditDish, 
+         Desserts, CreateDessert, EditDessert, 
+         Gear, CreateGear, EditGear, 
+         Localizations, CreateLocalization, EditLocalization, 
+         Tasks, CreateTask, EditTask, 
+         Rooms, CreateRoom, EditRoom } from './pages';
 
 import { useStateContext } from './context/ContextProvider';
 import './App.css'
@@ -42,7 +50,24 @@ const App = () => {
                                 <Route path="/guests" element={<Guests/>}></Route>
                                 <Route path="/guests/create" element={<CreateGuest/>}></Route>
                                 <Route path="/guests/:id/edit" element={<EditGuest/>}></Route>
-
+                                <Route path="/dishes" element={<Dishes/>}></Route>
+                                <Route path="/dishes/create" element={<CreateDish/>}></Route>
+                                <Route path="/dishes/:id/edit" element={<EditDish/>}></Route>
+                                <Route path="/desserts" element={<Desserts/>}></Route>
+                                <Route path="/desserts/create" element={<CreateDessert/>}></Route>
+                                <Route path="/desserts/:id/edit" element={<EditDessert/>}></Route>
+                                <Route path="/gear" element={<Gear/>}></Route>
+                                <Route path="/gear/create" element={<CreateGear/>}></Route>
+                                <Route path="/gear/:id/edit" element={<EditGear/>}></Route>
+                                <Route path="/localizations" element={<Localizations/>}></Route>
+                                <Route path="/localizations/create" element={<CreateLocalization/>}></Route>
+                                <Route path="/localizations/:id/edit" element={<EditLocalization/>}></Route>
+                                <Route path="/tasks" element={<Tasks/>}></Route>
+                                <Route path="/tasks/create" element={<CreateTask/>}></Route>
+                                <Route path="/tasks/:id/edit" element={<EditTask/>}></Route>
+                                <Route path="/rooms" element={<Rooms/>}></Route>
+                                <Route path="/rooms/create" element={<CreateRoom/>}></Route>
+                                <Route path="/rooms/:id/edit" element={<EditRoom/>}></Route>
                                 <Route path="/reservations" element={<Reservations/>}></Route>
                                 <Route path="/reservations/create" element={<CreateReservation/>}></Route>
                                 <Route path="/reservations/:id/edit" element={<EditReservation/>}></Route>

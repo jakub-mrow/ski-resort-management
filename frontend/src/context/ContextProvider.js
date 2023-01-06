@@ -15,6 +15,12 @@ export const ContextProvider = ({ children }) => {
     const [screenSize, setScreenSize] = useState(undefined);
     const [guestObject, setGuestObject] = useState({});
     const [employeeObject, setEmployeeObject] = useState({});
+    const [dishObject, setDishObject] = useState({});
+    const [dessertObject, setDessertObject] = useState({});
+    const [gearObject, setGearObject] = useState({});
+    const [localizationObject, setLocalizationObject] = useState({});
+    const [taskObject, setTaskObject] = useState({});
+    const [roomObject, setRoomObject] = useState({});
     const [reservationObject, setReservationObject] = useState({});
     const [authenticated, setauthenticated] = useState(localStorage.getItem(localStorage.getItem("authenticated") || false));
 
@@ -33,6 +39,18 @@ export const ContextProvider = ({ children }) => {
                                          setGuestObject,
                                          employeeObject,
                                          setEmployeeObject,
+                                         dishObject,
+                                         setDishObject,
+                                         dessertObject,
+                                         setDessertObject,
+                                         gearObject,
+                                         setGearObject,
+                                         localizationObject,
+                                         setLocalizationObject,
+                                         taskObject,
+                                         setTaskObject,
+                                         roomObject,
+                                         setRoomObject
                                          reservationObject,
                                          setReservationObject}}>
             {children}
