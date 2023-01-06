@@ -1,53 +1,70 @@
 import React, { useState } from 'react'
 
-import { Header } from '../components';
+import { Header } from '../../components';
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import { postDessert } from '../api/dessertRequests';
+import { postRoom } from '../../api/roomRequests';
 
 import { Button, Alert, Snackbar } from '@mui/material';
 
 import TextField from '@mui/material/TextField';
 
-function CreateDessert() {
+function CreateRoom() {
     const [showAlert, setShowAlert] = useState(null);
     const [alertSeverity, setAlertSeverity] = useState("error");
 
 
     let navigate = useNavigate(); 
     const routeChange = () =>{ 
-        let path = '/desserts'; 
+        let path = '/rooms'; 
         navigate(path);
     }
     
     const {register, handleSubmit, formState: { errors }} = useForm();
 
     const onSubmit = async (data) => {
-        const response = await postDessert(data);
+        const response = await postRoom(data);
         if (!response) {
             setShowAlert("Internal server error");
             return;
         }
 
         setAlertSeverity("success");
-        setShowAlert("Dessert added successfully!");
+        setShowAlert("Room added successfully!");
     }
 
     return (
     <>
         <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-            <Header category="Page" title="Add dessert" />
+            <Header category="Page" title="Add room" />
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div class="flex flex-col space-y-4 mx-auto justify-center items-center">
+
+                    <TextField 
+                        id="outlined-basic"
+                        type="number" 
+                        label="Room number" 
+                        variant="outlined"
+                        {...register("room_id", {
+                            required: "Room number is required",
+                            pattern: {
+                                value: /^\d*[1-9]\d*$/,
+                                message: "Room number must be greater than 0"
+                            }
+                        })}
+                        error={!!errors?.room_id}
+                        helperText={errors?.room_id ? errors.room_id.message : null} 
+                    />
+
                     <TextField 
                         id="outlined-basic" 
-                        label="Name" 
+                        label="Wing" 
                         variant="outlined"
-                        {...register("name", {required: "Name is required"})}
-                        error={!!errors?.name}
-                        helperText={errors?.name ? errors.name.message : null} 
+                        {...register("wing", {required: "Wing is required"})}
+                        error={!!errors?.wing}
+                        helperText={errors?.wing ? errors.wing.message : null} 
                     />
 
                     <TextField 
@@ -62,37 +79,22 @@ function CreateDessert() {
                     <TextField 
                         id="outlined-basic"
                         type="number" 
-                        label="Calories" 
+                        label="Number of beds" 
                         variant="outlined"
-                        {...register("calories", {
-                            required: "Calories are required",
+                        {...register("beds", {
+                            required: "Number of beds is required",
                             pattern: {
                                 value: /^\d*[1-9]\d*$/,
-                                message: "Calories must be greater than 0"
+                                message: "Number of beds must be greater than 0"
                             }
                         })}
-                        error={!!errors?.calories}
-                        helperText={errors?.calories ? errors.calories.message : null}
-                    />
-
-                    <TextField 
-                        id="outlined-basic" 
-                        label="Preparation cost" 
-                        variant="outlined"
-                        {...register("cost", {
-                            required: "Cost is required",
-                            pattern: {
-                                value: /^\d+(\.\d{1,2})?$/,
-                                message: "Cost must have max 2 decimal digits"
-                            }
-                        })}
-                        error={!!errors?.cost}
-                        helperText={errors?.cost ? errors.cost.message : null}
+                        error={!!errors?.beds}
+                        helperText={errors?.beds ? errors.beds.message : null} 
                     />
 
                     <TextField 
                         id="outlined-basic"
-                        label="Menu price" 
+                        label="Price per night" 
                         variant="outlined"
                         {...register("price", {
                             required: "Price is required",
@@ -105,7 +107,7 @@ function CreateDessert() {
                         helperText={errors?.price ? errors.price.message : null}
                     />
 
-                    <Button type="submit" variant="contained" >Add dessert</Button>
+                    <Button type="submit" variant="contained" >Add room</Button>
                     <Button variant="contained" onClick={routeChange}>Back</Button>
                 </div>
             </form>
@@ -116,4 +118,4 @@ function CreateDessert() {
     </>
     )
 }
-export default CreateDessert
+export default CreateRoom

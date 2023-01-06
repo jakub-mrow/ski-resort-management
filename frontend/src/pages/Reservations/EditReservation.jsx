@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 
-import { Header } from '../components';
-import { useNavigate } from "react-router-dom";
+import { Header } from '../../components';
+import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useStateContext } from '../../context/ContextProvider';
 
-import { postReservation, getReservationCreateData } from '../api/reservationRequests';
+import { getReservationCreateData, updateReservation } from '../../api/reservationRequests';
 
 import { Button, Alert, Snackbar, Autocomplete } from '@mui/material';
 
@@ -16,7 +17,8 @@ import dayjs from 'dayjs';
 
 import TextField from '@mui/material/TextField';
 
-function CreateReservation() {
+function EditReservation() {
+
     const [showAlert, setShowAlert] = useState(null);
     const [alertSeverity, setAlertSeverity] = useState("error");
     const [reservationOptionsData, setReservationOptionsData] = useState({});
@@ -32,6 +34,9 @@ function CreateReservation() {
     const [guest, setGuest] = useState("");
     const [room, setRoom] = useState(0);
 
+    const { reservationObject, setReservationObject } = useStateContext();
+    const params = useParams();
+
     useEffect(() => {
         const fetchReservationOptionsdata = async () => {
             const data = await getReservationCreateData();
@@ -42,6 +47,7 @@ function CreateReservation() {
             // let emptyObject = {};
             // setReservationOptionsData({emptyObject, ...employeeObject});
             // setTimeout(() => console.log(employeeObject), 3000);
+            console.log(reservationObject);
         }
         fetchReservationOptionsdata();
     }, [])
@@ -84,8 +90,8 @@ function CreateReservation() {
         data["employee"] = getEmployeeIdBySocialNum(employee.split(" ")[2]);
         data["guest"] = getGuestIdBySocialNum(guest.split(" ")[2]);
         data["room"] = getRoomIdById(parseInt(room));
-        console.log(data);
-        const response = await postReservation(data);
+
+        const response = await updateReservation(params.id, data);
         if (!response) {
             setShowAlert("Internal server error");
             return;
@@ -103,13 +109,14 @@ function CreateReservation() {
         setDateTo(newDate);
     }
 
+
     return (
         <>
         <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-            <Header category="Page" title="Add reservation" />
+            <Header category="Page" title="Update reservation" />
 
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div class="flex flex-col space-y-4 mx-auto justify-center items-center">
+                <div className="flex flex-col space-y-4 mx-auto justify-center items-center">
                         
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DesktopDatePicker
@@ -117,7 +124,8 @@ function CreateReservation() {
                             inputFormat="MM/DD/YYYY"
                             value={dateFrom}
                             onChange={handleDateFromChange}
-                            disablePast={true}
+                            //disablePast={true}
+                            default={reservationObject.date_from}
                             renderInput={(params) => <TextField {...params} />}
                         />
                         <DesktopDatePicker
@@ -178,7 +186,7 @@ function CreateReservation() {
                     />
 
 
-                    <Button type="submit" variant="contained" >Add reservation</Button>
+                    <Button type="submit" variant="contained" >Update reservation</Button>
                     <Button variant="contained" onClick={routeChange}>Back</Button>
                 </div>
             </form>
@@ -190,4 +198,4 @@ function CreateReservation() {
     )
 }
 
-export default CreateReservation;
+export default EditReservation;

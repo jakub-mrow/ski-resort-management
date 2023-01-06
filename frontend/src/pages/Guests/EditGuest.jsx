@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 
-import { Header } from '../components';
+import { Header } from '../../components';
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import { updateGuest, getGuest } from '../api/guestRequests';
-import { useStateContext } from '../context/ContextProvider';
+import { updateGuest, getGuest } from '../../api/guestRequests';
+import { useStateContext } from '../../context/ContextProvider';
 
 import { Button, Alert, Snackbar } from '@mui/material';
 

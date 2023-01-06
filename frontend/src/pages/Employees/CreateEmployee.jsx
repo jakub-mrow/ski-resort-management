@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 
-import { Header } from '../components';
+import { Header } from '../../components';
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import { postEmployee } from '../api/employeeRequests';
+import { postEmployee } from '../../api/employeeRequests';
 
 import { Button, Alert, Snackbar } from '@mui/material';
 
