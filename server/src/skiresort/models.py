@@ -11,7 +11,7 @@ class User(models.Model):
 
 
 class Room(models.Model):
-    room_id = models.IntegerField()
+    room_id = models.IntegerField(primary_key=True, unique=True)
     wing = models.CharField(max_length=128)
     description = models.CharField(max_length=128, help_text="Task description")
     beds = models.PositiveIntegerField(help_text="Number of beds in a room")

@@ -43,7 +43,7 @@ const Rooms = () => {
     const handleDelete = (id) => {
         try {
             deleteRoom(id);
-            setRooms(rooms.filter((item) => item.id !== id))
+            setRooms(rooms.filter((item) => item.room_id !== id))
         } catch (error) {
             console.log(error)
         }
@@ -59,8 +59,8 @@ const Rooms = () => {
                     <div className="p-2 space-x-4">
                         <Button variant="contained" onClick={() => {
                             sendRoomData(params.row);
-                            navigateEditRoute(params.row.id)}}>Edit</Button>
-                        <Button variant="contained" onClick={() => handleDelete(params.row.id)}>Delete</Button>
+                            navigateEditRoute(params.row.room_id)}}>Edit</Button>
+                        <Button variant="contained" onClick={() => handleDelete(params.row.room_id)}>Delete</Button>
                     </div>
                 )
             }
@@ -108,6 +108,7 @@ const Rooms = () => {
                     rowsPerPageOptions={[5]}
                     checkboxSelection
                     disableSelectionOnClick
+                    getRowId={(row) => row.room_id}
                     experimentalFeatures={{ newEditingApi: true }}
                 />
             </Box>
