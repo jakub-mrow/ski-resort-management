@@ -25,11 +25,14 @@ class RoomsViewSet(viewsets.ModelViewSet):
         """
         Submit a new room.
         """
+
+        if models.Room.objects.filter(room_id=request.data.get("room_id")):
+            return Response(data={"msg": "Room with number {} already exists".format(request.data.get("room_id"))}, status=status.HTTP_406_NOT_ACCEPTABLE)
+            
         room_serializer = serializers.RoomSerializer(data=request.data)
         room_serializer.is_valid(raise_exception=True)
 
         logging.info("Creating Room")
-        # Room submit
         room_serializer.save()
         logging.info("Room created")
 

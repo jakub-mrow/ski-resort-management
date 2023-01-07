@@ -76,20 +76,12 @@ function EditReservation() {
         }
     }
 
-    const getRoomIdById = (roomId) => {
-        for (let i in reservationOptionsData.rooms){
-            if (reservationOptionsData.rooms[i].room_id === roomId){
-                return reservationOptionsData.rooms[i].id;
-            }
-        }
-    }
-
     const onSubmit = async (data) => {
         data["date_from"] = dateFrom.toISOString().split('T')[0];
         data["date_to"] = dateTo.toISOString().split('T')[0];
         data["employee"] = getEmployeeIdBySocialNum(employee.split(" ")[2]);
         data["guest"] = getGuestIdBySocialNum(guest.split(" ")[2]);
-        data["room"] = getRoomIdById(parseInt(room));
+        data["room"] = parseInt(room);
 
         const response = await updateReservation(params.id, data);
         if (!response) {
@@ -108,7 +100,6 @@ function EditReservation() {
     const handleDateToChange = (newDate) => {
         setDateTo(newDate);
     }
-
 
     return (
         <>

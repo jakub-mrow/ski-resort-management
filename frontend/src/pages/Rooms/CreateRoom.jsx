@@ -24,14 +24,16 @@ function CreateRoom() {
     const {register, handleSubmit, formState: { errors }} = useForm();
 
     const onSubmit = async (data) => {
-        const response = await postRoom(data);
-        if (!response) {
-            setShowAlert("Internal server error");
-            return;
+        try{
+            const response = await postRoom(data);
+            if (response) {
+                setAlertSeverity("success");
+                setShowAlert("Room added successfully!");
+                return;
+            }
+        } catch (error){
+            setShowAlert(new String(error));
         }
-
-        setAlertSeverity("success");
-        setShowAlert("Room added successfully!");
     }
 
     return (
@@ -112,7 +114,7 @@ function CreateRoom() {
                 </div>
             </form>
         </div>
-        <Snackbar open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
+        <Snackbar open={showAlert !== null} autoHideDuration={6000} onClose={() => setShowAlert(null)}>
             <Alert severity={alertSeverity}>{showAlert}</Alert>
         </Snackbar>
     </>

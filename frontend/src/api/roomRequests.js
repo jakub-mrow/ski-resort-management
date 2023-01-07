@@ -31,7 +31,12 @@ export async function postRoom(data) {
         return true;
     }
 
-    throw new Error('Response ${response.status}: ${response.statusText} - ${await response.text()}');
+    const failResponse = await response.json();
+    if (failResponse.hasOwnProperty("msg")){
+        throw new Error(`${failResponse.msg}`)
+    } else {
+        throw new Error("Internal server error. Redo an operation")
+    }
 }
 
 export async function deleteRoom(id) {
@@ -78,11 +83,12 @@ export async function getRoom(id) {
         },
         method: "GET"
     });
-
+    
     if (response.ok) {
         const json = await response.json();
         return json;
     }
 
-    throw new Error(`Response ${response.status}: ${response.statusText} - ${await response.text()}`);
+    // throw new Error(`Response ${response.status}: ${response.statusText} - ${await response.text()}`);
+    throw new Error(`${response.statusText}`)
 }
