@@ -92,3 +92,22 @@ export async function getRoom(id) {
     // throw new Error(`Response ${response.status}: ${response.statusText} - ${await response.text()}`);
     throw new Error(`${response.statusText}`)
 }
+
+
+export async function getRoomUnavailabilty(room_id){
+    const endpoint = `http://localhost:8000/api/rooms/unavailabilty/?room_id=${room_id}`;
+
+    const response = await fetch(endpoint, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: "GET"
+    });
+
+    if (response.ok) {
+        const json = await response.json();
+        return json;
+    }
+
+    throw new Error(`${response.statusText}`)
+}
