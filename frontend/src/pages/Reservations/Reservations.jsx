@@ -60,10 +60,21 @@ function Reservations() {
             renderCell: (params) => {
                 return (
                     <div className="p-2 space-x-4">
-                        <Button variant="contained" onClick={() => {
+                        <Button variant="contained"
+                            style={{
+                                backgroundColor: "#21b6ae",
+                            }} 
+                            onClick={() => {
                             sendReservationData(params.row);
-                            navigateEditRoute(params.row.id)}}>Edit</Button>
-                        <Button variant="contained" onClick={() => handleDeleteReservation(params.row.id)}>Delete</Button>
+                            navigateEditRoute(params.row.id)}}>
+                            Edit
+                        </Button>
+                        <Button variant="contained"
+                            style={{
+                                backgroundColor: "#e31809",
+                            }} 
+                            onClick={() => handleDeleteReservation(params.row.id)}>Delete
+                        </Button>
                     </div>
                 )
             }
