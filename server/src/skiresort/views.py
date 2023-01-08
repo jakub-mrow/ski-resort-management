@@ -112,6 +112,11 @@ class ReservationsViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ReservationSerializer
     queryset = models.Reservation.objects.all()
 
+    def get_serializer_class(self):
+        if self.action == "list":
+            return serializers.ReservationListSerializer
+        return serializers.ReservationSerializer
+
     def create(self, request):
         reservation_serializer = serializers.ReservationSerializer(data=request.data)
         reservation_serializer.is_valid(raise_exception=True)
@@ -125,9 +130,10 @@ class ReservationsViewSet(viewsets.ModelViewSet):
         List all the rooms.
         """
         qs = models.Reservation.objects.all()
-        reservation_serializer = serializers.ReservationListSerializer(qs, many=True)
+        reservation_serializer = self.get_serializer_class()
+        serialized_reservations = reservation_serializer(qs, many=True)
 
-        return Response(reservation_serializer.data, status=status.HTTP_200_OK)
+        return Response(serialized_reservations.data, status=status.HTTP_200_OK)
 
     def destroy(self, request, pk):
         try:
