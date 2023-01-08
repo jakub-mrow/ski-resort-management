@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { useStateContext } from '../../context/ContextProvider';
 
 import { getReservationCreateData, updateReservation } from '../../api/reservationRequests';
+import { getRoomUnavailabilty } from '../../api/roomRequests';
 
 import { Button, Alert, Snackbar, Autocomplete } from '@mui/material';
 
@@ -33,6 +34,8 @@ function EditReservation() {
     const [employee, setEmployee] = useState("");
     const [guest, setGuest] = useState("");
     const [room, setRoom] = useState(0);
+
+    const [unavailabiltyList, setUnavailabilityList] = useState(false);
 
     const { reservationObject, setReservationObject } = useStateContext();
     const params = useParams();
@@ -62,7 +65,7 @@ function EditReservation() {
 
     const getEmployeeIdBySocialNum = (socialNum) => {
         for (let i in reservationOptionsData.employees){
-            if (reservationOptionsData.employees[i].social_security_number == socialNum){
+            if (reservationOptionsData.employees[i].social_security_number === socialNum){
                 return reservationOptionsData.employees[i].id;
             }
         }
@@ -70,7 +73,7 @@ function EditReservation() {
 
     const getGuestIdBySocialNum = (socialNum) => {
         for (let i in reservationOptionsData.guests){
-            if (reservationOptionsData.guests[i].social_security_number == socialNum){
+            if (reservationOptionsData.guests[i].social_security_number === socialNum){
                 return reservationOptionsData.guests[i].id;
             }
         }
@@ -101,6 +104,18 @@ function EditReservation() {
         setDateTo(newDate);
     }
 
+    const disableUnavailableDates = (date) => {
+        const normalizedDate = date.toISOString().split("T")[0];
+        const dates = unavailabiltyList;
+
+        if (dates !== false){
+            if (dates.includes(normalizedDate)){
+                return true;
+            }
+        }
+
+    }
+
     return (
         <>
         <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
@@ -113,18 +128,19 @@ function EditReservation() {
                         <DesktopDatePicker
                             label="Date from Picker"
                             inputFormat="MM/DD/YYYY"
-                            value={dateFrom}
+                            //value={reservationObject.date_from}
                             onChange={handleDateFromChange}
-                            //disablePast={true}
-                            default={reservationObject.date_from}
+                            disablePast={true}
+                            shouldDisableDate={disableUnavailableDates}
                             renderInput={(params) => <TextField {...params} />}
                         />
                         <DesktopDatePicker
                             label="Date to Picker"
                             inputFormat="MM/DD/YYYY"
-                            value={dateTo}
+                            //value={reservationObject.date_to}
                             onChange={handleDateToChange}
                             disablePast={true}
+                            shouldDisableDate={disableUnavailableDates}
                             renderInput={(params) => <TextField {...params} />}
                         />
                     </LocalizationProvider>
@@ -158,6 +174,11 @@ function EditReservation() {
                         id="roomSelectBox"
                         onChange={(event, newValue) => {
                             setRoom(newValue);
+                            const getUnavailabiltyList = async (room_id) => {
+                                const data = await getRoomUnavailabilty(room_id);
+                                setUnavailabilityList(data);
+                            }
+                            getUnavailabiltyList(newValue);
                         }}
                         options={roomSelect}
                         sx={{ width: 300 }}
@@ -172,6 +193,7 @@ function EditReservation() {
                         type="number" 
                         variant="outlined"
                         {...register("number_of_people", {required: "Number of people is required"})}
+                        defaultValue={reservationObject.number_of_people}
                         error={!!errors?.number_of_people}
                         helperText={errors?.number_of_people ? errors.number_of_people.message : null} 
                     />

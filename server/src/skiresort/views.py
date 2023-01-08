@@ -6,6 +6,9 @@ from rest_framework import permissions, status, viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
+from rest_framework.decorators import action
+
+from .utils import generate_range_of_dates
 
 
 logger = logging.getLogger(__name__)
@@ -47,6 +50,23 @@ class RoomsViewSet(viewsets.ModelViewSet):
         room_serializer = serializers.RoomSerializer(qs, many=True)
 
         return Response(room_serializer.data, status=status.HTTP_200_OK)
+
+
+    @action(detail=False, methods=["get"])
+    def unavailabilty(self, request):   
+        room_id = request.GET["room_id"]
+        reservations = models.Reservation.objects.filter(room_id=room_id)
+
+        unavailability_serializer = serializers.RoomUnavailabiltySerializer(reservations, many=True)
+
+        unavailable_dates = []
+        for reservation in unavailability_serializer.data:
+            date_from = reservation.get("date_from")
+            date_to = reservation.get("date_to")
+            date_range = generate_range_of_dates(date_from, date_to)
+            unavailable_dates.extend(date_range)
+
+        return Response(data=unavailable_dates)
 
 
 class GuestsViewSet(viewsets.ModelViewSet):

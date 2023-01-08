@@ -62,6 +62,15 @@ class ReservationSerializer(serializers.ModelSerializer):
         return reservation
 
 
+class RoomUnavailabiltySerializer(serializers.ModelSerializer):
+    date_from = serializers.DateField()
+    date_to = serializers.DateField()
+
+    class Meta:
+        model = models.Reservation
+        fields = ('date_from', 'date_to')
+
+
 class DishSerializer(serializers.ModelSerializer):
     name = serializers.CharField(max_length=128)
     description = serializers.CharField(max_length=256)

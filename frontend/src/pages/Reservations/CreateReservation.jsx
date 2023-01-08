@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import { postReservation, getReservationCreateData } from '../../api/reservationRequests';
+import { getRoom, getRoomUnavailabilty } from '../../api/roomRequests';
 
 import { Button, Alert, Snackbar, Autocomplete } from '@mui/material';
 
@@ -12,9 +13,9 @@ import { Button, Alert, Snackbar, Autocomplete } from '@mui/material';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs';
 
 import TextField from '@mui/material/TextField';
+
 
 function CreateReservation() {
     const [showAlert, setShowAlert] = useState(null);
@@ -31,6 +32,8 @@ function CreateReservation() {
     const [employee, setEmployee] = useState("");
     const [guest, setGuest] = useState("");
     const [room, setRoom] = useState(0);
+
+    const [unavailabiltyList, setUnavailabilityList] = useState(false);
 
     useEffect(() => {
         const fetchReservationOptionsdata = async () => {
@@ -92,6 +95,20 @@ function CreateReservation() {
         setDateTo(newDate);
     }
 
+    const disableUnavailableDates = (date) => {
+        const normalizedDate = date.toISOString().split("T")[0];
+        const dates = unavailabiltyList;
+
+        if (dates !== false){
+            if (dates.includes(normalizedDate)){
+                console.log(normalizedDate)
+                return true;
+            }
+        }
+
+    }
+
+
     return (
         <>
         <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
@@ -103,18 +120,20 @@ function CreateReservation() {
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DesktopDatePicker
                             label="Date from Picker"
-                            inputFormat="MM/DD/YYYY"
+                            inputFormat="MM-DD-YYYY"
                             value={dateFrom}
                             onChange={handleDateFromChange}
                             disablePast={true}
+                            shouldDisableDate={disableUnavailableDates}
                             renderInput={(params) => <TextField {...params} />}
                         />
                         <DesktopDatePicker
                             label="Date to Picker"
-                            inputFormat="MM/DD/YYYY"
+                            inputFormat="MM-DD-YYYY"
                             value={dateTo}
                             onChange={handleDateToChange}
                             disablePast={true}
+                            shouldDisableDate={disableUnavailableDates}
                             renderInput={(params) => <TextField {...params} />}
                         />
                     </LocalizationProvider>
@@ -148,13 +167,16 @@ function CreateReservation() {
                         id="roomSelectBox"
                         onChange={(event, newValue) => {
                             setRoom(newValue);
+                            const getUnavailabiltyList = async (room_id) => {
+                                const data = await getRoomUnavailabilty(room_id);
+                                setUnavailabilityList(data);
+                            }
+                            getUnavailabiltyList(newValue);
                         }}
                         options={roomSelect}
                         sx={{ width: 300 }}
                         renderInput={(params) => <TextField {...params} label="Room" />}
                     />
-
-
 
                     <TextField 
                         id="outlined-basic" 
