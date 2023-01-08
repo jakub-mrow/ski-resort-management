@@ -84,7 +84,7 @@ function CreateReservation() {
         }
 
         setAlertSeverity("success");
-        setShowAlert("Guest added successfully!");
+        setShowAlert("Reservation added successfully!");
     }
 
     const handleDateFromChange = (newDate) => {

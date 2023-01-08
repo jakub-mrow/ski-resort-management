@@ -62,6 +62,19 @@ class ReservationSerializer(serializers.ModelSerializer):
         return reservation
 
 
+class ReservationListSerializer(serializers.ModelSerializer):
+    date_from = serializers.DateField()
+    date_to = serializers.DateField()
+    number_of_people = serializers.IntegerField()
+    employee = serializers.CharField(source='employee.get_full_name')
+    guest = serializers.CharField(source='guest.get_full_name')
+    room = serializers.CharField(source='room.room_id')
+
+    class Meta:
+        model = models.Reservation
+        fields = "__all__"
+
+
 class RoomUnavailabiltySerializer(serializers.ModelSerializer):
     date_from = serializers.DateField()
     date_to = serializers.DateField()
