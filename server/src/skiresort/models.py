@@ -25,6 +25,9 @@ class Guest(models.Model):
     email = models.EmailField()
     address = models.CharField(max_length=256)
 
+    def get_full_name(self):
+        return "{} {}".format(self.name, self.surname)
+
 
 class Employee(models.Model):
     social_security_number = models.CharField(max_length=11, help_text="Polish social security number PESEL")
@@ -32,6 +35,9 @@ class Employee(models.Model):
     name = models.CharField(max_length=128)
     job = models.CharField(max_length=128)
     salary = models.FloatField(validators=[MinValueValidator(0.0)])
+
+    def get_full_name(self):
+        return "{} {}".format(self.name, self.surname)
 
 
 class Reservation(models.Model):

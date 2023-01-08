@@ -125,7 +125,7 @@ class ReservationsViewSet(viewsets.ModelViewSet):
         List all the rooms.
         """
         qs = models.Reservation.objects.all()
-        reservation_serializer = serializers.ReservationSerializer(qs, many=True)
+        reservation_serializer = serializers.ReservationListSerializer(qs, many=True)
 
         return Response(reservation_serializer.data, status=status.HTTP_200_OK)
 
