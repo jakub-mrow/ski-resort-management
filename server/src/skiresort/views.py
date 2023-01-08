@@ -299,6 +299,11 @@ class RentalsViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.RentalSerializer
     queryset = models.Rental.objects.all()
 
+    def get_serializer_class(self):
+        if self.action == "list":
+            return serializers.RentalListSerializer
+        return serializers.RentalSerializer
+
     def create(self, request):
         """
         Add a new rental
@@ -315,9 +320,40 @@ class RentalsViewSet(viewsets.ModelViewSet):
         List all the rentals.
         """
         qs = models.Rental.objects.all()
-        rental_serializer = serializers.RentalSerializer(qs, many=True)
+        rental_serializer = self.get_serializer_class()
+        serialized_rental_list = rental_serializer(qs, many=True)
 
-        return Response(rental_serializer.data, status=status.HTTP_200_OK)
+        return Response(serialized_rental_list.data, status=status.HTTP_200_OK)
+
+
+class RentalData(APIView):
+    """
+    Return employees, guests and gear to choose from when making rentals
+    """
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, requset):
+        try:
+            employees_qs = models.Employee.objects.all()
+            employee_serializer = serializers.EmployeeSerializer(employees_qs, many=True)
+
+            guests_qs = models.Guest.objects.all()
+            guest_serializer = serializers.GuestSerializer(guests_qs, many=True)
+
+            gear_qs = models.Gear.objects.all()
+            gear_serializer = serializers.GearSerializer(gear_qs, many=True)
+
+            return_data = {
+                "employees": employee_serializer.data,
+                "guests": guest_serializer.data,
+                "gear": gear_serializer.data
+            }
+
+            return Response(data=return_data, status=status.HTTP_200_OK)
+
+        except Exception as exc:
+            return Response(data={"msg": "Internal server error", "detail": str(exc)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class GearViewSet(viewsets.ModelViewSet):

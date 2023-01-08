@@ -22,5 +22,6 @@ router.register("duties", views.DutiesViewSet, "duties")
 
 urlpatterns = [
     re_path("", include(router.urls)),
-    re_path("reservation_data", views.ReservationData.as_view(), name="reservation_data")
+    re_path("reservation_data", views.ReservationData.as_view(), name="reservation_data"),
+    re_path("rental_data", views.RentalData.as_view(), name="rental_data")
 ]

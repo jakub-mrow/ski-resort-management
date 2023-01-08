@@ -11,7 +11,8 @@ import { Dashboard, Information, Employees, CreateEmployee, EditEmployee,
          Gear, CreateGear, EditGear, 
          Localizations, CreateLocalization, EditLocalization, 
          Tasks, CreateTask, EditTask, 
-         Rooms, CreateRoom, EditRoom } from './pages';
+         Rooms, CreateRoom, EditRoom,
+         Rental, CreateRental, EditRental } from './pages';
 
 import { useStateContext } from './context/ContextProvider';
 import './App.css'
@@ -71,6 +72,10 @@ const App = () => {
                                 <Route path="/reservations" element={<Reservations/>}></Route>
                                 <Route path="/reservations/create" element={<CreateReservation/>}></Route>
                                 <Route path="/reservations/:id/edit" element={<EditReservation/>}></Route>
+
+                                <Route path="/rentals" element={<Rental/>}></Route>
+                                <Route path="/rentals/create" element={<CreateRental/>}></Route>
+                                <Route path="/rentals/:id/edit" element={<EditRental/>}></Route>
                             </Routes>
                         </div>
 

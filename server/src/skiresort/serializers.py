@@ -155,6 +155,19 @@ class RentalSerializer(serializers.ModelSerializer):
         return rental
 
 
+class RentalListSerializer(serializers.ModelSerializer):
+    date_from = serializers.DateField()
+    date_to = serializers.DateField()
+    price = serializers.FloatField()
+    employee = serializers.CharField(source='employee.get_full_name')
+    guest = serializers.CharField(source='guest.get_full_name')
+    gear = serializers.CharField(source='gear.name')   
+
+    class Meta:
+        model = models.Rental
+        fields = "__all__"
+
+
 class LocalizationSerializer(serializers.ModelSerializer):
     name = serializers.CharField(max_length=128)
     address = serializers.CharField(max_length=256)

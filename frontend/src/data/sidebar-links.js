@@ -5,7 +5,7 @@ import { BsKanban, BsBarChart, BsBoxSeam, BsCurrencyDollar, BsShield, BsChatLeft
 import { BiColorFill } from 'react-icons/bi';
 import { IoMdContacts } from 'react-icons/io';
 import { RiContactsLine, RiStockLine } from 'react-icons/ri';
-import {FaUtensils, FaCookieBite, FaSkiing, FaMapMarkerAlt, FaTasks, FaDoorOpen} from 'react-icons/fa';
+import {FaUtensils, FaCookieBite, FaSkiing, FaMapMarkerAlt, FaTasks, FaDoorOpen, FaCalendarAlt } from 'react-icons/fa';
 import { MdOutlineSupervisorAccount } from 'react-icons/md';
 import { HiOutlineRefresh } from 'react-icons/hi';
 import { TiTick } from 'react-icons/ti';
@@ -31,7 +31,7 @@ export const sidebarLinks = [
       links: [
         {
           name: 'reservations',
-          icon: <AiOutlineShoppingCart />,
+          icon: <FaCalendarAlt />,
         },
         {
           name: 'employees',
@@ -64,6 +64,10 @@ export const sidebarLinks = [
         {
           name: 'rooms',
           icon: <FaDoorOpen />,
+        },
+        {
+          name: 'rentals',
+          icon: <FaCalendarAlt />,
         },
       ],
     },
