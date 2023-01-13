@@ -23,6 +23,7 @@ export const ContextProvider = ({ children }) => {
     const [roomObject, setRoomObject] = useState({});
     const [reservationObject, setReservationObject] = useState({});
     const [rentalObject, setRentalObject] = useState({});
+    const [mealObject, setMealObject] = useState({});
     const [authenticated, setauthenticated] = useState(localStorage.getItem(localStorage.getItem("authenticated") || false));
 
     const handleClick = (clicked) => setIsClicked({ ...initialState, [clicked]: true});
@@ -55,7 +56,9 @@ export const ContextProvider = ({ children }) => {
                                          reservationObject,
                                          setReservationObject,
                                          rentalObject,
-                                         setRentalObject}}>
+                                         setRentalObject,
+                                         mealObject,
+                                         setMealObject}}>
             {children}
         </StateContext.Provider>
     )

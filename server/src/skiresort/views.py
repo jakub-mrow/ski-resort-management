@@ -274,6 +274,11 @@ class MealsViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.MealSerializer
     queryset = models.Meal.objects.all()
 
+    def get_serializer_class(self):
+        if self.action == "list":
+            return serializers.MealListSerializer
+        return serializers.MealSerializer
+
     def create(self, request):
         """
         Add a new meal
@@ -290,10 +295,40 @@ class MealsViewSet(viewsets.ModelViewSet):
         List all the meals.
         """
         qs = models.Meal.objects.all()
-        meal_serializer = serializers.MealSerializer(qs, many=True)
+        meal_serializer = self.get_serializer_class()
+        serialized_meal_list = meal_serializer(qs, many=True)
 
-        return Response(meal_serializer.data, status=status.HTTP_200_OK)
+        return Response(serialized_meal_list.data, status=status.HTTP_200_OK)
 
+
+class MealData(APIView):
+    """
+    Return guests, dishes and desserts to choose from when making meals
+    """
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, requset):
+        try:
+            guests_qs = models.Guest.objects.all()
+            guest_serializer = serializers.GuestSerializer(guests_qs, many=True)
+
+            dishes_qs = models.Dish.objects.all()
+            dish_serializer = serializers.DishSerializer(dishes_qs, many=True)
+
+            desserts_qs = models.Dessert.objects.all()
+            dessert_serializer = serializers.DessertSerializer(desserts_qs, many=True)
+
+            return_data = {
+                "guests": guest_serializer.data,
+                "dishes": dish_serializer.data,
+                "desserts": dessert_serializer.data
+            }
+
+            return Response(data=return_data, status=status.HTTP_200_OK)
+
+        except Exception as exc:
+            return Response(data={"msg": "Internal server error", "detail": str(exc)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class RentalsViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.RentalSerializer

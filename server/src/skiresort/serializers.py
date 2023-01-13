@@ -125,6 +125,18 @@ class MealSerializer(serializers.ModelSerializer):
         return meal
 
 
+class MealListSerializer(serializers.ModelSerializer):
+    date = serializers.DateField()
+    time_of_day = serializers.CharField()
+    guest = serializers.CharField(source='guest.get_full_name')
+    dish = serializers.CharField(source='dish.name')
+    dessert = serializers.CharField(source='dessert.name')   
+
+    class Meta:
+        model = models.Meal
+        fields = "__all__"
+
+
 class GearSerializer(serializers.ModelSerializer):
     code = serializers.CharField(max_length=128)
     type = serializers.CharField(max_length=128)
