@@ -65,7 +65,7 @@ const EditRoom = () => {
                             id="outlined-basic"
                             type="number" 
                             label="Room number" 
-                            variant="outlined"
+                            variant="filled"
                             {...register("room_id", {
                                 required: "Room number is required",
                                 pattern: {
@@ -73,6 +73,9 @@ const EditRoom = () => {
                                     message: "Room number must be greater than 0"
                                 }
                             })}
+                            InputProps={{
+                                readOnly: true,
+                            }}
                             error={!!errors?.room_id}
                             helperText={errors?.room_id ? errors.room_id.message : null} 
                             defaultValue={roomObject.room_id}
