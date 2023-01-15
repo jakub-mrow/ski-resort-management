@@ -154,6 +154,24 @@ class RentalSerializer(serializers.ModelSerializer):
 
         return rental
 
+    def validate(self, data):
+        if data["date_from"] >= data["date_to"]:
+            raise serializers.ValidationError("'Date from' should be set up to happen before 'Date to'")
+        return data
+
+
+class RentalListSerializer(serializers.ModelSerializer):
+    date_from = serializers.DateField()
+    date_to = serializers.DateField()
+    price = serializers.FloatField()
+    employee = serializers.CharField(source='employee.get_full_name')
+    guest = serializers.CharField(source='guest.get_full_name')
+    gear = serializers.CharField(source='gear.name')   
+
+    class Meta:
+        model = models.Rental
+        fields = "__all__"
+
 
 class LocalizationSerializer(serializers.ModelSerializer):
     name = serializers.CharField(max_length=128)

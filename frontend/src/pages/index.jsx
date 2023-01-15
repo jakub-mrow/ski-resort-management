@@ -28,3 +28,6 @@ export { default as EditRoom} from './Rooms/EditRoom';
 export { default as Reservations } from './Reservations/Reservations';
 export { default as CreateReservation } from './Reservations/CreateReservation';
 export { default as EditReservation } from './Reservations/EditReservation';
+export { default as Rental } from './Rental/Rental';
+export { default as EditRental } from './Rental/EditRental';
+export { default as CreateRental } from './Rental/CreateRental';
