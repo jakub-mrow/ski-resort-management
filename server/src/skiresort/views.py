@@ -8,6 +8,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.decorators import action
 
+from django.db import connection
+
 from .utils import generate_range_of_dates
 
 
@@ -472,3 +474,39 @@ class LocalizationsViewSet(viewsets.ModelViewSet):
         localization_serializer = serializers.LocalizationSerializer(qs, many=True)
 
         return Response(localization_serializer.data, status=status.HTTP_200_OK)
+
+
+
+class ReservationCost(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def post(self, request):
+        try:
+            reservation_id = request.data["reservation_id"]
+            with connection.cursor() as cursor:
+
+                query = """
+                create or replace function reservationCost(pReservationId int) 
+                returns real
+                language plpgsql
+                as $$
+                declare
+                    pCost real;
+                begin
+                    SELECT p.price * (r.date_to - r.date_from) INTO pCost
+                    FROM skiresort_reservation r JOIN skiresort_room p ON r.room_id = p.room_id
+                    WHERE r.id = pReservationId;
+                    RETURN pCost;
+                end;
+                $$;          
+                """
+                cursor.execute(query)
+                cursor.execute("select * from reservationCost({});".format(reservation_id))
+
+                data = cursor.fetchone()
+                
+            return Response(data={"reservation_cost": data[0]}, status=status.HTTP_200_OK)
+
+        except Exception as exc:
+            return Response(data={"msg": "Internal server error", "detail": str(exc)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
