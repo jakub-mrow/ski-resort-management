@@ -19,7 +19,7 @@ class Room(models.Model):
 
 
 class Guest(models.Model):
-    social_security_number = models.CharField(max_length=11, help_text="Polish social security number PESEL")
+    social_security_number = models.CharField(max_length=11, help_text="Polish social security number PESEL", unique=True)
     surname = models.CharField(max_length=128)
     name = models.CharField(max_length=128)
     email = models.EmailField()
@@ -30,7 +30,7 @@ class Guest(models.Model):
 
 
 class Employee(models.Model):
-    social_security_number = models.CharField(max_length=11, help_text="Polish social security number PESEL")
+    social_security_number = models.CharField(max_length=11, help_text="Polish social security number PESEL", unique=True)
     surname = models.CharField(max_length=128)
     name = models.CharField(max_length=128)
     job = models.CharField(max_length=128)

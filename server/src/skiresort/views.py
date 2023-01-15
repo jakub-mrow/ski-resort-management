@@ -80,6 +80,9 @@ class GuestsViewSet(viewsets.ModelViewSet):
         guest_serializer = serializers.GuestSerializer(data=request.data)
         guest_serializer.is_valid(raise_exception=True)
 
+        if models.Guest.objects.filter(social_security_number=request.data["social_security_number"]).exists():
+            return Response({"msg": "Guest with this social security number already exists"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+
         guest_serializer.save()
 
         return Response({"msg": "Guest created"}, status=status.HTTP_201_CREATED)
@@ -160,6 +163,9 @@ class EmployeesViewSet(viewsets.ModelViewSet):
         """
         employee_serializer = serializers.EmployeeSerializer(data=request.data)
         employee_serializer.is_valid(raise_exception=True)
+
+        if models.Employee.objects.filter(social_security_number=request.data["social_security_number"]).exists():
+            return Response({"msg": "Employee with this social security number already exists"}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
         employee_serializer.save()
 

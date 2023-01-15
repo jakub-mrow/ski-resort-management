@@ -24,14 +24,17 @@ function CreateEmployee() {
     const {register, handleSubmit, formState: { errors }} = useForm();
 
     const onSubmit = async (data) => {
-        const response = await postEmployee(data);
-        if (!response) {
-            setShowAlert("Internal server error");
-            return;
+        try{
+            const response = await postEmployee(data);
+            if (response) {
+                setAlertSeverity("success");
+                setShowAlert("Employee added successfully!");
+                return;
+            }
+        } catch (error){
+            const errorMsg = JSON.parse(error.message);
+            setShowAlert(errorMsg.msg);
         }
-
-        setAlertSeverity("success");
-        setShowAlert("Employee added successfully!");
     }
 
     return (
