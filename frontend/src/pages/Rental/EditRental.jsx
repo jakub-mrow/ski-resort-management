@@ -99,7 +99,7 @@ const EditRental = () => {
             const response = await updateRental(params.id, data);
             if (response) {
                 setAlertSeverity("success");
-                setShowAlert("Rental added successfully!");
+                setShowAlert("Rental edited successfully!");
                 return;
             }
         } catch (error){

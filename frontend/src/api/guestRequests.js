@@ -31,7 +31,7 @@ export async function postGuest(data) {
         return true;
     }
 
-    throw new Error(`Response ${response.status}: ${response.statusText} - ${await response.text()}`);
+    throw new Error(`${await response.text()}`);
 }
 
 
@@ -68,7 +68,7 @@ export async function updateGuest(id, data) {
         return true;
     }
 
-    throw new Error(`Response ${response.status}: ${response.statusText} - ${await response.text()}`);
+    throw new Error(`${await response.text()}`);
 }
 
 
