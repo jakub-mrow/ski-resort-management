@@ -326,6 +326,18 @@ class RentalsViewSet(viewsets.ModelViewSet):
         return Response(serialized_rental_list.data, status=status.HTTP_200_OK)
 
 
+    def update(self, request, pk):
+        """
+        Update a rental
+        """
+        rental_serializer = serializers.RentalSerializer(data=request.data)
+        rental_serializer.is_valid(raise_exception=True)
+
+        rental_serializer.save()
+
+        return Response({"msg": "Rental edited"}, status=status.HTTP_200_OK)
+
+
 class RentalData(APIView):
     """
     Return employees, guests and gear to choose from when making rentals

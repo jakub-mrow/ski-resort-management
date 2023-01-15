@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 
 import { Header } from '../../components';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import { postRental, getRentalCreateData } from '../../api/rentalRequests';
+import { updateRental, getRentalCreateData } from '../../api/rentalRequests';
 
 import { Button, Alert, Snackbar, Autocomplete } from '@mui/material';
 
@@ -34,6 +34,8 @@ const EditRental = () => {
     const [gear, setGear] = useState("");
 
     const { rentalObject, setRentalObject } = useStateContext();
+
+    const params = useParams();
 
     useEffect(() => {
         const fetchRentalOptionsdata = async () => {
@@ -81,6 +83,10 @@ const EditRental = () => {
         }
     }
 
+    const capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
 
     const onSubmit = async (data) => {
         data["date_from"] = dateFrom.toISOString().split('T')[0];
@@ -90,7 +96,7 @@ const EditRental = () => {
         data["gear"] = getGearIdByGearName(gear);
         console.log(data);
         try{
-            const response = await postRental(data);
+            const response = await updateRental(params.id, data);
             if (response) {
                 setAlertSeverity("success");
                 setShowAlert("Rental added successfully!");
@@ -107,7 +113,7 @@ const EditRental = () => {
                 const splitted = value[0].split(" ");
                 splitted.shift()
                 const joined = splitted.join(" ")
-                errorUserResponse += `${key} ${joined} `
+                errorUserResponse += `${capitalizeFirstLetter(key)} ${joined} `
             }
             setShowAlert(errorUserResponse);
         }
@@ -126,7 +132,7 @@ const EditRental = () => {
     return (
         <>
         <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-            <Header category="Page" title="Add rental" />
+            <Header category="Page" title="Edit rental" />
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div class="flex flex-col space-y-4 mx-auto justify-center items-center">
@@ -192,7 +198,7 @@ const EditRental = () => {
                         label="Price"
                         type="number" 
                         variant="outlined"
-                        defaultValue={rentalObject.price}
+                        //defaultValue={rentalObject.price}
                         {...register("price", {
                             required: "Price is required",
                             pattern: {
@@ -205,7 +211,7 @@ const EditRental = () => {
                     />
 
 
-                    <Button type="submit" variant="contained" >Add rental</Button>
+                    <Button type="submit" variant="contained" >Edit rental</Button>
                     <Button variant="contained" onClick={routeChange}>Back</Button>
                 </div>
             </form>
