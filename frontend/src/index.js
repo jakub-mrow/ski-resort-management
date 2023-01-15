@@ -6,8 +6,20 @@ import './index.css'
 import App from './App';
 import { ContextProvider } from './context/ContextProvider';
 
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { enUS } from '@mui/material/locale';
+
+
+const theme = createTheme(
+    enUS
+  );
+
 
 const root = ReactDOMClient.createRoot(document.getElementById("root"));
 root.render(
-    <ContextProvider><App/></ContextProvider>
+    <ThemeProvider theme={theme}>
+        <ContextProvider>
+            <App/>
+        </ContextProvider>
+    </ThemeProvider>
 );
