@@ -14,6 +14,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import TextField from '@mui/material/TextField';
+
+
 const CreateMeal = () => {
     const [showAlert, setShowAlert] = useState(null);
     const [alertSeverity, setAlertSeverity] = useState("error");
@@ -75,9 +77,12 @@ const CreateMeal = () => {
         }
     }
 
+    const capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
 
     const onSubmit = async (data) => {
-        // data["time_of_day"] = timeOfDay;
         data["date"] = date.toISOString().split('T')[0];
         data["guest"] = getGuestIdBySocialNum(guest.split(" ")[2]);
         data["dish"] = getDishIdByDishName(dish);
@@ -92,21 +97,22 @@ const CreateMeal = () => {
             }
         } catch (error){
             const errorMsg = JSON.parse(error.message);
+            if (errorMsg.hasOwnProperty("non_field_errors")){
+                setShowAlert(errorMsg.non_field_errors)
+                return
+            }
+            console.log(errorMsg);
             let errorUserResponse = ""
             for (const [key, value] of Object.entries(errorMsg)){
                 const splitted = value[0].split(" ");
                 splitted.shift()
                 const joined = splitted.join(" ")
-                errorUserResponse += `${key} ${joined} `
+                errorUserResponse += `${capitalizeFirstLetter(key)} ${joined} `
             }
             setShowAlert(errorUserResponse);
         }
 
     }
-
-    // const handleTimeOfDayChange = () => {
-    //     setTimeOfDay();
-    // }
 
     const handleDateChange = (newDate) => {
         setDate(newDate);
