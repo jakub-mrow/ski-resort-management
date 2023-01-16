@@ -481,7 +481,7 @@ class ReservationCost(APIView):
     authentication_classes = []
     permission_classes = []
 
-    def post(self, request):
+    def get(self, request):
         try:
             reservation_id = request.data["reservation_id"]
             with connection.cursor() as cursor:
@@ -507,6 +507,40 @@ class ReservationCost(APIView):
                 data = cursor.fetchone()
                 
             return Response(data={"reservation_cost": data[0]}, status=status.HTTP_200_OK)
+
+        except Exception as exc:
+            return Response(data={"msg": "Internal server error", "detail": str(exc)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class IncreasePrices(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def post(self, request):
+        try:
+            increase = request.data[increase]
+            with connection.cursor() as cursor:
+
+                query = """
+                create or replace procedure increasePrices(pPercent int) 
+                language plpgsql
+                as $$
+                begin
+                    UPDATE skiresort_dish
+                    SET price = price * (1 + (pPercent/100));
+                    
+                    UPDATE skiresort_dessert
+                    SET price = price * (1 + (pProcent/100));
+                    
+                    UPDATE skiresort_room
+                    SET price = price * (1 + (pPercent/100));
+                end;
+                $$;          
+                """
+                cursor.execute(query)
+                cursor.execute("call increasePrices({})".format(increase))
+                
+            return Response(data={"msg": "Prices have been increased by {}%".format(increase)}, status=status.HTTP_200_OK)
 
         except Exception as exc:
             return Response(data={"msg": "Internal server error", "detail": str(exc)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
