@@ -518,7 +518,7 @@ class IncreasePrices(APIView):
 
     def post(self, request):
         try:
-            increase = request.data[increase]
+            increase = request.data["increase"]
             with connection.cursor() as cursor:
 
                 query = """
