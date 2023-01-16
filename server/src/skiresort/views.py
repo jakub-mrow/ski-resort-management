@@ -526,21 +526,49 @@ class IncreasePrices(APIView):
                 language plpgsql
                 as $$
                 begin
-                    UPDATE skiresort_dish
-                    SET price = price * (1 + (pPercent/100));
-                    
-                    UPDATE skiresort_dessert
-                    SET price = price * (1 + (pPercent/100));
-                    
-                    UPDATE skiresort_room
-                    SET price = price * (1 + (pPercent/100));
+                    update skiresort_room set price = round((price * (1 + pPercent::numeric/100))::numeric, 2);
+
+                    update skiresort_dessert set price = round((price * (1 + pPercent::numeric/100))::numeric, 2);
+
+                    update skiresort_dish set price = round((price * (1 + pPercent::numeric/100))::numeric, 2);
                 end;
-                $$;          
+                $$          
                 """
                 cursor.execute(query)
-                cursor.execute("call increasePrices({})".format(increase))
+                cursor.execute("call increasePrices({});".format(increase))
                 
             return Response(data={"msg": "Prices have been increased by {}%".format(increase)}, status=status.HTTP_200_OK)
+
+        except Exception as exc:
+            return Response(data={"msg": "Internal server error", "detail": str(exc)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class DecreasePrices(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def post(self, request):
+        try:
+            decrease = request.data["decrease"]
+            with connection.cursor() as cursor:
+
+                query = """
+                create or replace procedure decreasePrices(pPercent int) 
+                language plpgsql
+                as $$
+                begin
+                    update skiresort_room set price = round((price * (1 - pPercent::numeric/100))::numeric, 2);
+
+                    update skiresort_dish set price = round((price * (1 - pPercent::numeric/100))::numeric, 2);
+
+                    update skiresort_dessert set price = round((price * (1 - pPercent::numeric/100))::numeric, 2);
+                end;
+                $$          
+                """
+                cursor.execute(query)
+                cursor.execute("call decreasePrices({});".format(decrease))
+                
+            return Response(data={"msg": "Prices have been decreased by {}%".format(decrease)}, status=status.HTTP_200_OK)
 
         except Exception as exc:
             return Response(data={"msg": "Internal server error", "detail": str(exc)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
