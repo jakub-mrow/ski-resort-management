@@ -34,3 +34,6 @@ export { default as CreateRental } from './Rental/CreateRental';
 export { default as Meals } from './Meals/Meals';
 export { default as EditMeal } from './Meals/EditMeal';
 export { default as CreateMeal } from './Meals/CreateMeal';
+export { default as Duties } from './Duties/Duties';
+export { default as EditDuty } from './Duties/EditDuty';
+export { default as CreateDuty } from './Duties/CreateDuty';

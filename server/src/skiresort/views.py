@@ -330,6 +330,7 @@ class MealData(APIView):
         except Exception as exc:
             return Response(data={"msg": "Internal server error", "detail": str(exc)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
 class RentalsViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.RentalSerializer
     queryset = models.Rental.objects.all()
@@ -420,6 +421,11 @@ class DutiesViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.DutySerializer
     queryset = models.Duty.objects.all()
 
+    def get_serializer_class(self):
+        if self.action == "list":
+            return serializers.DutyListSerializer
+        return serializers.DutySerializer
+
     def create(self, request):
         """
         Add a new duty
@@ -436,9 +442,40 @@ class DutiesViewSet(viewsets.ModelViewSet):
         List all the duties.
         """
         qs = models.Duty.objects.all()
-        duty_serializer = serializers.DutySerializer(qs, many=True)
+        duty_serializer = self.get_serializer_class()
+        serialized_duty_list = duty_serializer(qs, many=True)
 
-        return Response(duty_serializer.data, status=status.HTTP_200_OK)
+        return Response(serialized_duty_list.data, status=status.HTTP_200_OK)
+
+
+class DutyData(APIView):
+    """
+    Return employees, localizations and tasks to choose from when making duties
+    """
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, requset):
+        try:
+            employees_qs = models.Employee.objects.all()
+            employee_serializer = serializers.EmployeeSerializer(employees_qs, many=True)
+
+            localizations_qs = models.Localization.objects.all()
+            localization_serializer = serializers.LocalizationSerializer(localizations_qs, many=True)
+
+            tasks_qs = models.Task.objects.all()
+            task_serializer = serializers.TaskSerializer(tasks_qs, many=True)
+
+            return_data = {
+                "employees": employee_serializer.data,
+                "localizations": localization_serializer.data,
+                "tasks": task_serializer.data
+            }
+
+            return Response(data=return_data, status=status.HTTP_200_OK)
+
+        except Exception as exc:
+            return Response(data={"msg": "Internal server error", "detail": str(exc)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class TasksViewSet(viewsets.ModelViewSet):
