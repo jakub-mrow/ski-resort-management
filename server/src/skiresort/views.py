@@ -530,7 +530,7 @@ class IncreasePrices(APIView):
                     SET price = price * (1 + (pPercent/100));
                     
                     UPDATE skiresort_dessert
-                    SET price = price * (1 + (pProcent/100));
+                    SET price = price * (1 + (pPercent/100));
                     
                     UPDATE skiresort_room
                     SET price = price * (1 + (pPercent/100));
