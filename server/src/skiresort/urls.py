@@ -23,5 +23,8 @@ router.register("duties", views.DutiesViewSet, "duties")
 urlpatterns = [
     re_path("", include(router.urls)),
     re_path("reservation_data", views.ReservationData.as_view(), name="reservation_data"),
-    re_path("rental_data", views.RentalData.as_view(), name="rental_data")
+    re_path("rental_data", views.RentalData.as_view(), name="rental_data"),
+    re_path("reservation_cost", views.ReservationCost.as_view(), name="reservation_cost"),
+    re_path("increase_prices", views.IncreasePrices.as_view(), name="increase_prices"),
+    re_path("decrease_prices", views.DecreasePrices.as_view(), name="decrease_prices"),
 ]
