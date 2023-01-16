@@ -42,14 +42,17 @@ const EditGuest = () => {
     }
 
     const onSubmit = async (data) => {
-        const response = await updateGuest(params.id, data);
-        if (!response) {
-            setShowAlert("Internal server error");
-            return;
+        try{
+            const response = await updateGuest(params.id, data);
+            if (response) {
+                setAlertSeverity("success");
+                setShowAlert("Guest edited successfully!");
+                return;
+            }
+        } catch (error){
+            const errorMsg = JSON.parse(error.message);
+            setShowAlert(errorMsg.msg);
         }
-
-        setAlertSeverity("success");
-        setShowAlert("Guest edited successfully!");
     }
 
 

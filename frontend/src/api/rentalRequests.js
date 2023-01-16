@@ -84,5 +84,5 @@ export async function updateRental(id, data) {
         return true;
     }
 
-    throw new Error(`${response.statusText}`)
+    throw new Error(`${await response.text()}`)
 }

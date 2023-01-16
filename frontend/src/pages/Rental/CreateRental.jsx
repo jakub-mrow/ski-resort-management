@@ -14,6 +14,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import TextField from '@mui/material/TextField';
+
+
 const CreateRental = () => {
     const [showAlert, setShowAlert] = useState(null);
     const [alertSeverity, setAlertSeverity] = useState("error");
@@ -76,6 +78,10 @@ const CreateRental = () => {
         }
     }
 
+    const capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
 
     const onSubmit = async (data) => {
         data["date_from"] = dateFrom.toISOString().split('T')[0];
@@ -93,12 +99,17 @@ const CreateRental = () => {
             }
         } catch (error){
             const errorMsg = JSON.parse(error.message);
+            if (errorMsg.hasOwnProperty("non_field_errors")){
+                setShowAlert(errorMsg.non_field_errors)
+                return
+            }
+            console.log(errorMsg);
             let errorUserResponse = ""
             for (const [key, value] of Object.entries(errorMsg)){
                 const splitted = value[0].split(" ");
                 splitted.shift()
                 const joined = splitted.join(" ")
-                errorUserResponse += `${key} ${joined} `
+                errorUserResponse += `${capitalizeFirstLetter(key)} ${joined} `
             }
             setShowAlert(errorUserResponse);
         }
@@ -183,7 +194,13 @@ const CreateRental = () => {
                         label="Price"
                         type="number" 
                         variant="outlined"
-                        {...register("price", {required: "Price is required"})}
+                        {...register("price", {
+                            required: "Price is required",
+                            pattern: {
+                                value: /^[0-9]*\.?[0-9]+$/,
+                                message: "Number must be positive"
+                            }
+                        })}
                         error={!!errors?.price}
                         helperText={errors?.price ? errors.price.message : null} 
                     />

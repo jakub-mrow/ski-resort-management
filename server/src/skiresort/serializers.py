@@ -166,6 +166,11 @@ class RentalSerializer(serializers.ModelSerializer):
 
         return rental
 
+    def validate(self, data):
+        if data["date_from"] >= data["date_to"]:
+            raise serializers.ValidationError("'Date from' should be set up to happen before 'Date to'")
+        return data
+
 
 class RentalListSerializer(serializers.ModelSerializer):
     date_from = serializers.DateField()

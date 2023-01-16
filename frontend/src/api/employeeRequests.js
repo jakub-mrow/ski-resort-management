@@ -10,7 +10,7 @@ export async function getEmployees(){
         return json;
     }
 
-    throw new Error('Response ${response.status}: ${response.statusText} - ${await response.text()}');
+    throw new Error(`Response ${response.status}: ${response.statusText} - ${await response.text()}`);
 }
 
 
@@ -31,7 +31,7 @@ export async function postEmployee(data) {
         return true;
     }
 
-    throw new Error('Response ${response.status}: ${response.statusText} - ${await response.text()}');
+    throw new Error(`${await response.text()}`);
 }
 
 export async function deleteEmployee(id) {
@@ -48,7 +48,7 @@ export async function deleteEmployee(id) {
         return true;
     }
 
-    throw new Error('Response ${response.status}: ${response.statusText} - ${await response.text()}');
+    throw new Error(`Response ${response.status}: ${response.statusText} - ${await response.text()}`);
 }
 
 export async function updateEmployee(id, data) {
@@ -66,7 +66,7 @@ export async function updateEmployee(id, data) {
         return true;
     }
 
-    throw new Error(`Response ${response.status}: ${response.statusText} - ${await response.text()}`);
+    throw new Error(`${await response.text()}`);
 }
 
 export async function getEmployee(id) {

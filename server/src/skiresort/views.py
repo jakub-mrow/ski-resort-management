@@ -80,6 +80,9 @@ class GuestsViewSet(viewsets.ModelViewSet):
         guest_serializer = serializers.GuestSerializer(data=request.data)
         guest_serializer.is_valid(raise_exception=True)
 
+        if models.Guest.objects.filter(social_security_number=request.data["social_security_number"]).exists():
+            return Response({"msg": "Guest with this social security number already exists"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+
         guest_serializer.save()
 
         return Response({"msg": "Guest created"}, status=status.HTTP_201_CREATED)
@@ -160,6 +163,9 @@ class EmployeesViewSet(viewsets.ModelViewSet):
         """
         employee_serializer = serializers.EmployeeSerializer(data=request.data)
         employee_serializer.is_valid(raise_exception=True)
+
+        if models.Employee.objects.filter(social_security_number=request.data["social_security_number"]).exists():
+            return Response({"msg": "Employee with this social security number already exists"}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
         employee_serializer.save()
 
@@ -360,6 +366,18 @@ class RentalsViewSet(viewsets.ModelViewSet):
         serialized_rental_list = rental_serializer(qs, many=True)
 
         return Response(serialized_rental_list.data, status=status.HTTP_200_OK)
+
+
+    def update(self, request, pk):
+        """
+        Update a rental
+        """
+        rental_serializer = serializers.RentalSerializer(data=request.data)
+        rental_serializer.is_valid(raise_exception=True)
+
+        rental_serializer.save()
+
+        return Response({"msg": "Rental edited"}, status=status.HTTP_200_OK)
 
 
 class RentalData(APIView):
