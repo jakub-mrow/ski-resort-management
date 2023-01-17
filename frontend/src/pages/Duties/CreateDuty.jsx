@@ -68,6 +68,11 @@ const CreateDuty = () => {
         }
     }
 
+    const capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+
 
     const onSubmit = async (data) => {
         data["employee"] = getEmployeeIdBySocialNum(employee.split(" ")[2]);
@@ -83,12 +88,17 @@ const CreateDuty = () => {
             }
         } catch (error){
             const errorMsg = JSON.parse(error.message);
+            if (errorMsg.hasOwnProperty("non_field_errors")){
+                setShowAlert(errorMsg.non_field_errors)
+                return
+            }
+            console.log(errorMsg);
             let errorUserResponse = ""
             for (const [key, value] of Object.entries(errorMsg)){
                 const splitted = value[0].split(" ");
                 splitted.shift()
                 const joined = splitted.join(" ")
-                errorUserResponse += `${key} ${joined} `
+                errorUserResponse += `${capitalizeFirstLetter(key)} ${joined} `
             }
             setShowAlert(errorUserResponse);
         }

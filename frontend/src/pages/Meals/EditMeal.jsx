@@ -46,7 +46,7 @@ const EditMeal = () => {
           setDessertSelect(Object.keys(data.desserts).map((key) => {return String(data.desserts[key].name)}));
       }
       fetchMealOptionsdata();
-  }, [])
+    }, [])
 
 
     let navigate = useNavigate(); 
@@ -61,25 +61,25 @@ const EditMeal = () => {
     const getGuestIdBySocialNum = (socialNum) => {
       console.log(mealOptionsData);
       for (let i in mealOptionsData.guests){
-          if (mealOptionsData.guests[i].social_security_number == socialNum){
-              return mealOptionsData.guests[i].id;
-          }
+        if (mealOptionsData.guests[i].social_security_number == socialNum){
+            return mealOptionsData.guests[i].id;
+        }
       }
     }
 
     const getDishIdByDishName = (dishName) => {
       for (let i in mealOptionsData.dishes){
-          if (mealOptionsData.dishes[i].name == dishName){
-              return mealOptionsData.dishes[i].id;
-          }
+        if (mealOptionsData.dishes[i].name == dishName){
+            return mealOptionsData.dishes[i].id;
+        }
       }
     }
 
     const getDessertIdByDessertName = (dessertName) => {
       for (let i in mealOptionsData.desserts){
-          if (mealOptionsData.desserts[i].name == dessertName){
-              return mealOptionsData.desserts[i].id;
-          }
+        if (mealOptionsData.desserts[i].name == dessertName){
+            return mealOptionsData.desserts[i].id;
+        }
       }
     }
 
