@@ -22,7 +22,9 @@ const EditMeal = () => {
     const [alertSeverity, setAlertSeverity] = useState("error");
     const [mealOptionsData, setMealOptionsData] = useState({});
 
-    const [date, setDate] = useState(new Date());
+    const { mealObject, setMealObject } = useStateContext();
+
+    const [date, setDate] = useState(new Date(mealObject.date));
 
     const [guestSelect, setGuestSelect] = useState([]);
     const [dishSelect, setDishSelect] = useState([]);
@@ -32,7 +34,6 @@ const EditMeal = () => {
     const [dish, setDish] = useState("");
     const [dessert, setDessert] = useState("");
 
-    const { mealObject, setMealObject } = useStateContext();
 
     const params = useParams();
 
@@ -87,6 +88,7 @@ const EditMeal = () => {
     }
 
 
+
     const onSubmit = async (data) => {
         data["date"] = date.toISOString().split('T')[0];
         data["guest"] = getGuestIdBySocialNum(guest.split(" ")[2]);
@@ -131,9 +133,10 @@ const EditMeal = () => {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div class="flex flex-col space-y-4 mx-auto justify-center items-center">
                         
-                <Autocomplete
+                    <Autocomplete
                         disablePortal
                         id="guestSelectBox"
+                        value={guest}
                         onChange={(event, newValue) => {
                             setGuest(newValue);
                         }}

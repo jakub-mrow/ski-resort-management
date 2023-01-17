@@ -306,16 +306,16 @@ class MealsViewSet(viewsets.ModelViewSet):
 
         return Response(serialized_meal_list.data, status=status.HTTP_200_OK)
     
-    def update(self, request, pk):
-        """
-        Update a meal
-        """
-        meal_serializer = serializers.MealSerializer(data=request.data)
-        meal_serializer.is_valid(raise_exception=True)
+    # def update(self, request, pk):
+    #     """
+    #     Update a meal
+    #     """
+    #     meal_serializer = serializers.MealSerializer(data=request.data)
+    #     meal_serializer.is_valid(raise_exception=True)
 
-        meal_serializer.save()
+    #     meal_serializer.save()
 
-        return Response({"msg": "Meal edited"}, status=status.HTTP_200_OK)
+    #     return Response({"msg": "Meal edited"}, status=status.HTTP_200_OK)
 
 
 class MealData(APIView):
