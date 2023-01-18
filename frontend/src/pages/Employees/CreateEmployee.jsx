@@ -32,6 +32,7 @@ function CreateEmployee() {
                 return;
             }
         } catch (error){
+            setAlertSeverity("error");
             const errorMsg = JSON.parse(error.message);
             setShowAlert(errorMsg.msg);
         }
@@ -53,7 +54,7 @@ function CreateEmployee() {
                             required: "Social security number is required",
                             pattern: {
                                 value: /^\d{11}$/,
-                                message: "Number must consist of 11 digits"
+                                message: "Number must consist of 11 digits and be positive"
                             }
                         })}
                         error={!!errors?.socialNum}
@@ -64,7 +65,13 @@ function CreateEmployee() {
                         id="outlined-basic" 
                         label="Name" 
                         variant="outlined"
-                        {...register("name", {required: "Name is required"})}
+                        {...register("name", {
+                            required: "Name is required",
+                            pattern: {
+                                value: /^[\s\p{L}]+$/u,
+                                message: "Name must consist of only letters"
+                            }
+                        })}
                         error={!!errors?.name}
                         helperText={errors?.name ? errors.name.message : null} 
                     />
@@ -73,7 +80,13 @@ function CreateEmployee() {
                         id="outlined-basic" 
                         label="Surname" 
                         variant="outlined"
-                        {...register("surname", {required: "Surname is required"})}
+                        {...register("surname", {
+                            required: "Surname is required",
+                            pattern: {
+                                value: /^[\s\p{L}]+$/u,
+                                message: "Surname must consist of only letters"
+                            }
+                        })}
                         error={!!errors?.surname}
                         helperText={errors?.surname ? errors.surname.message : null}   
                     />
@@ -81,7 +94,13 @@ function CreateEmployee() {
                         id="outlined-basic" 
                         label="Job" 
                         variant="outlined" 
-                        {...register("job", {required: "Job is required"})}
+                        {...register("job", {
+                            required: "Job is required",
+                            pattern: {
+                                value: /^[\s\p{L}]+$/u,
+                                message: "Job must consist of only letters"
+                            }
+                        })}
                         error={!!errors?.job}
                         helperText={errors?.job ? errors.job.message : null}   
                         
@@ -89,13 +108,13 @@ function CreateEmployee() {
 
                     <TextField 
                         id="outlined-basic"
-                        type="number" 
                         label="Salary" 
                         variant="outlined"
                         {...register("salary", {
                             required: "Salary is required",
                             pattern: {
-                                value: /^\d*[1-9]\d*$/,
+                                //value: /^\d*[1-9]\d*$/,
+                                value: /^\d+(\.\d{1,2})?$/,
                                 message: "Salary must be greater than 0"
                             }
                         })}
