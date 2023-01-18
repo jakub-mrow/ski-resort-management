@@ -12,7 +12,9 @@ import { Dashboard, Information, Employees, CreateEmployee, EditEmployee,
          Localizations, CreateLocalization, EditLocalization, 
          Tasks, CreateTask, EditTask, 
          Rooms, CreateRoom, EditRoom,
-         Rental, CreateRental, EditRental } from './pages';
+         Rental, CreateRental, EditRental,
+         Meals, CreateMeal, EditMeal,
+         Duties, CreateDuty, EditDuty } from './pages';
 
 import { useStateContext } from './context/ContextProvider';
 import './App.css'
@@ -76,6 +78,14 @@ const App = () => {
                                 <Route path="/rentals" element={<Rental/>}></Route>
                                 <Route path="/rentals/create" element={<CreateRental/>}></Route>
                                 <Route path="/rentals/:id/edit" element={<EditRental/>}></Route>
+
+                                <Route path="/meals" element={<Meals/>}></Route>
+                                <Route path="/meals/create" element={<CreateMeal/>}></Route>
+                                <Route path="/meals/:id/edit" element={<EditMeal/>}></Route>
+
+                                <Route path="/duties" element={<Duties/>}></Route>
+                                <Route path="/duties/create" element={<CreateDuty/>}></Route>
+                                <Route path="/duties/:id/edit" element={<EditDuty/>}></Route>
                             </Routes>
                         </div>
 

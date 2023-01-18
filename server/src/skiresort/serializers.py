@@ -125,6 +125,18 @@ class MealSerializer(serializers.ModelSerializer):
         return meal
 
 
+class MealListSerializer(serializers.ModelSerializer):
+    date = serializers.DateField()
+    time_of_day = serializers.CharField()
+    guest = serializers.CharField(source='guest.get_full_name')
+    dish = serializers.CharField(source='dish.name')
+    dessert = serializers.CharField(source='dessert.name')   
+
+    class Meta:
+        model = models.Meal
+        fields = "__all__"
+
+
 class GearSerializer(serializers.ModelSerializer):
     code = serializers.CharField(max_length=128)
     type = serializers.CharField(max_length=128)
@@ -204,3 +216,12 @@ class DutySerializer(serializers.ModelSerializer):
         duty = models.Duty.objects.create(**validated_data)
 
         return duty
+
+class DutyListSerializer(serializers.ModelSerializer):
+    employee = serializers.CharField(source='employee.get_full_name')
+    localization = serializers.CharField(source='localization.name')
+    task = serializers.CharField(source='task.name')   
+
+    class Meta:
+        model = models.Duty
+        fields = "__all__"
