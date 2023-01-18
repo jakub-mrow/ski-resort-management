@@ -57,10 +57,18 @@ const Rooms = () => {
             renderCell: (params) => {
                 return (
                     <div className="p-2 space-x-4">
-                        <Button variant="contained" onClick={() => {
+                        <Button variant="contained" 
+                            style={{
+                                backgroundColor: "#21b6ae",
+                            }}
+                            onClick={() => {
                             sendRoomData(params.row);
                             navigateEditRoute(params.row.room_id)}}>Edit</Button>
-                        <Button variant="contained" onClick={() => handleDelete(params.row.room_id)}>Delete</Button>
+                        <Button variant="contained" 
+                            style={{
+                                backgroundColor: "#e31809",
+                            }} 
+                            onClick={() => handleDelete(params.row.room_id)}>Delete</Button>
                     </div>
                 )
             }
