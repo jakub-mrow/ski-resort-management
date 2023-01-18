@@ -31,8 +31,11 @@ function CreateGuest() {
                 return;
             }
         } catch (error){
+            setAlertSeverity("error");
             const errorMsg = JSON.parse(error.message);
-            setShowAlert(errorMsg.msg);
+            if ("msg" in errorMsg){
+                setShowAlert(errorMsg.msg);
+            }
         }
     }
 
@@ -52,18 +55,24 @@ function CreateGuest() {
                             required: "Social security number is required",
                             pattern: {
                                 value: /^\d{11}$/,
-                                message: "Number must consist of 11 digits"
+                                message: "Number must consist of 11 digits and be positive"
                             }
                         })}
-                        error={!!errors?.socialNum}
-                        helperText={errors?.socialNum ? errors.socialNum.message : null}
+                        error={!!errors?.social_security_number}
+                        helperText={errors?.social_security_number ? errors.social_security_number.message : null}
                     />
 
                     <TextField 
                         id="outlined-basic" 
                         label="Name" 
                         variant="outlined"
-                        {...register("name", {required: "Name is required"})}
+                        {...register("name", {
+                            required: "Name is required",
+                            pattern: {
+                                value: /^[\s\p{L}]+$/u,
+                                message: "Invalid name"
+                            }
+                        })}
                         error={!!errors?.name}
                         helperText={errors?.name ? errors.name.message : null} 
                     />
@@ -72,15 +81,27 @@ function CreateGuest() {
                         id="outlined-basic" 
                         label="Surname" 
                         variant="outlined"
-                        {...register("surname", {required: "Surname is required"})}
+                        {...register("surname", {
+                            required: "Surname is required",
+                            pattern: {
+                                value: /^[\s\p{L}]+$/u,
+                                message: "Invalid surname"
+                            }
+                        })}
                         error={!!errors?.surname}
                         helperText={errors?.surname ? errors.surname.message : null}   
                     />
                     <TextField 
                         id="outlined-basic" 
-                        label="Email address" 
-                        variant="outlined" 
-                        {...register("email", {required: "Email is required"})}
+                        label="Email address"
+                        variant="outlined"
+                        {...register("email", {
+                            required: "Email is required",
+                            pattern: {
+                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                message: "Invalid email address",
+                            },
+                        })} 
                         error={!!errors?.email}
                         helperText={errors?.email ? errors.email.message : null}   
                         
@@ -101,7 +122,7 @@ function CreateGuest() {
                 </div>
             </form>
         </div>
-        <Snackbar open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
+        <Snackbar open={showAlert !== null} autoHideDuration={5000} onClose={() => setShowAlert(null)}>
             <Alert severity={alertSeverity}>{showAlert}</Alert>
         </Snackbar>
     </>

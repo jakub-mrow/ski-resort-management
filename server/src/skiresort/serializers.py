@@ -31,6 +31,12 @@ class GuestSerializer(serializers.ModelSerializer):
         model = models.Guest
         fields = "__all__"
 
+    # def validate_social_security_number(self, soc_num):
+    #     if models.Guest.objects.filter(social_security_number=soc_num).exists():
+    #         raise serializers.ValidationError("Guest with this social security number already exists")
+    #     return soc_num
+
+
 
 class EmployeeSerializer(serializers.ModelSerializer):
     social_security_number = serializers.CharField(max_length=11, help_text="Polish social security number PESEL")
