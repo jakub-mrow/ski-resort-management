@@ -38,7 +38,7 @@ const CreateRental = () => {
             setRentalOptionsData(data);
             setEmployeeSelect(Object.keys(data.employees).map((key) => { return `${data.employees[key].name} ${data.employees[key].surname} ${data.employees[key].social_security_number}`;}));
             setGuestSelect(Object.keys(data.guests).map((key) => { return `${data.guests[key].name} ${data.guests[key].surname} ${data.guests[key].social_security_number}`;}));
-            setGearSelect(Object.keys(data.gear).map((key) => {return String(data.gear[key].name)}))
+            setGearSelect(Object.keys(data.gear).map((key) => {return `${data.gear[key].name} ${data.gear[key].size}`}))
         }
         fetchRentalOptionsdata();
     }, [])
@@ -88,7 +88,7 @@ const CreateRental = () => {
         data["date_to"] = dateTo.toISOString().split('T')[0];
         data["employee"] = getEmployeeIdBySocialNum(employee.split(" ")[2]);
         data["guest"] = getGuestIdBySocialNum(guest.split(" ")[2]);
-        data["gear"] = getGearIdByGearName(gear);
+        data["gear"] = getGearIdByGearName(gear.split(" ").slice(0, -1).join(" "));
         console.log(data);
         try{
             const response = await postRental(data);
@@ -98,6 +98,7 @@ const CreateRental = () => {
                 return;
             }
         } catch (error){
+            setAlertSeverity("error");
             const errorMsg = JSON.parse(error.message);
             if (errorMsg.hasOwnProperty("non_field_errors")){
                 setShowAlert(errorMsg.non_field_errors)
