@@ -8,6 +8,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.decorators import action
 
+from django.db import connection
+
 from .utils import generate_range_of_dates
 
 
@@ -555,3 +557,101 @@ class LocalizationsViewSet(viewsets.ModelViewSet):
         localization_serializer = serializers.LocalizationSerializer(qs, many=True)
 
         return Response(localization_serializer.data, status=status.HTTP_200_OK)
+
+
+
+class ReservationCost(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request):
+        try:
+            reservation_id = request.data["reservation_id"]
+            with connection.cursor() as cursor:
+
+                query = """
+                create or replace function reservationCost(pReservationId int) 
+                returns real
+                language plpgsql
+                as $$
+                declare
+                    pCost real;
+                begin
+                    SELECT p.price * (r.date_to - r.date_from) INTO pCost
+                    FROM skiresort_reservation r JOIN skiresort_room p ON r.room_id = p.room_id
+                    WHERE r.id = pReservationId;
+                    RETURN pCost;
+                end;
+                $$;          
+                """
+                cursor.execute(query)
+                cursor.execute("select * from reservationCost({});".format(reservation_id))
+
+                data = cursor.fetchone()
+                
+            return Response(data={"reservation_cost": data[0]}, status=status.HTTP_200_OK)
+
+        except Exception as exc:
+            return Response(data={"msg": "Internal server error", "detail": str(exc)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class IncreasePrices(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def post(self, request):
+        try:
+            increase = request.data["increase"]
+            with connection.cursor() as cursor:
+
+                query = """
+                create or replace procedure increasePrices(pPercent int) 
+                language plpgsql
+                as $$
+                begin
+                    update skiresort_room set price = round((price * (1 + pPercent::numeric/100))::numeric, 2);
+
+                    update skiresort_dessert set price = round((price * (1 + pPercent::numeric/100))::numeric, 2);
+
+                    update skiresort_dish set price = round((price * (1 + pPercent::numeric/100))::numeric, 2);
+                end;
+                $$          
+                """
+                cursor.execute(query)
+                cursor.execute("call increasePrices({});".format(increase))
+                
+            return Response(data={"msg": "Prices have been increased by {}%".format(increase)}, status=status.HTTP_200_OK)
+
+        except Exception as exc:
+            return Response(data={"msg": "Internal server error", "detail": str(exc)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class DecreasePrices(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def post(self, request):
+        try:
+            decrease = request.data["decrease"]
+            with connection.cursor() as cursor:
+
+                query = """
+                create or replace procedure decreasePrices(pPercent int) 
+                language plpgsql
+                as $$
+                begin
+                    update skiresort_room set price = round((price * (1 - pPercent::numeric/100))::numeric, 2);
+
+                    update skiresort_dish set price = round((price * (1 - pPercent::numeric/100))::numeric, 2);
+
+                    update skiresort_dessert set price = round((price * (1 - pPercent::numeric/100))::numeric, 2);
+                end;
+                $$          
+                """
+                cursor.execute(query)
+                cursor.execute("call decreasePrices({});".format(decrease))
+                
+            return Response(data={"msg": "Prices have been decreased by {}%".format(decrease)}, status=status.HTTP_200_OK)
+
+        except Exception as exc:
+            return Response(data={"msg": "Internal server error", "detail": str(exc)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
