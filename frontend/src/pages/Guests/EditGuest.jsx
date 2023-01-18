@@ -50,8 +50,11 @@ const EditGuest = () => {
                 return;
             }
         } catch (error){
+            setAlertSeverity("error");
             const errorMsg = JSON.parse(error.message);
-            setShowAlert(errorMsg.msg);
+            if ("msg" in errorMsg){
+                setShowAlert(errorMsg.msg);
+            }
         }
     }
 

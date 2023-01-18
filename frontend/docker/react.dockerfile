@@ -12,6 +12,9 @@ WORKDIR /app
 # Install deps
 COPY package*.json ./
 RUN npm install --silent
+
+RUN mkdir -p node_modules/.cache && chmod -R 777 node_modules/.cache
+
 RUN npm install react-scripts -g --silent
 
 # Copy local files to container

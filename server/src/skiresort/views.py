@@ -112,6 +112,29 @@ class GuestsViewSet(viewsets.ModelViewSet):
         except Exception as exc:
             return Response(data={"msg": "Internal Server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+    def update(self, request, pk):
+        guest_serializer = serializers.GuestSerializer(data=request.data)
+        guest_serializer.is_valid(raise_exception=True)
+
+        guest = models.Guest.objects.filter(id=pk).first()
+
+        if guest.social_security_number == request.data["social_security_number"]:
+            guest.name = request.data["name"]
+            guest.surname = request.data["surname"]
+            guest.address = request.data["address"]
+            guest.email = request.data["email"]
+
+            return Response({"msg": "Guest edited successfully"}, status=status.HTTP_200_OK) 
+
+        if models.Guest.objects.filter(social_security_number=request.data["social_security_number"]).exists():
+            return Response({"msg": "Guest with this social security number already exists"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+
+        self.perform_update(guest_serializer)
+
+        return Response({"msg": "Guest edited successfully"}, status=status.HTTP_200_OK)
+        
+
 
 class ReservationsViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ReservationSerializer
@@ -196,6 +219,28 @@ class EmployeesViewSet(viewsets.ModelViewSet):
 
         except Exception as exc:
             return Response(data={"msg": "Internal Server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def update(self, request, pk):
+        employee_serializer = serializers.EmployeeSerializer(data=request.data)
+        employee_serializer.is_valid(raise_exception=True)
+
+        employee = models.Employee.objects.filter(id=pk).first()
+
+        if employee.social_security_number == request.data["social_security_number"]:
+            employee.name = request.data["name"]
+            employee.surname = request.data["surname"]
+            employee.job = request.data["job"]
+            employee.salary = request.data["salary"]
+            
+            return Response({"msg": "Employee edited successfully"}, status=status.HTTP_200_OK) 
+
+        if models.Employee.objects.filter(social_security_number=request.data["social_security_number"]).exists():
+            return Response({"msg": "Employee with this social security number already exists"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+
+        self.perform_update(employee_serializer)
+
+        return Response({"msg": "Employee edited successfully"}, status=status.HTTP_200_OK)
 
 
 class ReservationData(APIView):
