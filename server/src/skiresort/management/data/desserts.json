@@ -1,0 +1,107 @@
+[
+    {
+        "name": "Cheesecake",
+        "description": "New York-style cheesecake with graham cracker crust",
+        "calories": 500,
+        "cost": 6.00,
+        "price": 12.99
+    },
+    {
+        "name": "Chocolate Mousse",
+        "description": "Decadent chocolate mousse with whipped cream",
+        "calories": 600,
+        "cost": 7.00,
+        "price": 14.99
+    },
+    {
+        "name": "Crème Brûlée",
+        "description": "Classic French crème brûlée with caramelized sugar",
+        "calories": 450,
+        "cost": 6.50,
+        "price": 12.99
+    },
+    {
+        "name": "Tiramisu",
+        "description": "Italian tiramisu with mascarpone and espresso",
+        "calories": 700,
+        "cost": 8.00,
+        "price": 14.99
+    },
+    {
+        "name": "Banana Pudding",
+        "description": "Southern-style banana pudding with vanilla wafers",
+        "calories": 550,
+        "cost": 6.50,
+        "price": 12.99
+    },
+    {
+        "name": "Baklava",
+        "description": "Mediterranean baklava with pistachios and honey",
+        "calories": 800,
+        "cost": 8.50,
+        "price": 14.99
+    },
+    {
+        "name": "Cannoli",
+        "description": "Italian cannoli with ricotta and chocolate chips",
+        "calories": 600,
+        "cost": 6.50,
+        "price": 12.99
+    },
+    {
+        "name": "Cobbler",
+        "description": "Warm fruit cobbler with a crumbly topping",
+        "calories": 800,
+        "cost": 7.00,
+        "price": 14.99
+    },
+    {
+        "name": "Fruit Tart",
+        "description": "French-style fruit tart with a buttery crust",
+        "calories": 600,
+        "cost": 6.50,
+        "price": 12.99
+    },
+    {
+        "name": "Macarons",
+        "description": "French macarons with various flavors",
+        "calories": 500,
+        "cost": 6.00,
+        "price": 12.99
+    },
+    {
+        "name": "Churros",
+        "description": "Spanish-style churros with chocolate dipping sauce",
+        "calories": 700,
+        "cost": 7.00,
+        "price": 12.99
+    },
+    {
+        "name": "Crepes",
+        "description": "French-style crepes with Nutella and banana",
+        "calories": 600,
+        "cost": 6.50,
+        "price": 12.99
+    },
+    {
+        "name": "Eclairs",
+        "description": "French-style éclairs with vanilla custard filling",
+        "calories": 500,
+        "cost": 6.00,
+        "price": 12.99
+    },
+    {
+        "name": "Flan",
+        "description": "Spanish-style flan with caramel sauce",
+        "calories": 800,
+        "cost": 8.00,
+        "price": 14.99
+    },
+    {
+        "name": "Fried Ice Cream",
+        "description": "Crispy fried ice cream with a honey and cinnamon coating",
+        "calories": 550,
+        "cost": 6.50,
+        "price": 12.99
+    }
+]

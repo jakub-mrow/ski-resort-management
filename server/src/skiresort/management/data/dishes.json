@@ -1,0 +1,142 @@
+[
+    {
+        "name": "Pizza Margherita",
+        "description": "Authentic and delicious pizza Margherita from Napoli",
+        "calories": 800,
+        "cost": 8.50,
+        "price": 15.99
+    },
+    {
+        "name": "Paella",
+        "description": "Traditional Spanish paella with chicken and seafood",
+        "calories": 1000,
+        "cost": 12.00,
+        "price": 18.99
+    },
+    {
+        "name": "Sushi",
+        "description": "Assorted sushi platter with tuna, salmon and avocado",
+        "calories": 600,
+        "cost": 10.00,
+        "price": 16.99
+    },
+    {
+        "name": "Tandoori Chicken",
+        "description": "Spicy and flavorful tandoori chicken marinated in yogurt and spices",
+        "calories": 900,
+        "cost": 6.50,
+        "price": 12.99
+    },
+    {
+        "name": "Pho",
+        "description": "Vietnamese pho with beef and rice noodles",
+        "calories": 700,
+        "cost": 8.00,
+        "price": 12.99
+    },
+    {
+        "name": "Lasagna",
+        "description": "Homemade Italian lasagna with beef and cheese",
+        "calories": 800,
+        "cost": 9.50,
+        "price": 14.99
+    },
+    {
+        "name": "Ramen",
+        "description": "Japanese ramen with pork and vegetables",
+        "calories": 600,
+        "cost": 7.00,
+        "price": 12.99
+    },
+    {
+        "name": "Ceviche",
+        "description": "Peruvian ceviche with fish and lime juice",
+        "calories": 500,
+        "cost": 10.00,
+        "price": 15.99
+    },
+    {
+        "name": "Curry",
+        "description": "Thai curry with chicken and coconut milk",
+        "calories": 800,
+        "cost": 9.00,
+        "price": 14.99
+    },
+    {
+        "name": "Kebab",
+        "description": "Middle Eastern kebab with lamb and tomatoes",
+        "calories": 700,
+        "cost": 8.50,
+        "price": 12.99
+    },
+    {
+        "name": "Bigos",
+        "description": "Traditional Polish hunter's stew with meat, cabbage and mushrooms",
+        "calories": 1000,
+        "cost": 8.00,
+        "price": 14.99
+    },
+    {
+        "name": "Kotlet Schabowy",
+        "description": "Pan-fried pork cutlet with breadcrumbs and mushroom sauce",
+        "calories": 800,
+        "cost": 6.50,
+        "price": 12.99
+    },
+    {
+        "name": "Zapiekanka",
+        "description": "Polish pizza topped with mushrooms, cheese and ketchup",
+        "calories": 600,
+        "cost": 5.00,
+        "price": 10.99
+    },
+    {
+        "name": "Gołąbki",
+        "description": "Cabbage rolls filled with ground meat and rice",
+        "calories": 800,
+        "cost": 7.00,
+        "price": 12.99
+    },
+    {
+        "name": "Kiełbasa",
+        "description": "Polish sausage with pork and spices",
+        "calories": 600,
+        "cost": 6.00,
+        "price": 10.99
+    },
+    {
+        "name": "Pierogi",
+        "description": "Polish dumplings filled with meat, potato or cheese",
+        "calories": 700,
+        "cost": 5.50,
+        "price": 10.99
+    },
+    {
+        "name": "Kaszanka",
+        "description": "Traditional blood sausage with buckwheat",
+        "calories": 800,
+        "cost": 7.00,
+        "price": 12.99
+    },
+    {
+        "name": "Żurek",
+        "description": "Sour rye soup with sausage and egg",
+        "calories": 500,
+        "cost": 6.00,
+        "price": 10.99
+    },
+    {
+        "name": "Placki Ziemniaczane",
+        "description": "Potato pancakes with sour cream and apple sauce",
+        "calories": 700,
+        "cost": 6.50,
+        "price": 12.99
+    },
+    {
+        "name": "Kompot",
+        "description": "Traditional Polish fruit compote made with seasonal fruits",
+        "calories": 200,
+        "cost": 3.50,
+        "price": 6.99
+    }
+]

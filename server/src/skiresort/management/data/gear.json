@@ -1,0 +1,212 @@
+[
+    {
+        "code": "23ds5677",
+        "type": "Skis",
+        "name": "K2 Remedy",
+        "brand": "K2",
+        "size": "170cm"
+    },
+    {
+        "code": "12cy6777",
+        "type": "Snowboard",
+        "name": "Singular Directional Snowboard",
+        "brand": "YES.",
+        "size": "162cm"
+    },
+    {
+        "code": "43df2345",
+        "type": "Helmet",
+        "name": "Smith Vantage",
+        "brand": "Smith",
+        "size": "L"
+    },
+    {
+        "code": "32gh5678",
+        "type": "Gloves",
+        "name": "Hestra Ergo Grip",
+        "brand": "Hestra",
+        "size": "L"
+    },
+    {
+        "code": "56mn7890",
+        "type": "Goggles",
+        "name": "Oakley Flight Deck",
+        "brand": "Oakley",
+        "size": "One Size"
+    },
+    {
+        "code": "12er5678",
+        "type": "Ski Boots",
+        "name": "Nordica Sportmachine",
+        "brand": "Nordica",
+        "size": "36"
+    },
+    {
+        "code": "23as1234",
+        "type": "Snowboard Boots",
+        "name": "Burton Moto",
+        "brand": "Burton",
+        "size": "40"
+    },
+    {
+        "code": "34qw7890",
+        "type": "Ski Poles",
+        "name": "Black Diamond Traverse",
+        "brand": "Black Diamond",
+        "size": "120cm"
+    },
+    {
+        "code": "45ty6789",
+        "type": "Ski Bindings",
+        "name": "Marker Squire",
+        "brand": "Marker",
+        "size": "One Size"
+    },
+    {
+        "code": "56ui1234",
+        "type": "Ski Jacket",
+        "name": "Columbia Bugaboo",
+        "brand": "Columbia",
+        "size": "M"
+    },
+    {
+        "code": "67uj0987",
+        "type": "Ski Pants",
+        "name": "Patagonia Snowshot",
+        "brand": "Patagonia",
+        "size": "L"
+    },
+    {
+        "code": "78ik6543",
+        "type": "Ski Gloves",
+        "name": "Dakine Titan",
+        "brand": "Dakine",
+        "size": "L"
+    },
+    {
+        "code": "89ol2109",
+        "type": "Ski Socks",
+        "name": "Smartwool PhD",
+        "brand": "Smartwool",
+        "size": "L"
+    },
+    {
+        "code": "90po1234",
+        "type": "Ski Base Layer",
+        "name": "Icebreaker 260 Tech",
+        "brand": "Icebreaker",
+        "size": "M"
+    },
+    {
+        "code": "12zu9876",
+        "type": "Ski Mid Layer",
+        "name": "The North Face Thermoball",
+        "brand": "The North Face",
+        "size": "L"
+    },
+    {
+        "code": "23xc5678",
+        "type": "Ski Insulator",
+        "name": "Mammut Eisfeld",
+        "brand": "Mammut",
+        "size": "M"
+    },
+    {
+        "code": "34vb0987",
+        "type": "Ski Insulator",
+        "name": "Arc'teryx Atom",
+        "brand": "Arc'teryx",
+        "size": "L"
+    },
+    {
+        "code": "45nb6543",
+        "type": "Ski Outerwear",
+        "name": "Spyder Syrround",
+        "brand": "Spyder",
+        "size": "M"
+    },
+    {
+        "code": "56mx1234",
+        "type": "Ski Accessories",
+        "name": "Black Diamond PIEPS DSP Pro",
+        "brand": "Black Diamond",
+        "size": "One Size"
+    },
+    {
+        "code": "67cv7890",
+        "type": "Ski Backpack",
+        "name": "Osprey Kode",
+        "brand": "Osprey",
+        "size": "One Size"
+    },
+    {
+        "code": "98uy7654",
+        "type": "Skis",
+        "name": "K2 Remedy",
+        "brand": "K2",
+        "size": "172cm"
+    },
+    {
+        "code": "76tr5678",
+        "type": "Snowboard",
+        "name": "Singular Directional Snowboard",
+        "brand": "YES.",
+        "size": "160cm"
+    },
+    {
+        "code": "54qw1234",
+        "type": "Helmet",
+        "name": "Smith Vantage",
+        "brand": "Smith",
+        "size": "M"
+    },
+    {
+        "code": "32as7890",
+        "type": "Gloves",
+        "name": "Hestra Ergo Grip",
+        "brand": "Hestra",
+        "size": "M"
+    },
+    {
+        "code": "10zxc0987",
+        "type": "Goggles",
+        "name": "Oakley Flight Deck",
+        "brand": "Oakley",
+        "size": "One Size"
+    },
+    {
+        "code": "98uj6543",
+        "type": "Ski Boots",
+        "name": "Nordica Sportmachine",
+        "brand": "Nordica",
+        "size": "39"
+    },
+    {
+        "code": "76gh2109",
+        "type": "Snowboard Boots",
+        "name": "Burton Moto",
+        "brand": "Burton",
+        "size": "45"
+    },
+    {
+        "code": "54df7890",
+        "type": "Ski Poles",
+        "name": "Black Diamond Traverse",
+        "brand": "Black Diamond",
+        "size": "125cm"
+    },
+    {
+        "code": "32zxc5678",
+        "type": "Ski Bindings",
+        "name": "Marker Squire",
+        "brand": "Marker",
+        "size": "One Size"
+    },
+    {
+        "code": "10vbn0987",
+        "type": "Ski Jacket",
+        "name": "Columbia Bugaboo",
+        "brand": "Columbia",
+        "size": "S"
+    }
+]

@@ -1,0 +1,212 @@
+[
+    {
+        "room_id": 101,
+        "wing": "East",
+        "description": "Spacious room with a city view",
+        "beds": 2,
+        "price": 99.99
+    },
+    {
+        "room_id": 102,
+        "wing": "West",
+        "description": "Cozy room with a garden view",
+        "beds": 1,
+        "price": 79.99
+    },
+    {
+        "room_id": 103,
+        "wing": "North",
+        "description": "Luxurious room with a garden view",
+        "beds": 4,
+        "price": 199.99
+    },
+    {
+        "room_id": 104,
+        "wing": "South",
+        "description": "Bright room with a park view",
+        "beds": 2,
+        "price": 129.99
+    },
+    {
+        "room_id": 105,
+        "wing": "East",
+        "description": "Large room with a lake view",
+        "beds": 3,
+        "price": 159.99
+    },
+    {
+        "room_id": 106,
+        "wing": "West",
+        "description": "Quiet room with a forest view",
+        "beds": 1,
+        "price": 89.99
+    },
+    {
+        "room_id": 107,
+        "wing": "North",
+        "description": "Stylish room with a river view",
+        "beds": 2,
+        "price": 119.99
+    },
+    {
+        "room_id": 108,
+        "wing": "South",
+        "description": "Comfortable room with a mountain view",
+        "beds": 3,
+        "price": 149.99
+    },
+    {
+        "room_id": 109,
+        "wing": "East",
+        "description": "Elegant room with a valley view",
+        "beds": 2,
+        "price": 129.99
+    },
+    {
+        "room_id": 110,
+        "wing": "West",
+        "description": "Beautiful room with a countryside view",
+        "beds": 1,
+        "price": 99.99
+    },
+    {
+        "room_id": 201,
+        "wing": "East",
+        "description": "Spacious room with a balcony",
+        "beds": 2,
+        "price": 99.99
+    },
+    {
+        "room_id": 202,
+        "wing": "West",
+        "description": "Cozy room with a fireplace",
+        "beds": 1,
+        "price": 79.99
+    },
+    {
+        "room_id": 203,
+        "wing": "North",
+        "description": "Luxurious room with a Jacuzzi",
+        "beds": 4,
+        "price": 199.99
+    },
+    {
+        "room_id": 204,
+        "wing": "South",
+        "description": "Bright room with a large balcony",
+        "beds": 2,
+        "price": 129.99
+    },
+    {
+        "room_id": 205,
+        "wing": "East",
+        "description": "Large room with a king-size bed",
+        "beds": 3,
+        "price": 159.99
+    },
+    {
+        "room_id": 206,
+        "wing": "West",
+        "description": "Quiet room with a reading nook",
+        "beds": 1,
+        "price": 89.99
+    },
+    {
+        "room_id": 207,
+        "wing": "North",
+        "description": "Stylish room with a walk-in closet",
+        "beds": 2,
+        "price": 119.99
+    },
+    {
+        "room_id": 208,
+        "wing": "South",
+        "description": "Comfortable room with a private bathroom",
+        "beds": 3,
+        "price": 149.99
+    },
+    {
+        "room_id": 209,
+        "wing": "East",
+        "description": "Elegant room with a desk and chair",
+        "beds": 2,
+        "price": 129.99
+    },
+    {
+        "room_id": 210,
+        "wing": "West",
+        "description": "Beautiful room with a chandelier",
+        "beds": 1,
+        "price": 99.99
+    },
+    {
+        "room_id": 301,
+        "wing": "East",
+        "description": "Spacious room with a balcony",
+        "beds": 2,
+        "price": 99.98
+    },
+    {
+        "room_id": 302,
+        "wing": "West",
+        "description": "Cozy room with a fireplace",
+        "beds": 1,
+        "price": 79.97
+    },
+    {
+        "room_id": 303,
+        "wing": "North",
+        "description": "Luxurious room with a Jacuzzi",
+        "beds": 4,
+        "price": 199.95
+    },
+    {
+        "room_id": 304,
+        "wing": "South",
+        "description": "Bright room with a large balcony",
+        "beds": 2,
+        "price": 129.99
+    },
+    {
+        "room_id": 305,
+        "wing": "East",
+        "description": "Large room with a king-size bed",
+        "beds": 3,
+        "price": 159.93
+    },
+    {
+        "room_id": 306,
+        "wing": "West",
+        "description": "Quiet room with a reading nook",
+        "beds": 1,
+        "price": 89.99
+    },
+    {
+        "room_id": 307,
+        "wing": "North",
+        "description": "Stylish room with a walk-in closet",
+        "beds": 2,
+        "price": 119.98
+    },
+    {
+        "room_id": 308,
+        "wing": "South",
+        "description": "Comfortable room with a private bathroom",
+        "beds": 3,
+        "price": 149.97
+    },
+    {
+        "room_id": 309,
+        "wing": "East",
+        "description": "Elegant room with a desk and chair",
+        "beds": 2,
+        "price": 129.95
+    },
+    {
+        "room_id": 310,
+        "wing": "West",
+        "description": "Beautiful room with a chandelier",
+        "beds": 1,
+        "price": 99.99
+    }
+]

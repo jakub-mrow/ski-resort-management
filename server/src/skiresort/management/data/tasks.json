@@ -1,0 +1,62 @@
+[
+    {
+        "name": "Floor cleaning",
+        "description": "Cleaning the floors of the hotel using a broom and mop"
+    },
+    {
+        "name": "Cooking",
+        "description": "Cooking food for staff and guests"
+    },
+    {
+        "name": "Laundry",
+        "description": "Washing, drying, and folding of linen and towels for the hotel"
+    },
+    {
+        "name": "Gardening",
+        "description": "Maintaining the hotel's garden and landscaping, including planting, watering, and trimming"
+    },
+    {
+        "name": "Inventory management",
+        "description": "Managing and replenishing the hotel's inventory of supplies such as linens, cleaning products, and guest amenities"
+    },
+    {
+        "name": "General repair",
+        "description": "Performing general repairs and handyman tasks around the hotel such as fixing leaks, patching walls, and unclogging drains"
+    },
+    {
+        "name": "Security check",
+        "description": "Conducting regular security checks of the hotel's perimeter, guest rooms, and public areas"
+    },
+    {
+        "name": "Bar Tending",
+        "description": "Preparing and serving drinks at the bar"
+    },
+    {
+        "name": "Plumbing Maintenance",
+        "description": "Performing regular plumbing maintenance on the hotel's facilities"
+    },
+    {
+        "name": "Electrical Maintenance",
+        "description": "Performing regular electrical maintenance on the hotel's facilities"
+    },
+    {
+        "name": "Snow removal",
+        "description": "Clearing snow from walkways and parking areas"
+    },
+    {
+        "name": "Equipment organization",
+        "description": "Organizing and stocking equipment for guests"
+    },
+    {
+        "name": "Inventory management",
+        "description": "Managing and replenishing the resort's inventory of supplies such as rental equipment, ski wax, and first aid supplies"
+    },
+    {
+        "name": "Teaching skiing",
+        "description": "Teching skiing children or adults"
+    },
+    {
+        "name": "Teaching snowboarding",
+        "description": "Teching snowboarding children or adults"
+    }
+]
