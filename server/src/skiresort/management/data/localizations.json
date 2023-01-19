@@ -1,0 +1,70 @@
+[
+    {
+        "name": "Hotel",
+        "address": "ul. Górska 15"
+    },
+    {
+        "name": "Hotel west wing",
+        "address": "ul. Górska 16"
+    },
+    {
+        "name": "Slope A",
+        "address": "ul. Leśna 1"
+    },
+    {
+        "name": "Slope B",
+        "address": "ul. Leśna 2"
+    },
+    {
+        "name": "Slope C",
+        "address": "ul. Leśna 2"
+    },
+    {
+        "name": "Slope for children",
+        "address": "ul. Leśna 3"
+    },
+    {
+        "name": "Ski Rental Shop",
+        "address": "ul. Stokowa 12"
+    },
+    {
+        "name": "Ski School",
+        "address": "ul. Leśna 3"
+    },
+    {
+        "name": "Ski Lodge",
+        "address": "ul. Zboczowa 5"
+    },
+    {
+        "name": "Ski Patrol",
+        "address": "ul. Strażacka 7"
+    },
+    {
+        "name": "Ski Shop",
+        "address": "ul. Sportowa 9"
+    },
+    {
+        "name": "Restaurant",
+        "address": "ul. Karkonoska 15"
+    },
+    {
+        "name": "Ski Repair Shop",
+        "address": "ul. Stokowa 13"
+    },
+    {
+        "name": "Ski Lift",
+        "address": "ul. Leśna 12"
+    },
+    {
+        "name": "Garrage for small vehicles",
+        "address": "ul. Górska 17"
+    },
+    {
+        "name": "Garrage for medium vehicles",
+        "address": "ul. Górska 21"
+    },
+    {
+        "name": "Garrage for big vehicles",
+        "address": "ul. Płaska 5"
+    }
+]

@@ -1,0 +1,135 @@
+[
+    {
+        "social_security_number": "99020332895",
+        "surname": "Witczak",
+        "name": "Adam",
+        "job": "Ski teacher",
+        "salary": 2200.0
+    },
+    {
+        "social_security_number": "62122446991",
+        "surname": "Kowalski",
+        "name": "Marek",
+        "job": "Ski instructor",
+        "salary": 2000.0
+    },
+    {
+        "social_security_number": "87050652517",
+        "surname": "Nowakowski",
+        "name": "Grzegorz",
+        "job": "Snowboard instructor",
+        "salary": 2100.0
+    },
+    {
+        "social_security_number": "03270943378",
+        "surname": "Wiśniewski",
+        "name": "Tomasz",
+        "job": "Ski patrol",
+        "salary": 2500.0
+    },
+    {
+        "social_security_number": "84070379756",
+        "surname": "Kowalczyk",
+        "name": "Ewa",
+        "job": "Lift operator",
+        "salary": 1500.0
+    },
+    {
+        "social_security_number": "55110199151",
+        "surname": "Zieliński",
+        "name": "Jan",
+        "job": "Ski rental technician",
+        "salary": 1800.0
+    },
+    {
+        "social_security_number": "38020150830",
+        "surname": "Szymańska",
+        "name": "Agnieszka",
+        "job": "Ski shop salesperson",
+        "salary": 2000.0
+    },
+    {
+        "social_security_number": "84073009430",
+        "surname": "Woźniak",
+        "name": "Katarzyna",
+        "job": "Ski school administrator",
+        "salary": 2400.0
+    },
+    {
+        "social_security_number": "46060321194",
+        "surname": "Dąbrowski",
+        "name": "Piotr",
+        "job": "Ski lift mechanic",
+        "salary": 2800.0
+    },
+    {
+        "social_security_number": "45041776826",
+        "surname": "Kozłowski",
+        "name": "Adam",
+        "job": "Ski slope groomer",
+        "salary": 2400.0
+    },
+    {
+        "social_security_number": "88122280351",
+        "surname": "Kowalski",
+        "name": "Marek",
+        "job": "Front desk clerk",
+        "salary": 2000.0
+    },
+    {
+        "social_security_number": "72070690874",
+        "surname": "Nowakowski",
+        "name": "Grzegorz",
+        "job": "Housekeeping supervisor",
+        "salary": 2100.0
+    },
+    {
+        "social_security_number": "37032029347",
+        "surname": "Wiśniewski",
+        "name": "Tomasz",
+        "job": "Concierge",
+        "salary": 2500.0
+    },
+    {
+        "social_security_number": "90112211797",
+        "surname": "Kowalczyk",
+        "name": "Ewa",
+        "job": "Bellhop",
+        "salary": 1500.0
+    },
+    {
+        "social_security_number": "39111318494",
+        "surname": "Zieliński",
+        "name": "Jan",
+        "job": "Room service waiter",
+        "salary": 1800.0
+    },
+    {
+        "social_security_number": "45061984106",
+        "surname": "Szymańska",
+        "name": "Agnieszka",
+        "job": "Laundry attendant",
+        "salary": 2000.0
+    },
+    {
+        "social_security_number": "03282424063",
+        "surname": "Woźniak",
+        "name": "Katarzyna",
+        "job": "Security guard",
+        "salary": 2400.0
+    },
+    {
+        "social_security_number": "58060553970",
+        "surname": "Dąbrowski",
+        "name": "Piotr",
+        "job": "Maintenance worker",
+        "salary": 2800.0
+    },
+    {
+        "social_security_number": "63082636725",
+        "surname": "Kozłowski",
+        "name": "Adam",
+        "job": "Chef",
+        "salary": 2400.0
+    }
+]
