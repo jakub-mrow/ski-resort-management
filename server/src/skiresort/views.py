@@ -140,8 +140,27 @@ class GuestsViewSet(viewsets.ModelViewSet):
         guest.save()
 
         return Response({"msg": "Guest edited successfully"}, status=status.HTTP_200_OK)
-        
 
+
+    @action(detail=True, methods=["get"])
+    def info(self, request, pk):
+        reservations_qs = models.Reservation.objects.filter(guest=pk)
+        reservations_serializer = serializers.ReservationListSerializer(reservations_qs, many=True)
+
+        meals_qs = models.Meal.objects.filter(guest=pk)
+        meals_serializer = serializers.MealListSerializer(meals_qs, many=True)
+
+        rentals_qs = models.Rental.objects.filter(guest=pk)
+        rentals_serializer = serializers.RentalListSerializer(rentals_qs, many=True)
+
+        response_data = {
+            "reservations": reservations_serializer.data,
+            "meals": meals_serializer.data,
+            "rentals": rentals_serializer.data
+        }
+
+        return Response(data=response_data, status=status.HTTP_200_OK)
+        
 
 class ReservationsViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ReservationSerializer

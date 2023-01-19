@@ -5,6 +5,7 @@ export { default as Employees } from './Employees/Employees';
 export { default as CreateEmployee} from './Employees/CreateEmployee';
 export { default as EditEmployee} from './Employees/EditEmployee';
 export { default as Guests} from './Guests/Guests';
+export { default as GuestInfo } from './Guests/GuestInfo';
 export { default as CreateGuest} from './Guests/CreateGuest';
 export { default as EditGuest} from './Guests/EditGuest';
 export { default as Dishes} from './Dishes/Dishes';
