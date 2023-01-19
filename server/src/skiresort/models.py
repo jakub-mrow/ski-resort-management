@@ -74,7 +74,7 @@ class Meal(models.Model):
 
 
 class Gear(models.Model):
-    code = models.CharField(max_length=128)
+    code = models.CharField(max_length=128, unique=True)
     type = models.CharField(max_length=256)
     name = models.CharField(max_length=128)
     brand = models.CharField(max_length=128)

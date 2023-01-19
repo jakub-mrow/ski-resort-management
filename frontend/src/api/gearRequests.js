@@ -10,7 +10,7 @@ export async function getGearList(){
         return json;
     }
 
-    throw new Error('Response ${response.status}: ${response.statusText} - ${await response.text()}');
+    throw new Error(`${await response.text()}`);
 }
 
 
@@ -31,7 +31,7 @@ export async function postGear(data) {
         return true;
     }
 
-    throw new Error('Response ${response.status}: ${response.statusText} - ${await response.text()}');
+    throw new Error(`${await response.text()}`);
 }
 
 export async function deleteGear(id) {
@@ -48,7 +48,7 @@ export async function deleteGear(id) {
         return true;
     }
 
-    throw new Error('Response ${response.status}: ${response.statusText} - ${await response.text()}');
+    throw new Error(`${await response.text()}`);
 }
 
 export async function updateGear(id, data) {
@@ -66,7 +66,7 @@ export async function updateGear(id, data) {
         return true;
     }
 
-    throw new Error(`Response ${response.status}: ${response.statusText} - ${await response.text()}`);
+    throw new Error(`${await response.text()}`);
 }
 
 export async function getGear(id) {
@@ -84,5 +84,5 @@ export async function getGear(id) {
         return json;
     }
 
-    throw new Error(`Response ${response.status}: ${response.statusText} - ${await response.text()}`);
+    throw new Error(`${await response.text()}`);
 }

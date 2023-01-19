@@ -43,10 +43,11 @@ const EditEmployee = () => {
 
     const onSubmit = async (data) => {
         try{
+            console.log(data);
             const response = await updateEmployee(params.id, data);
             if (response) {
                 setAlertSeverity("success");
-                setShowAlert("Employee added successfully!");
+                setShowAlert("Employee edited successfully!");
                 return;
             }
         } catch (error){
