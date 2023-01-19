@@ -124,13 +124,20 @@ class GuestsViewSet(viewsets.ModelViewSet):
             guest.address = request.data["address"]
             guest.email = request.data["email"]
 
+            guest.save()
+
             return Response({"msg": "Guest edited successfully"}, status=status.HTTP_200_OK) 
 
         if models.Guest.objects.filter(social_security_number=request.data["social_security_number"]).exists():
             return Response({"msg": "Guest with this social security number already exists"}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
+        guest.social_security_number = request.data["social_security_number"]
+        guest.name = request.data["name"]
+        guest.surname = request.data["surname"]
+        guest.address = request.data["address"]
+        guest.email = request.data["email"]
 
-        self.perform_update(guest_serializer)
+        guest.save()
 
         return Response({"msg": "Guest edited successfully"}, status=status.HTTP_200_OK)
         
@@ -231,14 +238,21 @@ class EmployeesViewSet(viewsets.ModelViewSet):
             employee.surname = request.data["surname"]
             employee.job = request.data["job"]
             employee.salary = request.data["salary"]
+
+            employee.save()
             
             return Response({"msg": "Employee edited successfully"}, status=status.HTTP_200_OK) 
 
         if models.Employee.objects.filter(social_security_number=request.data["social_security_number"]).exists():
             return Response({"msg": "Employee with this social security number already exists"}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
+        employee.social_security_number = request.data["social_security_number"]
+        employee.name = request.data["name"]
+        employee.surname = request.data["surname"]
+        employee.job = request.data["job"]
+        employee.salary = request.data["salary"]
 
-        self.perform_update(employee_serializer)
+        employee.save()
 
         return Response({"msg": "Employee edited successfully"}, status=status.HTTP_200_OK)
 
@@ -479,6 +493,9 @@ class GearViewSet(viewsets.ModelViewSet):
         gear_serializer = serializers.GearSerializer(data=request.data)
         gear_serializer.is_valid(raise_exception=True)
 
+        if models.Gear.objects.filter(code=request.data["code"]).exists():
+            return Response({"msg": "Gear with this code already exists"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+
         gear_serializer.save()
 
         return Response({"msg": "Gear created"}, status=status.HTTP_201_CREATED)
@@ -491,6 +508,35 @@ class GearViewSet(viewsets.ModelViewSet):
         gear_serializer = serializers.GearSerializer(qs, many=True)
 
         return Response(gear_serializer.data, status=status.HTTP_200_OK)
+
+    def update(self, request, pk):
+        gear_serializer = serializers.GearSerializer(data=request.data)
+        gear_serializer.is_valid(raise_exception=True)
+
+        gear = models.Gear.objects.filter(id=pk).first()
+
+        if gear.code == request.data["code"]:
+            gear.type = request.data["type"]
+            gear.name = request.data["name"]
+            gear.brand = request.data["brand"]
+            gear.size = request.data["size"]
+
+            gear.save()
+            
+            return Response({"msg": "Gear edited successfully"}, status=status.HTTP_200_OK) 
+
+        if models.Gear.objects.filter(code=request.data["code"]).exists():
+            return Response({"msg": "Gear with this code already exists"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+        gear.code = request.data["code"]
+        gear.type = request.data["type"]
+        gear.name = request.data["name"]
+        gear.brand = request.data["brand"]
+        gear.size = request.data["size"]
+
+        gear.save()
+
+        return Response({"msg": "Gear edited successfully"}, status=status.HTTP_200_OK)
 
 
 class DutiesViewSet(viewsets.ModelViewSet):
