@@ -124,6 +124,7 @@ const EditDuty = () => {
             <Autocomplete
               disablePortal
               id="employeeSelectBox"
+              style={{width: 400}}
               onChange={(event, newValue) => {
                   setEmployee(newValue);
               }}
@@ -136,6 +137,7 @@ const EditDuty = () => {
             <Autocomplete
               disablePortal
               id="taskSelectBox"
+              style={{width: 400}}
               onChange={(event, newValue) => {
                   setTask(newValue);
               }}
@@ -148,6 +150,7 @@ const EditDuty = () => {
             <Autocomplete
               disablePortal
               id="localizationSelectBox"
+              style={{width: 400}}
               onChange={(event, newValue) => {
                   setLocalization(newValue);
               }}

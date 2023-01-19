@@ -49,6 +49,7 @@ function CreateGear() {
                         id="outlined-basic" 
                         label="Code" 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("code", {required: "Code is required"})}
                         error={!!errors?.code}
                         helperText={errors?.code ? errors.code.message : null} 
@@ -58,6 +59,7 @@ function CreateGear() {
                         id="outlined-basic" 
                         label="Type" 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("type", {required: "Type is required"})}
                         error={!!errors?.type}
                         helperText={errors?.type ? errors.type.message : null} 
@@ -67,6 +69,7 @@ function CreateGear() {
                         id="outlined-basic" 
                         label="Name" 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("name", {required: "Name is required"})}
                         error={!!errors?.name}
                         helperText={errors?.name ? errors.name.message : null} 
@@ -76,6 +79,7 @@ function CreateGear() {
                         id="outlined-basic" 
                         label="Brand" 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("brand", {required: "Brand is required"})}
                         error={!!errors?.brand}
                         helperText={errors?.brand ? errors.brand.message : null} 
@@ -85,6 +89,7 @@ function CreateGear() {
                         id="outlined-basic" 
                         label="Size" 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("size", {required: "Size is required"})}
                         error={!!errors?.size}
                         helperText={errors?.size ? errors.size.message : null} 

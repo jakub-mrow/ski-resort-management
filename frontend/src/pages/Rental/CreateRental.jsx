@@ -159,6 +159,7 @@ const CreateRental = () => {
                     <Autocomplete
                         disablePortal
                         id="employeeSelectBox"
+                        style={{width: 400}}
                         onChange={(event, newValue) => {
                             setEmployee(newValue);
                         }}
@@ -171,6 +172,7 @@ const CreateRental = () => {
                     <Autocomplete
                         disablePortal
                         id="guestSelectBox"
+                        style={{width: 400}}
                         onChange={(event, newValue) => {
                             setGuest(newValue);
                         }}
@@ -182,6 +184,7 @@ const CreateRental = () => {
                     <Autocomplete
                         disablePortal
                         id="gearSelectBox"
+                        style={{width: 400}}
                         onChange={(event, newValue) => {
                             setGear(newValue);
                         }}
@@ -195,6 +198,7 @@ const CreateRental = () => {
                         label="Price"
                         type="number" 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("price", {
                             required: "Price is required",
                             pattern: {

@@ -50,6 +50,7 @@ function CreateEmployee() {
                         type="number" 
                         label="Social security number" 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("social_security_number", {
                             required: "Social security number is required",
                             pattern: {
@@ -65,6 +66,7 @@ function CreateEmployee() {
                         id="outlined-basic" 
                         label="Name" 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("name", {
                             required: "Name is required",
                             pattern: {
@@ -80,6 +82,7 @@ function CreateEmployee() {
                         id="outlined-basic" 
                         label="Surname" 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("surname", {
                             required: "Surname is required",
                             pattern: {
@@ -94,6 +97,7 @@ function CreateEmployee() {
                         id="outlined-basic" 
                         label="Job" 
                         variant="outlined" 
+                        style={{width: 400}}
                         {...register("job", {
                             required: "Job is required",
                             pattern: {
@@ -110,6 +114,7 @@ function CreateEmployee() {
                         id="outlined-basic"
                         label="Salary" 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("salary", {
                             required: "Salary is required",
                             pattern: {

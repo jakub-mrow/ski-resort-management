@@ -45,6 +45,7 @@ function CreateTask() {
                         id="outlined-basic" 
                         label="Name" 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("name", {required: "Name is required"})}
                         error={!!errors?.name}
                         helperText={errors?.name ? errors.name.message : null} 
@@ -54,6 +55,7 @@ function CreateTask() {
                         id="outlined-basic" 
                         label="Description" 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("description", {required: "Description is required"})}
                         error={!!errors?.description}
                         helperText={errors?.description ? errors.description.message : null} 

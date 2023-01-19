@@ -130,6 +130,7 @@ const CreateMeal = () => {
                     <Autocomplete
                         disablePortal
                         id="guestSelectBox"
+                        style={{width: 400}}
                         onChange={(event, newValue) => {
                             setGuest(newValue);
                         }}
@@ -156,6 +157,7 @@ const CreateMeal = () => {
                         id="outlined-basic" 
                         label="Time of day"
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("time_of_day", {required: "Time of day is required"})}
                         error={!!errors?.time_of_day}
                         helperText={errors?.time_of_day ? errors.time_of_day.message : null} 
@@ -165,6 +167,7 @@ const CreateMeal = () => {
                     <Autocomplete
                         disablePortal
                         id="dishSelectBox"
+                        style={{width: 400}}
                         onChange={(event, newValue) => {
                             setDish(newValue);
                         }}
@@ -177,6 +180,7 @@ const CreateMeal = () => {
                     <Autocomplete
                         disablePortal
                         id="dessertSelectBox"
+                        style={{width: 400}}
                         onChange={(event, newValue) => {
                             setDessert(newValue);
                         }}

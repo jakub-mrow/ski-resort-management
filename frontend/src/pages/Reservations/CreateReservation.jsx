@@ -142,6 +142,7 @@ function CreateReservation() {
                     <Autocomplete
                         disablePortal
                         id="employeeSelectBox"
+                        style={{width: 400}}
                         onChange={(event, newValue) => {
                             setEmployee(newValue);
                         }}
@@ -154,6 +155,7 @@ function CreateReservation() {
                     <Autocomplete
                         disablePortal
                         id="guestSelectBox"
+                        style={{width: 400}}
                         onChange={(event, newValue) => {
                             setGuest(newValue);
                         }}
@@ -165,6 +167,7 @@ function CreateReservation() {
                     <Autocomplete
                         disablePortal
                         id="roomSelectBox"
+                        style={{width: 400}}
                         onChange={(event, newValue) => {
                             setRoom(newValue);
                             const getUnavailabiltyList = async (room_id) => {
@@ -183,6 +186,7 @@ function CreateReservation() {
                         label="Number of people"
                         type="number" 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("number_of_people", {required: "Number of people is required"})}
                         error={!!errors?.number_of_people}
                         helperText={errors?.number_of_people ? errors.number_of_people.message : null} 

@@ -149,6 +149,7 @@ function EditReservation() {
                     <Autocomplete
                         disablePortal
                         id="employeeSelectBox"
+                        style={{width: 400}}
                         onChange={(event, newValue) => {
                             setEmployee(newValue);
                         }}
@@ -161,6 +162,7 @@ function EditReservation() {
                     <Autocomplete
                         disablePortal
                         id="guestSelectBox"
+                        style={{width: 400}}
                         onChange={(event, newValue) => {
                             setGuest(newValue);
                         }}
@@ -172,6 +174,7 @@ function EditReservation() {
                     <Autocomplete
                         disablePortal
                         id="roomSelectBox"
+                        style={{width: 400}}
                         onChange={(event, newValue) => {
                             setRoom(newValue);
                             const getUnavailabiltyList = async (room_id) => {
@@ -192,6 +195,7 @@ function EditReservation() {
                         label="Number of people"
                         type="number" 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("number_of_people", {required: "Number of people is required"})}
                         defaultValue={reservationObject.number_of_people}
                         error={!!errors?.number_of_people}

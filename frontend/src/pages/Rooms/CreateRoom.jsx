@@ -49,6 +49,7 @@ function CreateRoom() {
                         type="number" 
                         label="Room number" 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("room_id", {
                             required: "Room number is required",
                             pattern: {
@@ -64,6 +65,7 @@ function CreateRoom() {
                         id="outlined-basic" 
                         label="Wing" 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("wing", {required: "Wing is required"})}
                         error={!!errors?.wing}
                         helperText={errors?.wing ? errors.wing.message : null} 
@@ -73,6 +75,7 @@ function CreateRoom() {
                         id="outlined-basic" 
                         label="Description" 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("description", {required: "Description is required"})}
                         error={!!errors?.description}
                         helperText={errors?.description ? errors.description.message : null} 
@@ -83,6 +86,7 @@ function CreateRoom() {
                         type="number" 
                         label="Number of beds" 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("beds", {
                             required: "Number of beds is required",
                             pattern: {
@@ -98,6 +102,7 @@ function CreateRoom() {
                         id="outlined-basic"
                         label="Price per night" 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("price", {
                             required: "Price is required",
                             pattern: {

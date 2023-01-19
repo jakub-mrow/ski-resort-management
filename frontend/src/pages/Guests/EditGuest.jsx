@@ -71,6 +71,7 @@ const EditGuest = () => {
                             type="number" 
                             label="Social security number" 
                             variant="outlined"
+                            style={{width: 400}}
                             {...register("social_security_number", {
                                 required: "Social security number is required",
                                 pattern: {
@@ -87,6 +88,7 @@ const EditGuest = () => {
                             id="outlined-basic" 
                             label="Name" 
                             variant="outlined"
+                            style={{width: 400}}
                             {...register("name", {required: "Name is required"})}
                             error={!!errors?.name}
                             helperText={errors?.name ? errors.name.message : null}
@@ -97,6 +99,7 @@ const EditGuest = () => {
                             id="outlined-basic" 
                             label="Surname" 
                             variant="outlined"
+                            style={{width: 400}}
                             {...register("surname", {required: "Surname is required"})}
                             error={!!errors?.surname}
                             helperText={errors?.surname ? errors.surname.message : null}
@@ -106,6 +109,7 @@ const EditGuest = () => {
                             id="outlined-basic" 
                             label="Email address" 
                             variant="outlined" 
+                            style={{width: 400}}
                             {...register("email", {required: "Email is required"})}
                             error={!!errors?.email}
                             helperText={errors?.email ? errors.email.message : null}
@@ -117,6 +121,7 @@ const EditGuest = () => {
                             id="outlined-basic" 
                             label="Address" 
                             variant="outlined" 
+                            style={{width: 400}}
                             {...register("address", {required: "Address is required"})}
                             error={!!errors?.address}
                             helperText={errors?.address ? errors.address.message : null}

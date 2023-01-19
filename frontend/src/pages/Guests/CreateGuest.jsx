@@ -51,6 +51,7 @@ function CreateGuest() {
                         type="number" 
                         label="Social security number" 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("social_security_number", {
                             required: "Social security number is required",
                             pattern: {
@@ -66,6 +67,7 @@ function CreateGuest() {
                         id="outlined-basic" 
                         label="Name" 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("name", {
                             required: "Name is required",
                             pattern: {
@@ -81,6 +83,7 @@ function CreateGuest() {
                         id="outlined-basic" 
                         label="Surname" 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("surname", {
                             required: "Surname is required",
                             pattern: {
@@ -95,6 +98,7 @@ function CreateGuest() {
                         id="outlined-basic" 
                         label="Email address"
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("email", {
                             required: "Email is required",
                             pattern: {
@@ -111,6 +115,7 @@ function CreateGuest() {
                         id="outlined-basic" 
                         label="Address" 
                         variant="outlined" 
+                        style={{width: 400}}
                         {...register("address", {required: "Address is required"})}
                         error={!!errors?.address}
                         helperText={errors?.address ? errors.address.message : null}   

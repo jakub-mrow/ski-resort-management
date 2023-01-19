@@ -45,6 +45,7 @@ function CreateLocalization() {
                         id="outlined-basic" 
                         label="Name" 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("name", {required: "Name is required"})}
                         error={!!errors?.name}
                         helperText={errors?.name ? errors.name.message : null} 
@@ -54,6 +55,7 @@ function CreateLocalization() {
                         id="outlined-basic" 
                         label="Address" 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("address", {required: "Address is required"})}
                         error={!!errors?.address}
                         helperText={errors?.address ? errors.address.message : null} 
