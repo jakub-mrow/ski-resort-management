@@ -71,8 +71,8 @@ function CreateGuest() {
                         {...register("name", {
                             required: "Name is required",
                             pattern: {
-                                value: /^[\s\p{L}]+$/u,
-                                message: "Invalid name"
+                                value: /^[\s\p{L}]{0,128}$/u,
+                                message: "Name must consist of letters and be max 128 characters long"
                             }
                         })}
                         error={!!errors?.name}
@@ -87,8 +87,8 @@ function CreateGuest() {
                         {...register("surname", {
                             required: "Surname is required",
                             pattern: {
-                                value: /^[\s\p{L}]+$/u,
-                                message: "Invalid surname"
+                                value: /^[\s\p{L}-]{0,128}$/u,
+                                message: "Surname must consist of letters and be max 128 characters long"
                             }
                         })}
                         error={!!errors?.surname}
@@ -116,7 +116,13 @@ function CreateGuest() {
                         label="Address" 
                         variant="outlined" 
                         style={{width: 400}}
-                        {...register("address", {required: "Address is required"})}
+                        {...register("address", {
+                            required: "Address is required",
+                            pattern: {
+                                value: /^.{0,256}$/,
+                                message: "Address must be max 256 characters long"
+                            }
+                        })}
                         error={!!errors?.address}
                         helperText={errors?.address ? errors.address.message : null}   
                         

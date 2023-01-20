@@ -66,7 +66,13 @@ function CreateRoom() {
                         label="Wing" 
                         variant="outlined"
                         style={{width: 400}}
-                        {...register("wing", {required: "Wing is required"})}
+                        {...register("wing", {
+                            required: "Wing is required",
+                            pattern: {
+                                value: /^[^0-9]{0,128}$/,
+                                message: "Wing cannot consist of numbers and is max 128 characters long"
+                            }
+                        })}
                         error={!!errors?.wing}
                         helperText={errors?.wing ? errors.wing.message : null} 
                     />
@@ -76,7 +82,13 @@ function CreateRoom() {
                         label="Description" 
                         variant="outlined"
                         style={{width: 400}}
-                        {...register("description", {required: "Description is required"})}
+                        {...register("description", {
+                            required: "Description is required",
+                            pattern: {
+                                value: /^.{0,256}$/,
+                                message: "Description must be max 256 characters long"
+                            }
+                        })}
                         error={!!errors?.description}
                         helperText={errors?.description ? errors.description.message : null} 
                     />
@@ -107,7 +119,7 @@ function CreateRoom() {
                             required: "Price is required",
                             pattern: {
                                 value: /^\d+(\.\d{1,2})?$/,
-                                message: "Price must have max 2 decimal digits"
+                                message: "Price must be a positive number with max 2 decimal digits"
                             }
                         })}
                         error={!!errors?.price}

@@ -66,7 +66,13 @@ const EditDessert = () => {
                             label="Name" 
                             variant="outlined"
                             style={{width: 400}}
-                            {...register("name", {required: "Name is required"})}
+                            {...register("name", {
+                                required: "Name is required",
+                                pattern: {
+                                    value: /^[^0-9]{0,128}$/,
+                                    message: "Name cannot consist of numbers and is max 128 characters long"
+                                }
+                            })}
                             error={!!errors?.name}
                             helperText={errors?.name ? errors.name.message : null} 
                             defaultValue={dessertObject.name}
@@ -77,7 +83,13 @@ const EditDessert = () => {
                             label="Description" 
                             variant="outlined"
                             style={{width: 400}}
-                            {...register("description", {required: "Description is required"})}
+                            {...register("description", {
+                                required: "Description is required",
+                                pattern: {
+                                    value: /^[^0-9]{0,256}$/,
+                                    message: "Description cannot consist of numbers and is max 256 characters long"
+                                }
+                            })}
                             error={!!errors?.description}
                             helperText={errors?.description ? errors.description.message : null} 
                             defaultValue={dessertObject.description}
@@ -109,7 +121,7 @@ const EditDessert = () => {
                                 required: "Cost is required",
                                 pattern: {
                                     value: /^\d+(\.\d{1,2})?$/,
-                                    message: "Cost must have max 2 decimal digits"
+                                    message: "Cost must be a positive number with max 2 decimal digits"
                                 }
                             })}
                             error={!!errors?.cost}
@@ -126,7 +138,7 @@ const EditDessert = () => {
                                 required: "Price is required",
                                 pattern: {
                                     value: /^\d+(\.\d{1,2})?$/,
-                                    message: "Price must have max 2 decimal digits"
+                                    message: "Price must be a positive number with max 2 decimal digits"
                                 }
                             })}
                             error={!!errors?.price}

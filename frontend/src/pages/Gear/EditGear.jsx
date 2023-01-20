@@ -66,7 +66,13 @@ const EditGear = () => {
                             label="Code" 
                             variant="outlined"
                             style={{width: 400}}
-                            {...register("code", {required: "Code is required"})}
+                            {...register("code", {
+                                required: "Code is required",
+                                pattern: {
+                                    value: /^[a-zA-Z0-9]{0,128}$/,
+                                    message: "Code must consist of letters or numbers and be max 128 characters long"
+                                }
+                            })}
                             error={!!errors?.code}
                             helperText={errors?.code ? errors.code.message : null} 
                             defaultValue={gearObject.code}
@@ -77,7 +83,13 @@ const EditGear = () => {
                             label="Type" 
                             variant="outlined"
                             style={{width: 400}}
-                            {...register("type", {required: "Type is required"})}
+                            {...register("type", {
+                                required: "Type is required",
+                                pattern: {
+                                    value: /^[^0-9]{0,256}$/,
+                                    message: "Type cannot consist of numbers and is max 256 characters long"
+                                }
+                            })}
                             error={!!errors?.type}
                             helperText={errors?.type ? errors.type.message : null} 
                             defaultValue={gearObject.type}
@@ -88,7 +100,13 @@ const EditGear = () => {
                             label="Name" 
                             variant="outlined"
                             style={{width: 400}}
-                            {...register("name", {required: "Name is required"})}
+                            {...register("name", {
+                                required: "Name is required",
+                                pattern: {
+                                    value: /^.{0,128}$/,
+                                    message: "Name must be max 128 characters long"
+                                }
+                            })}
                             error={!!errors?.name}
                             helperText={errors?.name ? errors.name.message : null} 
                             defaultValue={gearObject.name}
@@ -99,7 +117,13 @@ const EditGear = () => {
                             label="Brand" 
                             variant="outlined"
                             style={{width: 400}}
-                            {...register("brand", {required: "Brand is required"})}
+                            {...register("brand", {
+                                required: "Brand is required",
+                                pattern: {
+                                    value: /^.{0,128}$/,
+                                    message: "Brand must be max 128 characters long"
+                                }
+                            })}
                             error={!!errors?.brand}
                             helperText={errors?.brand ? errors.brand.message : null} 
                             defaultValue={gearObject.brand}
@@ -110,7 +134,13 @@ const EditGear = () => {
                             label="Size" 
                             variant="outlined"
                             style={{width: 400}}
-                            {...register("size", {required: "Size is required"})}
+                            {...register("size", {
+                                required: "Size is required",
+                                pattern: {
+                                    value: /^.{0,128}$/,
+                                    message: "Size must be max 128 characters long"
+                                }
+                            })}
                             error={!!errors?.size}
                             helperText={errors?.size ? errors.size.message : null} 
                             defaultValue={gearObject.size}

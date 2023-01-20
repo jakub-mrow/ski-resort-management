@@ -91,8 +91,8 @@ const EditEmployee = () => {
                             {...register("name", {
                                 required: "Name is required",
                                 pattern: {
-                                    value: /^[\s\p{L}]+$/u,
-                                    message: "Name must consist of only letters"
+                                    value: /^[\s\p{L}]{0,128}$/u,
+                                    message: "Name must consist of letters and be max 128 characters long"
                                 }
                             })}
                             error={!!errors?.name}
@@ -108,8 +108,8 @@ const EditEmployee = () => {
                             {...register("surname", {
                                 required: "Surname is required",
                                 pattern: {
-                                    value: /^[\s\p{L}]+$/u,
-                                    message: "Surname must consist of only letters"
+                                    value: /^[\s\p{L}-]{0,128}$/u,
+                                    message: "Surname must consist of letters and be max 128 characters long"
                                 }
                             })}
                             error={!!errors?.surname}
@@ -124,8 +124,8 @@ const EditEmployee = () => {
                             {...register("job", {
                                 required: "Job is required",
                                 pattern: {
-                                    value: /^[\s\p{L}]+$/u,
-                                    message: "Job must consist of only letters"
+                                    value: /^[\s\p{L}]{0,128}$/u,
+                                    message: "Job must consist of letters and be max 128 characters long"
                                 }
                             })}
                             error={!!errors?.job}
@@ -142,9 +142,8 @@ const EditEmployee = () => {
                             {...register("salary", {
                                 required: "Salary is required",
                                 pattern: {
-                                    //value: /^\d*[1-9]\d*$/,
                                     value: /^\d+(\.\d{1,2})?$/,
-                                    message: "Salary must be greater than 0"
+                                    message: "Salary must be a positive number with max 2 decimal digits"
                                 }
                             })}
                             error={!!errors?.salary}

@@ -75,8 +75,8 @@ const EditGuest = () => {
                             {...register("social_security_number", {
                                 required: "Social security number is required",
                                 pattern: {
-                                    value: /\d{11}/,
-                                    message: "Number must consist of 11 digits"
+                                    value: /^\d{11}$/,
+                                    message: "Number must consist of 11 digits and be positive"
                                 }
                             })}
                             error={!!errors?.social_security_number}
@@ -89,7 +89,13 @@ const EditGuest = () => {
                             label="Name" 
                             variant="outlined"
                             style={{width: 400}}
-                            {...register("name", {required: "Name is required"})}
+                            {...register("name", {
+                                required: "Name is required",
+                                pattern: {
+                                    value: /^[\s\p{L}]{0,128}$/u,
+                                    message: "Name must consist of letters and be max 128 characters long"
+                                }
+                            })}
                             error={!!errors?.name}
                             helperText={errors?.name ? errors.name.message : null}
                             defaultValue={guestObject.name} 
@@ -100,7 +106,13 @@ const EditGuest = () => {
                             label="Surname" 
                             variant="outlined"
                             style={{width: 400}}
-                            {...register("surname", {required: "Surname is required"})}
+                            {...register("surname", {
+                                required: "Surname is required",
+                                pattern: {
+                                    value: /^[\s\p{L}-]{0,128}$/u,
+                                    message: "Surname must consist of letters and be max 128 characters long"
+                                }
+                            })}
                             error={!!errors?.surname}
                             helperText={errors?.surname ? errors.surname.message : null}
                             defaultValue={guestObject.surname}   
@@ -110,7 +122,13 @@ const EditGuest = () => {
                             label="Email address" 
                             variant="outlined" 
                             style={{width: 400}}
-                            {...register("email", {required: "Email is required"})}
+                            {...register("email", {
+                                required: "Email is required",
+                                pattern: {
+                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                    message: "Invalid email address",
+                                },
+                            })} 
                             error={!!errors?.email}
                             helperText={errors?.email ? errors.email.message : null}
                             defaultValue={guestObject.email}   
@@ -122,7 +140,13 @@ const EditGuest = () => {
                             label="Address" 
                             variant="outlined" 
                             style={{width: 400}}
-                            {...register("address", {required: "Address is required"})}
+                            {...register("address", {
+                                required: "Address is required",
+                                pattern: {
+                                    value: /^.{0,256}$/,
+                                    message: "Address must be max 256 characters long"
+                                }
+                            })}
                             error={!!errors?.address}
                             helperText={errors?.address ? errors.address.message : null}
                             defaultValue={guestObject.address}   

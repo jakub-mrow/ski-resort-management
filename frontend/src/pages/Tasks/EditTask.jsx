@@ -66,7 +66,13 @@ const EditTask = () => {
                             label="Name" 
                             variant="outlined"
                             style={{width: 400}}
-                            {...register("name", {required: "Name is required"})}
+                            {...register("name", {
+                                required: "Name is required",
+                                pattern: {
+                                    value: /^[^0-9]{0,128}$/,
+                                    message: "Name cannot consist of numbers and is max 128 characters long"
+                                }
+                            })}
                             error={!!errors?.name}
                             helperText={errors?.name ? errors.name.message : null} 
                             defaultValue={taskObject.name}
@@ -77,7 +83,13 @@ const EditTask = () => {
                             label="Description" 
                             variant="outlined"
                             style={{width: 400}}
-                            {...register("description", {required: "Description is required"})}
+                            {...register("description", {
+                                required: "Description is required",
+                                pattern: {
+                                    value: /^.{0,256}$/,
+                                    message: "Description must be max 256 characters long"
+                                }
+                            })}
                             error={!!errors?.description}
                             helperText={errors?.description ? errors.description.message : null} 
                             defaultValue={taskObject.description}

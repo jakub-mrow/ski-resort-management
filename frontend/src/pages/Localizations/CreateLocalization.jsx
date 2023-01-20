@@ -46,7 +46,13 @@ function CreateLocalization() {
                         label="Name" 
                         variant="outlined"
                         style={{width: 400}}
-                        {...register("name", {required: "Name is required"})}
+                        {...register("name", {
+                            required: "Name is required",
+                            pattern: {
+                                value: /^[^0-9]{0,128}$/,
+                                message: "Name cannot consist of numbers and is max 128 characters long"
+                            }
+                        })}
                         error={!!errors?.name}
                         helperText={errors?.name ? errors.name.message : null} 
                     />
@@ -56,7 +62,13 @@ function CreateLocalization() {
                         label="Address" 
                         variant="outlined"
                         style={{width: 400}}
-                        {...register("address", {required: "Address is required"})}
+                        {...register("address", {
+                            required: "Address is required",
+                            pattern: {
+                                value: /^.{0,256}$/,
+                                message: "Address must be max 256 characters long"
+                            }
+                        })}
                         error={!!errors?.address}
                         helperText={errors?.address ? errors.address.message : null} 
                     />
