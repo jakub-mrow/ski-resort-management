@@ -39,8 +39,8 @@ function CreateReservation() {
         const fetchReservationOptionsdata = async () => {
             const data = await getReservationCreateData();
             setReservationOptionsData(data);
-            setEmployeeSelect(Object.keys(data.employees).map((key) => { return `${data.employees[key].name} ${data.employees[key].surname} ${data.employees[key].social_security_number}`;}));
-            setGuestSelect(Object.keys(data.guests).map((key) => { return `${data.guests[key].name} ${data.guests[key].surname} ${data.guests[key].social_security_number}`;}));
+            setEmployeeSelect(Object.keys(data.employees).map((key) => { return `${data.employees[key].name} ${data.employees[key].surname}, ${data.employees[key].social_security_number}`;}));
+            setGuestSelect(Object.keys(data.guests).map((key) => { return `${data.guests[key].name} ${data.guests[key].surname}, ${data.guests[key].social_security_number}`;}));
             setRoomSelect(Object.keys(data.rooms).map((key) => {return String(data.rooms[key].room_id)}))
         }
         fetchReservationOptionsdata();

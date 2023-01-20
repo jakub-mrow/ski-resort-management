@@ -35,7 +35,7 @@ const CreateMeal = () => {
         const fetchMealOptionsdata = async () => {
             const data = await getMealCreateData();
             setMealOptionsData(data);
-            setGuestSelect(Object.keys(data.guests).map((key) => { return `${data.guests[key].name} ${data.guests[key].surname} ${data.guests[key].social_security_number}`;}));
+            setGuestSelect(Object.keys(data.guests).map((key) => { return `${data.guests[key].name} ${data.guests[key].surname}, ${data.guests[key].social_security_number}`;}));
             setDishSelect(Object.keys(data.dishes).map((key) => { return String(data.dishes[key].name)}));
             setDessertSelect(Object.keys(data.desserts).map((key) => {return String(data.desserts[key].name)}));
         }
