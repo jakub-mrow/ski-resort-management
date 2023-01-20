@@ -49,8 +49,8 @@ function CreateLocalization() {
                         {...register("name", {
                             required: "Name is required",
                             pattern: {
-                                value: /^[^0-9]{0,128}$/,
-                                message: "Name cannot consist of numbers and is max 128 characters long"
+                                value: /^[\p{Lu}][\p{L}\s]{0,128}$/u,
+                                message: "Name must consist of letters, be capitalized and max 128 characters long"
                             }
                         })}
                         error={!!errors?.name}

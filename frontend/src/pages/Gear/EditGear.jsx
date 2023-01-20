@@ -86,8 +86,8 @@ const EditGear = () => {
                             {...register("type", {
                                 required: "Type is required",
                                 pattern: {
-                                    value: /^[^0-9]{0,256}$/,
-                                    message: "Type cannot consist of numbers and is max 256 characters long"
+                                    value: /^[\p{Lu}][\p{L}\s]{0,128}$/u,
+                                    message: "Type must consist of letters, be capitalized and max 256 characters long"
                                 }
                             })}
                             error={!!errors?.type}

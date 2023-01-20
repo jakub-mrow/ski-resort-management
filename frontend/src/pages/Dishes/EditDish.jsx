@@ -69,8 +69,8 @@ const EditDish = () => {
                             {...register("name", {
                                 required: "Name is required",
                                 pattern: {
-                                    value: /^[^0-9]{0,128}$/,
-                                    message: "Name cannot consist of numbers and is max 128 characters long"
+                                    value: /^[\p{Lu}][\p{L}\s]{0,128}$/u,
+                                    message: "Name must consist of letters, be capitalized and max 128 characters long"
                                 }
                             })}
                             error={!!errors?.name}
@@ -86,8 +86,8 @@ const EditDish = () => {
                             {...register("description", {
                                 required: "Description is required",
                                 pattern: {
-                                    value: /^[^0-9]{0,256}$/,
-                                    message: "Description cannot consist of numbers and is max 256 characters long"
+                                    value: /^[\p{Lu}][^0-9]{0,256}$/u,
+                                    message: "Description cannot consist of numbers, is capitalized and max 256 characters long"
                                 }
                             })}
                             error={!!errors?.description}

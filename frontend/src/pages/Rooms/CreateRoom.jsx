@@ -69,8 +69,8 @@ function CreateRoom() {
                         {...register("wing", {
                             required: "Wing is required",
                             pattern: {
-                                value: /^[^0-9]{0,128}$/,
-                                message: "Wing cannot consist of numbers and is max 128 characters long"
+                                value: /^[\p{Lu}][\p{L}]{0,128}$/u,
+                                message: "Wing must consist of letters, be capitalized and max 128 characters long"
                             }
                         })}
                         error={!!errors?.wing}
@@ -85,8 +85,8 @@ function CreateRoom() {
                         {...register("description", {
                             required: "Description is required",
                             pattern: {
-                                value: /^.{0,256}$/,
-                                message: "Description must be max 256 characters long"
+                                value: /^[\p{Lu}][^0-9]{0,256}$/u,
+                                message: "Description cannot consist of numbers, is capitalized and max 256 characters long"
                             }
                         })}
                         error={!!errors?.description}
