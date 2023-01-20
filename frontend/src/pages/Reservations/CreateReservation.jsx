@@ -73,8 +73,8 @@ function CreateReservation() {
     const onSubmit = async (data) => {
         data["date_from"] = dateFrom.toISOString().split('T')[0];
         data["date_to"] = dateTo.toISOString().split('T')[0];
-        data["employee"] = getEmployeeIdBySocialNum(employee.split(" ")[2]);
-        data["guest"] = getGuestIdBySocialNum(guest.split(" ")[2]);
+        data["employee"] = getEmployeeIdBySocialNum(employee.split(" ")[employee.split(" ").length - 1]);
+        data["guest"] = getGuestIdBySocialNum(guest.split(" ")[guest.split(" ").length - 1]);
         data["room"] = parseInt(room);
         console.log(data);
         const response = await postReservation(data);

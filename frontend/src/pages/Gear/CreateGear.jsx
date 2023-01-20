@@ -117,8 +117,8 @@ function CreateGear() {
                         {...register("size", {
                             required: "Size is required",
                             pattern: {
-                                value: /^.{0,128}$/,
-                                message: "Size must be max 128 characters long"
+                                value: /^[\p{L}0-9.]{0,128}$/u,
+                                message: "Size must be one word with max 128 characters"
                             }
                         })}
                         error={!!errors?.size}
