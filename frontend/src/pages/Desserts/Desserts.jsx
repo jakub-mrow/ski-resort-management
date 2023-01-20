@@ -84,22 +84,22 @@ const Desserts = () => {
         {
             field: "description",
             headerName: "Description",
-            width: 300
+            width: 550
         },
         {
             field: "calories",
             headerName: "Calories",
-            width: 200
+            width: 150
         },
         {
             field: "cost",
             headerName: "Preparation cost",
-            width: 200
+            width: 150
         },
         {
             field: "price",
             headerName: "Menu price",
-            width: 200
+            width: 150
         }
     ]
 
@@ -108,12 +108,12 @@ const Desserts = () => {
         <Header category="Page" title="Desserts" />
 
         <div className="flex flex-wrap lg:flex-nowrap justify-center">
-            <Box sx={{ height: 400, width: '100%' }}>
+            <Box sx={{ height: 650, width: '100%' }}>
                 <DataGrid
                     rows={desserts}
                     columns={columns.concat(actionColumn)}
-                    pageSize={5}
-                    rowsPerPageOptions={[5]}
+                    pageSize={10}
+                    rowsPerPageOptions={[10]}
                     checkboxSelection
                     disableSelectionOnClick
                     experimentalFeatures={{ newEditingApi: true }}
