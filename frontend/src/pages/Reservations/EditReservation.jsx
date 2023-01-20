@@ -196,7 +196,13 @@ function EditReservation() {
                         type="number" 
                         variant="outlined"
                         style={{width: 400}}
-                        {...register("number_of_people", {required: "Number of people is required"})}
+                        {...register("number_of_people", {
+                            required: "Number of people is required",
+                            pattern: {
+                                value: /^\d*[1-9]\d*$/,
+                                message: "Number of people must be greater than 0"
+                            }
+                        })}
                         defaultValue={reservationObject.number_of_people}
                         error={!!errors?.number_of_people}
                         helperText={errors?.number_of_people ? errors.number_of_people.message : null} 

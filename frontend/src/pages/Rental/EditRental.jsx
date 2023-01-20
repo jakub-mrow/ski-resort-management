@@ -207,8 +207,8 @@ const EditRental = () => {
                         {...register("price", {
                             required: "Price is required",
                             pattern: {
-                                value: /^[0-9]*\.?[0-9]+$/,
-                                message: "Number must be positive"
+                                value: /^\d+(\.\d{1,2})?$/,
+                                message: "Price must be a positive number with max 2 decimal digits"
                             }
                         })}
                         error={!!errors?.price}
