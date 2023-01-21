@@ -89,32 +89,32 @@ function Reservations() {
         {
             field: "date_from",
             headerName: "Date from",
-            width: 200
+            width: 150
         },
         {
             field: "date_to",
             headerName: "Date to",
-            width: 200
+            width: 150
         },
         {
             field: "number_of_people",
             headerName: "Number of people",
-            width: 150
+            width: 200
         },
         {
             field: "guest",
             headerName: "Guest",
-            width: 220
+            width: 250
         },
         {
             field: "room",
             headerName: "Room",
-            width: 200
+            width: 100
         },
         {
             field: "employee",
             headerName: "Employee",
-            width: 220
+            width: 250
         }
     ]
 
@@ -125,12 +125,12 @@ function Reservations() {
             <Header category="Page" title="Reservations" />
 
             <div className="flex flex-wrap lg:flex-nowrap justify-center">
-                <Box sx={{ height: 400, width: '100%' }}>
+                <Box sx={{ height: 650, width: '100%' }}>
                     <DataGrid
                         rows={reservations}
                         columns={columns.concat(actionColumn)}
-                        pageSize={5}
-                        rowsPerPageOptions={[5]}
+                        pageSize={10}
+                        rowsPerPageOptions={[10]}
                         checkboxSelection
                         disableSelectionOnClick
                         experimentalFeatures={{ newEditingApi: true }}

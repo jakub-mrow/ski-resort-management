@@ -22,11 +22,15 @@ const CreateDuty = () => {
     const [task, setTask] = useState("");
     const [localization, setLocalization] = useState("");
 
+    const [clearEmployee, setClearEmployee] = useState(Math.random().toString());
+    const [clearTask, setClearTask] = useState(Math.random().toString());
+    const [clearLocalization, setClearLocalization] = useState(Math.random().toString());
+
     useEffect(() => {
         const fetchDutyOptionsdata = async () => {
             const data = await getDutyCreateData();
             setDutyOptionsData(data);
-            setEmployeeSelect(Object.keys(data.employees).map((key) => { return `${data.employees[key].name} ${data.employees[key].surname} ${data.employees[key].social_security_number}`;}));
+            setEmployeeSelect(Object.keys(data.employees).map((key) => { return `${data.employees[key].name} ${data.employees[key].surname}, ${data.employees[key].social_security_number}`;}));
             setTaskSelect(Object.keys(data.tasks).map((key) => { return String(data.tasks[key].name)}));
             setLocalizationSelect(Object.keys(data.localizations).map((key) => {return String(data.localizations[key].name)}));
         }
@@ -84,6 +88,9 @@ const CreateDuty = () => {
             if (response) {
                 setAlertSeverity("success");
                 setShowAlert("Duty added successfully!");
+                setClearEmployee(Math.random().toString());
+                setClearTask(Math.random().toString());
+                setClearLocalization(Math.random().toString());
                 return;
             }
         } catch (error){
@@ -117,6 +124,8 @@ const CreateDuty = () => {
                     <Autocomplete
                         disablePortal
                         id="employeeSelectBox"
+                        key={clearEmployee}
+                        style={{width: 400}}
                         onChange={(event, newValue) => {
                             setEmployee(newValue);
                         }}
@@ -129,6 +138,8 @@ const CreateDuty = () => {
                     <Autocomplete
                         disablePortal
                         id="taskSelectBox"
+                        style={{width: 400}}
+                        key={clearTask}
                         onChange={(event, newValue) => {
                             setTask(newValue);
                         }}
@@ -141,6 +152,8 @@ const CreateDuty = () => {
                     <Autocomplete
                         disablePortal
                         id="localizationSelectBox"
+                        style={{width: 400}}
+                        key={clearLocalization}
                         onChange={(event, newValue) => {
                             setLocalization(newValue);
                         }}
@@ -155,7 +168,7 @@ const CreateDuty = () => {
                 </div>
             </form>
         </div>
-        <Snackbar open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
+        <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'right'}} key={'bottom' + 'right'} open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
             <Alert severity={alertSeverity}>{showAlert}</Alert>
         </Snackbar>
     </>

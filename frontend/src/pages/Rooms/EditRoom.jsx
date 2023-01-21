@@ -50,6 +50,7 @@ const EditRoom = () => {
 
         setAlertSeverity("success");
         setShowAlert("Room edited successfully!");
+        routeChange();
     }
 
 
@@ -66,6 +67,7 @@ const EditRoom = () => {
                             type="number" 
                             label="Room number" 
                             variant="filled"
+                            style={{width: 400}}
                             {...register("room_id", {
                                 required: "Room number is required",
                                 pattern: {
@@ -85,7 +87,14 @@ const EditRoom = () => {
                             id="outlined-basic" 
                             label="Wing" 
                             variant="outlined"
-                            {...register("wing", {required: "Wing is required"})}
+                            style={{width: 400}}
+                            {...register("wing", {
+                                required: "Wing is required",
+                                pattern: {
+                                    value: /^[\p{Lu}][\p{L}]{0,128}$/u,
+                                    message: "Wing must consist of letters, be capitalized and max 128 characters long"
+                                }
+                            })}
                             error={!!errors?.wing}
                             helperText={errors?.wing ? errors.wing.message : null} 
                             defaultValue={roomObject.wing}
@@ -95,7 +104,14 @@ const EditRoom = () => {
                             id="outlined-basic" 
                             label="Description" 
                             variant="outlined"
-                            {...register("description", {required: "Description is required"})}
+                            style={{width: 400}}
+                            {...register("description", {
+                                required: "Description is required",
+                                pattern: {
+                                    value: /^[\p{Lu}][^0-9]{0,256}$/u,
+                                    message: "Description cannot consist of numbers, is capitalized and max 256 characters long"
+                                }
+                            })}
                             error={!!errors?.description}
                             helperText={errors?.description ? errors.description.message : null} 
                             defaultValue={roomObject.description}
@@ -106,6 +122,7 @@ const EditRoom = () => {
                             type="number" 
                             label="Number of beds" 
                             variant="outlined"
+                            style={{width: 400}}
                             {...register("beds", {
                                 required: "Number of beds is required",
                                 pattern: {
@@ -122,11 +139,12 @@ const EditRoom = () => {
                             id="outlined-basic"
                             label="Price per night" 
                             variant="outlined"
+                            style={{width: 400}}
                             {...register("price", {
                                 required: "Price is required",
                                 pattern: {
                                     value: /^\d+(\.\d{1,2})?$/,
-                                    message: "Price must have max 2 decimal digits"
+                                    message: "Price must be a positive number with max 2 decimal digits"
                                 }
                             })}
                             error={!!errors?.price}
@@ -139,7 +157,7 @@ const EditRoom = () => {
                     </div>
             </form>
         </div>
-        <Snackbar open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
+        <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'right'}} key={'bottom' + 'right'} open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
             <Alert severity={alertSeverity}>{showAlert}</Alert>
         </Snackbar>
     </>

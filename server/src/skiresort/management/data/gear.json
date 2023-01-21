@@ -32,7 +32,7 @@
         "type": "Goggles",
         "name": "Oakley Flight Deck",
         "brand": "Oakley",
-        "size": "One Size"
+        "size": "Universal"
     },
     {
         "code": "12er5678",
@@ -60,7 +60,7 @@
         "type": "Ski Bindings",
         "name": "Marker Squire",
         "brand": "Marker",
-        "size": "One Size"
+        "size": "Universal"
     },
     {
         "code": "56ui1234",
@@ -130,14 +130,14 @@
         "type": "Ski Accessories",
         "name": "Black Diamond PIEPS DSP Pro",
         "brand": "Black Diamond",
-        "size": "One Size"
+        "size": "Universal"
     },
     {
         "code": "67cv7890",
         "type": "Ski Backpack",
         "name": "Osprey Kode",
         "brand": "Osprey",
-        "size": "One Size"
+        "size": "Universal"
     },
     {
         "code": "98uy7654",
@@ -172,7 +172,7 @@
         "type": "Goggles",
         "name": "Oakley Flight Deck",
         "brand": "Oakley",
-        "size": "One Size"
+        "size": "Universal"
     },
     {
         "code": "98uj6543",
@@ -200,7 +200,7 @@
         "type": "Ski Bindings",
         "name": "Marker Squire",
         "brand": "Marker",
-        "size": "One Size"
+        "size": "Universal"
     },
     {
         "code": "10vbn0987",

@@ -47,6 +47,7 @@ const EditGear = () => {
             if (response) {
                 setAlertSeverity("success");
                 setShowAlert("Gear edited successfully!");
+                routeChange();
                 return;
             }
         } catch (error){
@@ -68,7 +69,14 @@ const EditGear = () => {
                             id="outlined-basic" 
                             label="Code" 
                             variant="outlined"
-                            {...register("code", {required: "Code is required"})}
+                            style={{width: 400}}
+                            {...register("code", {
+                                required: "Code is required",
+                                pattern: {
+                                    value: /^[a-zA-Z0-9]{0,128}$/,
+                                    message: "Code must consist of letters or numbers and be max 128 characters long"
+                                }
+                            })}
                             error={!!errors?.code}
                             helperText={errors?.code ? errors.code.message : null} 
                             defaultValue={gearObject.code}
@@ -78,7 +86,14 @@ const EditGear = () => {
                             id="outlined-basic" 
                             label="Type" 
                             variant="outlined"
-                            {...register("type", {required: "Type is required"})}
+                            style={{width: 400}}
+                            {...register("type", {
+                                required: "Type is required",
+                                pattern: {
+                                    value: /^[\p{Lu}][\p{L}\s]{0,128}$/u,
+                                    message: "Type must consist of letters, be capitalized and max 256 characters long"
+                                }
+                            })}
                             error={!!errors?.type}
                             helperText={errors?.type ? errors.type.message : null} 
                             defaultValue={gearObject.type}
@@ -88,7 +103,14 @@ const EditGear = () => {
                             id="outlined-basic" 
                             label="Name" 
                             variant="outlined"
-                            {...register("name", {required: "Name is required"})}
+                            style={{width: 400}}
+                            {...register("name", {
+                                required: "Name is required",
+                                pattern: {
+                                    value: /^.{0,128}$/,
+                                    message: "Name must be max 128 characters long"
+                                }
+                            })}
                             error={!!errors?.name}
                             helperText={errors?.name ? errors.name.message : null} 
                             defaultValue={gearObject.name}
@@ -98,7 +120,14 @@ const EditGear = () => {
                             id="outlined-basic" 
                             label="Brand" 
                             variant="outlined"
-                            {...register("brand", {required: "Brand is required"})}
+                            style={{width: 400}}
+                            {...register("brand", {
+                                required: "Brand is required",
+                                pattern: {
+                                    value: /^.{0,128}$/,
+                                    message: "Brand must be max 128 characters long"
+                                }
+                            })}
                             error={!!errors?.brand}
                             helperText={errors?.brand ? errors.brand.message : null} 
                             defaultValue={gearObject.brand}
@@ -108,7 +137,14 @@ const EditGear = () => {
                             id="outlined-basic" 
                             label="Size" 
                             variant="outlined"
-                            {...register("size", {required: "Size is required"})}
+                            style={{width: 400}}
+                            {...register("size", {
+                                required: "Size is required",
+                                pattern: {
+                                    value: /^[\p{L}0-9.]{0,128}$/u,
+                                    message: "Size must be one word with max 128 characters"
+                                }
+                            })}
                             error={!!errors?.size}
                             helperText={errors?.size ? errors.size.message : null} 
                             defaultValue={gearObject.size}
@@ -119,7 +155,7 @@ const EditGear = () => {
                     </div>
             </form>
         </div>
-        <Snackbar open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
+        <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'right'}} key={'bottom' + 'right'} open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
             <Alert severity={alertSeverity}>{showAlert}</Alert>
         </Snackbar>
     </>

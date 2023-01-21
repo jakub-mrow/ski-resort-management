@@ -34,7 +34,7 @@ const EditDuty = () => {
     const fetchDutyOptionsdata = async () => {
         const data = await getDutyCreateData();
         setDutyOptionsData(data);
-        setEmployeeSelect(Object.keys(data.employees).map((key) => { return `${data.employees[key].name} ${data.employees[key].surname} ${data.employees[key].social_security_number}`;}));
+        setEmployeeSelect(Object.keys(data.employees).map((key) => { return `${data.employees[key].name} ${data.employees[key].surname}, ${data.employees[key].social_security_number}`;}));
         setTaskSelect(Object.keys(data.tasks).map((key) => { return String(data.tasks[key].name)}));
         setLocalizationSelect(Object.keys(data.localizations).map((key) => {return String(data.localizations[key].name)}));
     }
@@ -124,6 +124,7 @@ const EditDuty = () => {
             <Autocomplete
               disablePortal
               id="employeeSelectBox"
+              style={{width: 400}}
               onChange={(event, newValue) => {
                   setEmployee(newValue);
               }}
@@ -136,6 +137,7 @@ const EditDuty = () => {
             <Autocomplete
               disablePortal
               id="taskSelectBox"
+              style={{width: 400}}
               onChange={(event, newValue) => {
                   setTask(newValue);
               }}
@@ -148,6 +150,7 @@ const EditDuty = () => {
             <Autocomplete
               disablePortal
               id="localizationSelectBox"
+              style={{width: 400}}
               onChange={(event, newValue) => {
                   setLocalization(newValue);
               }}
@@ -163,7 +166,7 @@ const EditDuty = () => {
           </div>
         </form>
       </div>
-      <Snackbar open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
+      <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'right'}} key={'bottom' + 'right'} open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
           <Alert severity={alertSeverity}>{showAlert}</Alert>
       </Snackbar>
     </>

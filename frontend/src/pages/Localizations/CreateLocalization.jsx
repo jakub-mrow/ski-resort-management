@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 
 import { Header } from '../../components';
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,9 @@ import TextField from '@mui/material/TextField';
 function CreateLocalization() {
     const [showAlert, setShowAlert] = useState(null);
     const [alertSeverity, setAlertSeverity] = useState("error");
+
+    const nameRef = useRef(null);
+    const addressRef = useRef(null);
 
 
     let navigate = useNavigate(); 
@@ -29,9 +32,11 @@ function CreateLocalization() {
             setShowAlert("Internal server error");
             return;
         }
-
+        
         setAlertSeverity("success");
         setShowAlert("Localization added successfully!");
+        nameRef.current.value = "";
+        addressRef.current.value = "";
     }
 
     return (
@@ -44,8 +49,16 @@ function CreateLocalization() {
                     <TextField 
                         id="outlined-basic" 
                         label="Name" 
+                        inputRef={nameRef}
                         variant="outlined"
-                        {...register("name", {required: "Name is required"})}
+                        style={{width: 400}}
+                        {...register("name", {
+                            required: "Name is required",
+                            pattern: {
+                                value: /^[\p{Lu}][\p{L}\s]{0,128}$/u,
+                                message: "Name must consist of letters, be capitalized and max 128 characters long"
+                            }
+                        })}
                         error={!!errors?.name}
                         helperText={errors?.name ? errors.name.message : null} 
                     />
@@ -53,8 +66,16 @@ function CreateLocalization() {
                     <TextField 
                         id="outlined-basic" 
                         label="Address" 
+                        inputRef={addressRef}
                         variant="outlined"
-                        {...register("address", {required: "Address is required"})}
+                        style={{width: 400}}
+                        {...register("address", {
+                            required: "Address is required",
+                            pattern: {
+                                value: /^.{0,256}$/,
+                                message: "Address must be max 256 characters long"
+                            }
+                        })}
                         error={!!errors?.address}
                         helperText={errors?.address ? errors.address.message : null} 
                     />
@@ -64,7 +85,7 @@ function CreateLocalization() {
                 </div>
             </form>
         </div>
-        <Snackbar open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
+        <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'right'}} key={'bottom' + 'right'} open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
             <Alert severity={alertSeverity}>{showAlert}</Alert>
         </Snackbar>
     </>

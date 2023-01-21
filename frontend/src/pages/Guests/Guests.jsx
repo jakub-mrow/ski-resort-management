@@ -99,7 +99,7 @@ const Guests = () => {
         {
             field: "name",
             headerName: "Name",
-            width: 200
+            width: 100
         },
         {
             field: "surname",
@@ -114,7 +114,7 @@ const Guests = () => {
         {
             field: "address",
             headerName: "Address",
-            width: 300
+            width: 400
         }
     ]
 
@@ -123,12 +123,12 @@ const Guests = () => {
             <Header category="Page" title="Guests" />
 
             <div className="flex flex-wrap lg:flex-nowrap justify-center">
-                <Box sx={{ height: 400, width: '100%' }}>
+                <Box sx={{ height: 650, width: '100%' }}>
                     <DataGrid
                         rows={guests}
                         columns={columns.concat(actionColumn)}
-                        pageSize={5}
-                        rowsPerPageOptions={[5]}
+                        pageSize={10}
+                        rowsPerPageOptions={[10]}
                         checkboxSelection
                         disableSelectionOnClick
                         experimentalFeatures={{ newEditingApi: true }}
