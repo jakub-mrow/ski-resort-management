@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 
 import { Header } from '../../components';
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,12 @@ import TextField from '@mui/material/TextField';
 function CreateEmployee() {
     const [showAlert, setShowAlert] = useState(null);
     const [alertSeverity, setAlertSeverity] = useState("error");
+
+    const ssnRef = useRef(null);
+    const nameRef = useRef(null);
+    const surnameRef = useRef(null);
+    const jobRef = useRef(null);
+    const salaryRef = useRef(null);
 
 
     let navigate = useNavigate(); 
@@ -29,6 +35,11 @@ function CreateEmployee() {
             if (response) {
                 setAlertSeverity("success");
                 setShowAlert("Employee added successfully!");
+                ssnRef.current.value = "";
+                nameRef.current.value = "";
+                surnameRef.current.value = "";
+                jobRef.current.value = "";
+                salaryRef.current.value = "";
                 return;
             }
         } catch (error){
@@ -48,8 +59,10 @@ function CreateEmployee() {
                     <TextField 
                         id="outlined-basic"
                         type="number" 
-                        label="Social security number" 
+                        label="Social security number"
+                        inputRef={ssnRef} 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("social_security_number", {
                             required: "Social security number is required",
                             pattern: {
@@ -64,12 +77,14 @@ function CreateEmployee() {
                     <TextField 
                         id="outlined-basic" 
                         label="Name" 
+                        inputRef={nameRef} 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("name", {
                             required: "Name is required",
                             pattern: {
-                                value: /^[\s\p{L}]+$/u,
-                                message: "Name must consist of only letters"
+                                value: /^[\p{Lu}][\p{L}\s]{0,128}$/u,
+                                message: "Name must consist of letters, be capitalized and max 128 characters long"
                             }
                         })}
                         error={!!errors?.name}
@@ -79,12 +94,14 @@ function CreateEmployee() {
                     <TextField 
                         id="outlined-basic" 
                         label="Surname" 
+                        inputRef={surnameRef} 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("surname", {
                             required: "Surname is required",
                             pattern: {
-                                value: /^[\s\p{L}]+$/u,
-                                message: "Surname must consist of only letters"
+                                value: /^[\p{Lu}][\p{L}\s-]{0,128}$/u,
+                                message: "Surname must consist of letters, be capitalized and max 128 characters long"
                             }
                         })}
                         error={!!errors?.surname}
@@ -93,12 +110,14 @@ function CreateEmployee() {
                     <TextField 
                         id="outlined-basic" 
                         label="Job" 
+                        inputRef={jobRef} 
                         variant="outlined" 
+                        style={{width: 400}}
                         {...register("job", {
                             required: "Job is required",
                             pattern: {
-                                value: /^[\s\p{L}]+$/u,
-                                message: "Job must consist of only letters"
+                                value: /^[\p{Lu}][\s\p{L}]{0,128}$/u,
+                                message: "Job must consist of letters, be capitalized and max 128 characters long"
                             }
                         })}
                         error={!!errors?.job}
@@ -109,13 +128,14 @@ function CreateEmployee() {
                     <TextField 
                         id="outlined-basic"
                         label="Salary" 
+                        inputRef={salaryRef} 
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("salary", {
                             required: "Salary is required",
                             pattern: {
-                                //value: /^\d*[1-9]\d*$/,
                                 value: /^\d+(\.\d{1,2})?$/,
-                                message: "Salary must be greater than 0"
+                                message: "Salary must be a positive number with max 2 decimal digits"
                             }
                         })}
                         error={!!errors?.salary}
@@ -127,7 +147,7 @@ function CreateEmployee() {
                 </div>
             </form>
         </div>
-        <Snackbar open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
+        <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'right'}} key={'bottom' + 'right'} open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
             <Alert severity={alertSeverity}>{showAlert}</Alert>
         </Snackbar>
     </>

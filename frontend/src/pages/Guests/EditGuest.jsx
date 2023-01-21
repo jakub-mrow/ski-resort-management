@@ -47,6 +47,7 @@ const EditGuest = () => {
             if (response) {
                 setAlertSeverity("success");
                 setShowAlert("Guest edited successfully!");
+                routeChange();
                 return;
             }
         } catch (error){
@@ -71,11 +72,12 @@ const EditGuest = () => {
                             type="number" 
                             label="Social security number" 
                             variant="outlined"
+                            style={{width: 400}}
                             {...register("social_security_number", {
                                 required: "Social security number is required",
                                 pattern: {
-                                    value: /\d{11}/,
-                                    message: "Number must consist of 11 digits"
+                                    value: /^\d{11}$/,
+                                    message: "Number must consist of 11 digits and be positive"
                                 }
                             })}
                             error={!!errors?.social_security_number}
@@ -87,7 +89,14 @@ const EditGuest = () => {
                             id="outlined-basic" 
                             label="Name" 
                             variant="outlined"
-                            {...register("name", {required: "Name is required"})}
+                            style={{width: 400}}
+                            {...register("name", {
+                                required: "Name is required",
+                                pattern: {
+                                    value: /^[\p{Lu}][\p{L}\s]{0,128}$/u,
+                                    message: "Name must consist of letters, be capitalized and max 128 characters long"
+                                }
+                            })}
                             error={!!errors?.name}
                             helperText={errors?.name ? errors.name.message : null}
                             defaultValue={guestObject.name} 
@@ -97,7 +106,14 @@ const EditGuest = () => {
                             id="outlined-basic" 
                             label="Surname" 
                             variant="outlined"
-                            {...register("surname", {required: "Surname is required"})}
+                            style={{width: 400}}
+                            {...register("surname", {
+                                required: "Surname is required",
+                                pattern: {
+                                    value: /^[\p{Lu}][\p{L}\s-]{0,128}$/u,
+                                    message: "Surname must consist of letters, be capitalized and max 128 characters long"
+                                }
+                            })}
                             error={!!errors?.surname}
                             helperText={errors?.surname ? errors.surname.message : null}
                             defaultValue={guestObject.surname}   
@@ -106,7 +122,14 @@ const EditGuest = () => {
                             id="outlined-basic" 
                             label="Email address" 
                             variant="outlined" 
-                            {...register("email", {required: "Email is required"})}
+                            style={{width: 400}}
+                            {...register("email", {
+                                required: "Email is required",
+                                pattern: {
+                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                    message: "Invalid email address",
+                                },
+                            })} 
                             error={!!errors?.email}
                             helperText={errors?.email ? errors.email.message : null}
                             defaultValue={guestObject.email}   
@@ -117,7 +140,14 @@ const EditGuest = () => {
                             id="outlined-basic" 
                             label="Address" 
                             variant="outlined" 
-                            {...register("address", {required: "Address is required"})}
+                            style={{width: 400}}
+                            {...register("address", {
+                                required: "Address is required",
+                                pattern: {
+                                    value: /^.{0,256}$/,
+                                    message: "Address must be max 256 characters long"
+                                }
+                            })}
                             error={!!errors?.address}
                             helperText={errors?.address ? errors.address.message : null}
                             defaultValue={guestObject.address}   
@@ -129,7 +159,7 @@ const EditGuest = () => {
                     </div>
             </form>
         </div>
-        <Snackbar open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
+        <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'right'}} key={'bottom' + 'right'} open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
             <Alert severity={alertSeverity}>{showAlert}</Alert>
         </Snackbar>
     </>

@@ -86,27 +86,27 @@ const Rental = () => {
         {
             field: "date_from",
             headerName: "Date from",
-            width: 200
+            width: 150
         },
         {
             field: "date_to",
             headerName: "Date to",
-            width: 200
+            width: 150
         },
         {
             field: "price",
             headerName: "Price",
-            width: 150
+            width: 100
         },
         {
             field: "gear",
             headerName: "Gear",
-            width: 220
+            width: 300
         },
         {
             field: "guest",
             headerName: "Guest",
-            width: 220
+            width: 200
         },
         {
             field: "employee",
@@ -121,12 +121,12 @@ const Rental = () => {
             <Header category="Page" title="Rentals" />
 
             <div className="flex flex-wrap lg:flex-nowrap justify-center">
-                <Box sx={{ height: 400, width: '100%' }}>
+                <Box sx={{ height: 650, width: '100%' }}>
                     <DataGrid
                         rows={rentals}
                         columns={columns.concat(actionColumn)}
-                        pageSize={5}
-                        rowsPerPageOptions={[5]}
+                        pageSize={10}
+                        rowsPerPageOptions={[10]}
                         checkboxSelection
                         disableSelectionOnClick
                         experimentalFeatures={{ newEditingApi: true }}

@@ -91,22 +91,22 @@ const Meals = () => {
         {
             field: "date",
             headerName: "Date",
-            width: 100
+            width: 150
         },
         {
             field: "time_of_day",
             headerName: "Time of day",
-            width: 200
+            width: 150
         },
         {
             field: "dish",
             headerName: "Dish",
-            width: 200
+            width: 300
         },
         {
             field: "dessert",
             headerName: "Dessert",
-            width: 200
+            width: 300
         },
     ]
 
@@ -116,12 +116,12 @@ const Meals = () => {
             <Header category="Page" title="Meals" />
 
             <div className="flex flex-wrap lg:flex-nowrap justify-center">
-                <Box sx={{ height: 400, width: '100%' }}>
+                <Box sx={{ height: 650, width: '100%' }}>
                     <DataGrid
                         rows={meals}
                         columns={columns.concat(actionColumn)}
-                        pageSize={5}
-                        rowsPerPageOptions={[5]}
+                        pageSize={10}
+                        rowsPerPageOptions={[10]}
                         checkboxSelection
                         disableSelectionOnClick
                         experimentalFeatures={{ newEditingApi: true }}

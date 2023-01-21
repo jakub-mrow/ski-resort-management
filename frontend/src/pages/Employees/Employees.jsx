@@ -108,12 +108,12 @@ const Employees = () => {
         <Header category="Page" title="Employees" />
 
         <div className="flex flex-wrap lg:flex-nowrap justify-center">
-            <Box sx={{ height: 400, width: '100%' }}>
+            <Box sx={{ height: 650, width: '100%' }}>
                 <DataGrid
                     rows={employees}
                     columns={columns.concat(actionColumn)}
-                    pageSize={5}
-                    rowsPerPageOptions={[5]}
+                    pageSize={10}
+                    rowsPerPageOptions={[10]}
                     checkboxSelection
                     disableSelectionOnClick
                     experimentalFeatures={{ newEditingApi: true }}

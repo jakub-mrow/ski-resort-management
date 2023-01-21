@@ -1,21 +1,23 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-
 import { Header } from '../../components';
-
 import { getGuests, deleteGuest } from '../../api/guestRequests';
-
-import Button from '@mui/material/Button';
+import {Button, Alert, Snackbar } from '@mui/material';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import { useStateContext } from '../../context/ContextProvider';
+import { ConfirmDialog } from '../../components';
 
 
 const Guests = () => {
-
     const [guests, setGuests] = useState([]);
     const { guestObject, setGuestObject } = useStateContext();
+
+    const [showAlert, setShowAlert] = useState(null);
+    const [alertSeverity, setAlertSeverity] = useState("error");
+
+    const [confirmDialog, setConfirmDialog] = useState({isOpen: false, title: "", subtitle: ""})
 
     const sendGuestData = (data) => {
         setGuestObject(data)
@@ -54,11 +56,23 @@ const Guests = () => {
 
     const handleDelete = (id) => {
         try {
-            deleteGuest(id);
-            setGuests(guests.filter((item) => item.id !== id))
+            setConfirmDialog({
+                isOpen: true,
+                title: "Are you sure you want to delete this record?",
+                subtitle: "It may affect other relations",
+                onConfirm: () => {deleteGuestAction(id)}
+            })
         } catch (error) {
             console.log(error)
         }
+    }
+
+    const deleteGuestAction = (id) => {
+        setConfirmDialog({...confirmDialog, isOpen: false})
+        deleteGuest(id);
+        setGuests(guests.filter((item) => item.id !== id))
+        setAlertSeverity("success");
+        setShowAlert("Guest deleted successfully");
     }
 
     const actionColumn = [
@@ -99,7 +113,7 @@ const Guests = () => {
         {
             field: "name",
             headerName: "Name",
-            width: 200
+            width: 100
         },
         {
             field: "surname",
@@ -114,32 +128,41 @@ const Guests = () => {
         {
             field: "address",
             headerName: "Address",
-            width: 300
+            width: 400
         }
     ]
 
     return (
-        <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl space-y-4">
-            <Header category="Page" title="Guests" />
+        <>
+            <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl space-y-4">
+                <Header category="Page" title="Guests" />
 
-            <div className="flex flex-wrap lg:flex-nowrap justify-center">
-                <Box sx={{ height: 400, width: '100%' }}>
-                    <DataGrid
-                        rows={guests}
-                        columns={columns.concat(actionColumn)}
-                        pageSize={5}
-                        rowsPerPageOptions={[5]}
-                        checkboxSelection
-                        disableSelectionOnClick
-                        experimentalFeatures={{ newEditingApi: true }}
-                    />
-                </Box>
+                <div className="flex flex-wrap lg:flex-nowrap justify-center">
+                    <Box sx={{ height: 400, width: '100%' }}>
+                        <DataGrid
+                            rows={guests}
+                            columns={columns.concat(actionColumn)}
+                            pageSize={5}
+                            rowsPerPageOptions={[5]}
+                            checkboxSelection
+                            disableSelectionOnClick
+                            experimentalFeatures={{ newEditingApi: true }}
+                        />
+                    </Box>
+                </div>
+            
+                <div className="flex flex-col space-y-4 mx-auto justify-center items-center">
+                    <Button variant="contained" onClick={routeChange}>Add new guest</Button>
+                </div>
             </div>
-        
-            <div className="flex flex-col space-y-4 mx-auto justify-center items-center">
-                <Button variant="contained" onClick={routeChange}>Add new guest</Button>
-            </div>
-        </div>
+            <Snackbar  anchorOrigin={{vertical: "bottom", horizontal: "right"}}open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
+                <Alert severity={alertSeverity}>{showAlert}</Alert>
+            </Snackbar>
+            <ConfirmDialog 
+                confirmDialog={confirmDialog}
+                setConfirmDialog={setConfirmDialog}
+            />
+        </>
     )
 };
 export default Guests;

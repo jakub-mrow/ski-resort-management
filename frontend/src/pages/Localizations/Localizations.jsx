@@ -79,12 +79,12 @@ const Localizations = () => {
         {
             field: "name",
             headerName: "Name",
-            width: 300
+            width: 600
         },
         {
             field: "address",
             headerName: "Address",
-            width: 300
+            width: 600
         }
     ]
 
@@ -93,12 +93,12 @@ const Localizations = () => {
         <Header category="Page" title="Localizations" />
 
         <div className="flex flex-wrap lg:flex-nowrap justify-center">
-            <Box sx={{ height: 400, width: '100%' }}>
+            <Box sx={{ height: 650, width: '100%' }}>
                 <DataGrid
                     rows={localizations}
                     columns={columns.concat(actionColumn)}
-                    pageSize={5}
-                    rowsPerPageOptions={[5]}
+                    pageSize={10}
+                    rowsPerPageOptions={[10]}
                     checkboxSelection
                     disableSelectionOnClick
                     experimentalFeatures={{ newEditingApi: true }}

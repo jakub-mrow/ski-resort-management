@@ -50,6 +50,7 @@ const EditLocalization = () => {
 
         setAlertSeverity("success");
         setShowAlert("Localization edited successfully!");
+        routeChange();
     }
 
 
@@ -65,7 +66,14 @@ const EditLocalization = () => {
                             id="outlined-basic" 
                             label="Name" 
                             variant="outlined"
-                            {...register("name", {required: "Name is required"})}
+                            style={{width: 400}}
+                            {...register("name", {
+                                required: "Name is required",
+                                pattern: {
+                                    value: /^[\p{Lu}][\p{L}\s]{0,128}$/u,
+                                    message: "Name must consist of letters, be capitalized and max 128 characters long"
+                                }
+                            })}
                             error={!!errors?.name}
                             helperText={errors?.name ? errors.name.message : null} 
                             defaultValue={localizationObject.name}
@@ -75,7 +83,14 @@ const EditLocalization = () => {
                             id="outlined-basic" 
                             label="Address" 
                             variant="outlined"
-                            {...register("address", {required: "Address is required"})}
+                            style={{width: 400}}
+                            {...register("address", {
+                                required: "Address is required",
+                                pattern: {
+                                    value: /^.{0,256}$/,
+                                    message: "Address must be max 256 characters long"
+                                }
+                            })}
                             error={!!errors?.address}
                             helperText={errors?.address ? errors.address.message : null} 
                             defaultValue={localizationObject.address}
@@ -86,7 +101,7 @@ const EditLocalization = () => {
                     </div>
             </form>
         </div>
-        <Snackbar open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
+        <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'right'}} key={'bottom' + 'right'} open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
             <Alert severity={alertSeverity}>{showAlert}</Alert>
         </Snackbar>
     </>

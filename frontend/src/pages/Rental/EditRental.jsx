@@ -41,8 +41,8 @@ const EditRental = () => {
         const fetchRentalOptionsdata = async () => {
             const data = await getRentalCreateData();
             setRentalOptionsData(data);
-            setEmployeeSelect(Object.keys(data.employees).map((key) => { return `${data.employees[key].name} ${data.employees[key].surname} ${data.employees[key].social_security_number}`;}));
-            setGuestSelect(Object.keys(data.guests).map((key) => { return `${data.guests[key].name} ${data.guests[key].surname} ${data.guests[key].social_security_number}`;}));
+            setEmployeeSelect(Object.keys(data.employees).map((key) => { return `${data.employees[key].name} ${data.employees[key].surname}, ${data.employees[key].social_security_number}`;}));
+            setGuestSelect(Object.keys(data.guests).map((key) => { return `${data.guests[key].name} ${data.guests[key].surname}, ${data.guests[key].social_security_number}`;}));
             setGearSelect(Object.keys(data.gear).map((key) => {return `${data.gear[key].name} ${data.gear[key].size}`}))
         }
         fetchRentalOptionsdata();
@@ -91,8 +91,8 @@ const EditRental = () => {
     const onSubmit = async (data) => {
         data["date_from"] = dateFrom.toISOString().split('T')[0];
         data["date_to"] = dateTo.toISOString().split('T')[0];
-        data["employee"] = getEmployeeIdBySocialNum(employee.split(" ")[2]);
-        data["guest"] = getGuestIdBySocialNum(guest.split(" ")[2]);
+        data["employee"] = getEmployeeIdBySocialNum(employee.split(" ")[employee.split(" ").length - 1]);
+        data["guest"] = getGuestIdBySocialNum(guest.split(" ")[guest.split(" ").length - 1]);
         data["gear"] = getGearIdByGearName(gear.split(" ").slice(0, -1).join(" "));
         console.log(data);
         try{
@@ -100,6 +100,7 @@ const EditRental = () => {
             if (response) {
                 setAlertSeverity("success");
                 setShowAlert("Rental edited successfully!");
+                routeChange();
                 return;
             }
         } catch (error){
@@ -163,6 +164,7 @@ const EditRental = () => {
                     <Autocomplete
                         disablePortal
                         id="employeeSelectBox"
+                        style={{width: 400}}
                         onChange={(event, newValue) => {
                             setEmployee(newValue);
                         }}
@@ -175,6 +177,7 @@ const EditRental = () => {
                     <Autocomplete
                         disablePortal
                         id="guestSelectBox"
+                        style={{width: 400}}
                         onChange={(event, newValue) => {
                             setGuest(newValue);
                         }}
@@ -186,6 +189,7 @@ const EditRental = () => {
                     <Autocomplete
                         disablePortal
                         id="gearSelectBox"
+                        style={{width: 400}}
                         onChange={(event, newValue) => {
                             setGear(newValue);
                         }}
@@ -197,14 +201,14 @@ const EditRental = () => {
                     <TextField 
                         id="outlined-basic" 
                         label="Price"
-                        type="number" 
                         variant="outlined"
                         //defaultValue={rentalObject.price}
+                        style={{width: 400}}
                         {...register("price", {
                             required: "Price is required",
                             pattern: {
-                                value: /^[0-9]*\.?[0-9]+$/,
-                                message: "Number must be positive"
+                                value: /^\d+(\.\d{1,2})?$/,
+                                message: "Price must be a positive number with max 2 decimal digits"
                             }
                         })}
                         error={!!errors?.price}
@@ -217,7 +221,7 @@ const EditRental = () => {
                 </div>
             </form>
         </div>
-        <Snackbar open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
+        <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'right'}} key={'bottom' + 'right'} open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
             <Alert severity={alertSeverity}>{showAlert}</Alert>
         </Snackbar>
     </>

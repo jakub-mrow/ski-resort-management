@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
 import { Header } from '../../components';
 import { useNavigate } from "react-router-dom";
@@ -33,14 +33,20 @@ function CreateReservation() {
     const [guest, setGuest] = useState("");
     const [room, setRoom] = useState(0);
 
+    const[clearEmployee, setClearEmployee] = useState(Math.random().toString());
+    const[clearGuest, setClearGuest] = useState(Math.random().toString());
+    const[clearRoom, setClearRoom] = useState(Math.random().toString());
+    
+    const numberRef = useRef(null);
+
     const [unavailabiltyList, setUnavailabilityList] = useState(false);
 
     useEffect(() => {
         const fetchReservationOptionsdata = async () => {
             const data = await getReservationCreateData();
             setReservationOptionsData(data);
-            setEmployeeSelect(Object.keys(data.employees).map((key) => { return `${data.employees[key].name} ${data.employees[key].surname} ${data.employees[key].social_security_number}`;}));
-            setGuestSelect(Object.keys(data.guests).map((key) => { return `${data.guests[key].name} ${data.guests[key].surname} ${data.guests[key].social_security_number}`;}));
+            setEmployeeSelect(Object.keys(data.employees).map((key) => { return `${data.employees[key].name} ${data.employees[key].surname}, ${data.employees[key].social_security_number}`;}));
+            setGuestSelect(Object.keys(data.guests).map((key) => { return `${data.guests[key].name} ${data.guests[key].surname}, ${data.guests[key].social_security_number}`;}));
             setRoomSelect(Object.keys(data.rooms).map((key) => {return String(data.rooms[key].room_id)}))
         }
         fetchReservationOptionsdata();
@@ -73,8 +79,8 @@ function CreateReservation() {
     const onSubmit = async (data) => {
         data["date_from"] = dateFrom.toISOString().split('T')[0];
         data["date_to"] = dateTo.toISOString().split('T')[0];
-        data["employee"] = getEmployeeIdBySocialNum(employee.split(" ")[2]);
-        data["guest"] = getGuestIdBySocialNum(guest.split(" ")[2]);
+        data["employee"] = getEmployeeIdBySocialNum(employee.split(" ")[employee.split(" ").length - 1]);
+        data["guest"] = getGuestIdBySocialNum(guest.split(" ")[guest.split(" ").length - 1]);
         data["room"] = parseInt(room);
         console.log(data);
 
@@ -83,6 +89,10 @@ function CreateReservation() {
             if (response) {
                 setAlertSeverity("success");
                 setShowAlert("Reservation added successfully!");
+                setClearEmployee(Math.random().toString());
+                setClearGuest(Math.random().toString());
+                setClearRoom(Math.random().toString());
+                numberRef.current.value = "";
                 return;
             }
         } catch (error){
@@ -151,6 +161,8 @@ function CreateReservation() {
                     <Autocomplete
                         disablePortal
                         id="employeeSelectBox"
+                        key={clearEmployee}
+                        style={{width: 400}}
                         onChange={(event, newValue) => {
                             setEmployee(newValue);
                         }}
@@ -163,6 +175,8 @@ function CreateReservation() {
                     <Autocomplete
                         disablePortal
                         id="guestSelectBox"
+                        key={clearGuest}
+                        style={{width: 400}}
                         onChange={(event, newValue) => {
                             setGuest(newValue);
                         }}
@@ -174,6 +188,8 @@ function CreateReservation() {
                     <Autocomplete
                         disablePortal
                         id="roomSelectBox"
+                        key={clearRoom}
+                        style={{width: 400}}
                         onChange={(event, newValue) => {
                             setRoom(newValue);
                             const getUnavailabiltyList = async (room_id) => {
@@ -190,9 +206,17 @@ function CreateReservation() {
                     <TextField 
                         id="outlined-basic" 
                         label="Number of people"
+                        inputRef={numberRef}
                         type="number" 
                         variant="outlined"
-                        {...register("number_of_people", {required: "Number of people is required"})}
+                        style={{width: 400}}
+                        {...register("number_of_people", {
+                            required: "Number of people is required",
+                            pattern: {
+                                value: /^\d*[1-9]\d*$/,
+                                message: "Number of people must be greater than 0"
+                            }
+                        })}
                         error={!!errors?.number_of_people}
                         helperText={errors?.number_of_people ? errors.number_of_people.message : null} 
                     />
@@ -203,7 +227,11 @@ function CreateReservation() {
                 </div>
             </form>
         </div>
+<<<<<<< HEAD
         <Snackbar open={showAlert !== null} autoHideDuration={6000} onClose={() => setShowAlert(null)}>
+=======
+        <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'right'}} key={'bottom' + 'right'} open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
+>>>>>>> ce2b4e4723e2aa26dff2aa64604a6814e1a7c122
             <Alert severity={alertSeverity}>{showAlert}</Alert>
         </Snackbar>
     </>
