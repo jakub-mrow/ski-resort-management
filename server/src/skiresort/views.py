@@ -10,7 +10,7 @@ from rest_framework.decorators import action
 
 from django.db import connection
 
-from .utils import generate_range_of_dates
+from .utils import generate_range_of_dates, date_range_overlap
 
 
 logger = logging.getLogger(__name__)
@@ -174,6 +174,25 @@ class ReservationsViewSet(viewsets.ModelViewSet):
     def create(self, request):
         reservation_serializer = serializers.ReservationSerializer(data=request.data)
         reservation_serializer.is_valid(raise_exception=True)
+
+        new_date_from = request.data["date_from"]
+        new_date_to = request.data["date_to"]
+        new_date_range = generate_range_of_dates(new_date_from, new_date_to)
+
+        room_id = request.data["room"]
+        reservations = models.Reservation.objects.filter(room_id=room_id)
+
+        unavailability_serializer = serializers.RoomUnavailabiltySerializer(reservations, many=True)
+
+        unavailable_dates = []
+        for reservation in unavailability_serializer.data:
+            date_from = reservation.get("date_from")
+            date_to = reservation.get("date_to")
+            date_range = generate_range_of_dates(date_from, date_to)
+            unavailable_dates.extend(date_range)
+
+        if date_range_overlap(new_date_range, unavailable_dates):
+            return Response(data={"msg": "Chosen date range overlaps with unavailable dates"}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
         reservation_serializer.save()
 

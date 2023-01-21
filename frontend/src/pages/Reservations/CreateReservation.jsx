@@ -77,14 +77,23 @@ function CreateReservation() {
         data["guest"] = getGuestIdBySocialNum(guest.split(" ")[2]);
         data["room"] = parseInt(room);
         console.log(data);
-        const response = await postReservation(data);
-        if (!response) {
-            setShowAlert("Internal server error");
-            return;
-        }
 
-        setAlertSeverity("success");
-        setShowAlert("Reservation added successfully!");
+        try{
+            const response = await postReservation(data);
+            if (response) {
+                setAlertSeverity("success");
+                setShowAlert("Reservation added successfully!");
+                return;
+            }
+        } catch (error){
+            setAlertSeverity("error");
+            const errorMsg = JSON.parse(error.message);
+            if ("msg" in errorMsg){
+                setShowAlert(errorMsg.msg);
+            } else {
+                setShowAlert("Internal server error. Redo the operation or contact administrator.")
+            }
+        }
     }
 
     const handleDateFromChange = (newDate) => {
@@ -194,7 +203,7 @@ function CreateReservation() {
                 </div>
             </form>
         </div>
-        <Snackbar open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
+        <Snackbar open={showAlert !== null} autoHideDuration={6000} onClose={() => setShowAlert(null)}>
             <Alert severity={alertSeverity}>{showAlert}</Alert>
         </Snackbar>
     </>
