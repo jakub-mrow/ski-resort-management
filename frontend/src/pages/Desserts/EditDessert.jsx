@@ -50,6 +50,7 @@ const EditDessert = () => {
 
         setAlertSeverity("success");
         setShowAlert("Dessert edited successfully!");
+        routeChange();
     }
 
 

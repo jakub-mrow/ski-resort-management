@@ -50,6 +50,7 @@ const EditTask = () => {
 
         setAlertSeverity("success");
         setShowAlert("Task edited successfully!");
+        routeChange();
     }
 
 

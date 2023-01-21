@@ -50,6 +50,7 @@ const EditRoom = () => {
 
         setAlertSeverity("success");
         setShowAlert("Room edited successfully!");
+        routeChange();
     }
 
 

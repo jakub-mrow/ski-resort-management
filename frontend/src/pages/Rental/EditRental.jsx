@@ -100,6 +100,7 @@ const EditRental = () => {
             if (response) {
                 setAlertSeverity("success");
                 setShowAlert("Rental edited successfully!");
+                routeChange();
                 return;
             }
         } catch (error){

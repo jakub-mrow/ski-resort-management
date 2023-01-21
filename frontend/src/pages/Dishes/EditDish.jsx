@@ -50,6 +50,7 @@ const EditDish = () => {
 
         setAlertSeverity("success");
         setShowAlert("Dish edited successfully!");
+        routeChange();
     }
 
 

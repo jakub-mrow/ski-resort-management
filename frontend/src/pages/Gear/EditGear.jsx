@@ -50,6 +50,7 @@ const EditGear = () => {
 
         setAlertSeverity("success");
         setShowAlert("Gear edited successfully!");
+        routeChange();
     }
 
 

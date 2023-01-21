@@ -100,6 +100,7 @@ const EditMeal = () => {
             if (response) {
                 setAlertSeverity("success");
                 setShowAlert("Meal edited successfully!");
+                routeChange();
                 return;
             }
         } catch (error){

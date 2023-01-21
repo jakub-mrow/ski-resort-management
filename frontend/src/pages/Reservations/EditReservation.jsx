@@ -94,6 +94,7 @@ function EditReservation() {
 
         setAlertSeverity("success");
         setShowAlert("Reservation edited successfully!");
+        routeChange();
     }
 
     const handleDateFromChange = (newDate) => {
