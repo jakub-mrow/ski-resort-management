@@ -113,7 +113,7 @@ const Guests = () => {
         {
             field: "name",
             headerName: "Name",
-            width: 200
+            width: 100
         },
         {
             field: "surname",
@@ -128,7 +128,7 @@ const Guests = () => {
         {
             field: "address",
             headerName: "Address",
-            width: 300
+            width: 400
         }
     ]
 

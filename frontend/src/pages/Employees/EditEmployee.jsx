@@ -48,6 +48,7 @@ const EditEmployee = () => {
             if (response) {
                 setAlertSeverity("success");
                 setShowAlert("Employee edited successfully!");
+                routeChange();
                 return;
             }
         } catch (error){
@@ -70,6 +71,7 @@ const EditEmployee = () => {
                             type="number" 
                             label="Social security number" 
                             variant="outlined"
+                            style={{width: 400}}
                             {...register("social_security_number", {
                                 required: "Social security number is required",
                                 pattern: {
@@ -86,11 +88,12 @@ const EditEmployee = () => {
                             id="outlined-basic" 
                             label="Name" 
                             variant="outlined"
+                            style={{width: 400}}
                             {...register("name", {
                                 required: "Name is required",
                                 pattern: {
-                                    value: /^[\s\p{L}]+$/u,
-                                    message: "Name must consist of only letters"
+                                    value: /^[\p{Lu}][\p{L}\s]{0,128}$/u,
+                                    message: "Name must consist of letters, be capitalized and max 128 characters long"
                                 }
                             })}
                             error={!!errors?.name}
@@ -102,11 +105,12 @@ const EditEmployee = () => {
                             id="outlined-basic" 
                             label="Surname" 
                             variant="outlined"
+                            style={{width: 400}}
                             {...register("surname", {
                                 required: "Surname is required",
                                 pattern: {
-                                    value: /^[\s\p{L}]+$/u,
-                                    message: "Surname must consist of only letters"
+                                    value: /^[\p{Lu}][\p{L}\s-]{0,128}$/u,
+                                    message: "Surname must consist of letters, be capitalized and max 128 characters long"
                                 }
                             })}
                             error={!!errors?.surname}
@@ -117,11 +121,12 @@ const EditEmployee = () => {
                             id="outlined-basic" 
                             label="Job" 
                             variant="outlined" 
+                            style={{width: 400}}
                             {...register("job", {
                                 required: "Job is required",
                                 pattern: {
-                                    value: /^[\s\p{L}]+$/u,
-                                    message: "Job must consist of only letters"
+                                    value: /^[\p{Lu}][\s\p{L}]{0,128}$/u,
+                                    message: "Job must consist of letters, be capitalized and max 128 characters long"
                                 }
                             })}
                             error={!!errors?.job}
@@ -134,12 +139,12 @@ const EditEmployee = () => {
                             id="outlined-basic" 
                             label="Salary" 
                             variant="outlined" 
+                            style={{width: 400}}
                             {...register("salary", {
                                 required: "Salary is required",
                                 pattern: {
-                                    //value: /^\d*[1-9]\d*$/,
                                     value: /^\d+(\.\d{1,2})?$/,
-                                    message: "Salary must be greater than 0"
+                                    message: "Salary must be a positive number with max 2 decimal digits"
                                 }
                             })}
                             error={!!errors?.salary}
@@ -153,7 +158,7 @@ const EditEmployee = () => {
                     </div>
             </form>
         </div>
-        <Snackbar open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
+        <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'right'}} key={'bottom' + 'right'} open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
             <Alert severity={alertSeverity}>{showAlert}</Alert>
         </Snackbar>
     </>

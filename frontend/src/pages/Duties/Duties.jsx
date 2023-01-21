@@ -86,17 +86,17 @@ const Duties = () => {
         {
             field: "employee",
             headerName: "Employee",
-            width: 200
+            width: 300
         },
         {
             field: "task",
             headerName: "Task",
-            width: 200
+            width: 400
         },
         {
             field: "localization",
             headerName: "Localization",
-            width: 200
+            width: 400
         },
     ]
 
@@ -106,12 +106,12 @@ const Duties = () => {
             <Header category="Page" title="Duties" />
 
             <div className="flex flex-wrap lg:flex-nowrap justify-center">
-                <Box sx={{ height: 400, width: '100%' }}>
+                <Box sx={{ height: 650, width: '100%' }}>
                     <DataGrid
                         rows={duties}
                         columns={columns.concat(actionColumn)}
-                        pageSize={5}
-                        rowsPerPageOptions={[5]}
+                        pageSize={10}
+                        rowsPerPageOptions={[10]}
                         checkboxSelection
                         disableSelectionOnClick
                         experimentalFeatures={{ newEditingApi: true }}

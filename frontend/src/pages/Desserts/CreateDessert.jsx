@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 
 import { Header } from '../../components';
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,12 @@ import TextField from '@mui/material/TextField';
 function CreateDessert() {
     const [showAlert, setShowAlert] = useState(null);
     const [alertSeverity, setAlertSeverity] = useState("error");
+
+    const nameRef = useRef(null);
+    const descriptionRef = useRef(null);
+    const caloriesRef = useRef(null);
+    const costRef = useRef(null);
+    const priceRef = useRef(null);
 
 
     let navigate = useNavigate(); 
@@ -32,6 +38,11 @@ function CreateDessert() {
 
         setAlertSeverity("success");
         setShowAlert("Dessert added successfully!");
+        nameRef.current.value = "";
+        descriptionRef.current.value = "";
+        caloriesRef.current.value = "";
+        costRef.current.value = "";
+        priceRef.current.value = "";
     }
 
     return (
@@ -44,8 +55,16 @@ function CreateDessert() {
                     <TextField 
                         id="outlined-basic" 
                         label="Name" 
+                        inputRef={nameRef}
                         variant="outlined"
-                        {...register("name", {required: "Name is required"})}
+                        style={{width: 400}}
+                        {...register("name", {
+                            required: "Name is required",
+                            pattern: {
+                                value: /^[\p{Lu}][\p{L}\s]{0,128}$/u,
+                                message: "Name must consist of letters, be capitalized and max 128 characters long"
+                            }
+                        })}
                         error={!!errors?.name}
                         helperText={errors?.name ? errors.name.message : null} 
                     />
@@ -53,8 +72,16 @@ function CreateDessert() {
                     <TextField 
                         id="outlined-basic" 
                         label="Description" 
+                        inputRef={descriptionRef}
                         variant="outlined"
-                        {...register("description", {required: "Description is required"})}
+                        style={{width: 400}}
+                        {...register("description", {
+                            required: "Description is required",
+                            pattern: {
+                                value: /^[\p{Lu}][^0-9]{0,256}$/u,
+                                message: "Description cannot consist of numbers, is capitalized and max 256 characters long"
+                            }
+                        })}
                         error={!!errors?.description}
                         helperText={errors?.description ? errors.description.message : null} 
                     />
@@ -63,7 +90,9 @@ function CreateDessert() {
                         id="outlined-basic"
                         type="number" 
                         label="Calories" 
+                        inputRef={caloriesRef}
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("calories", {
                             required: "Calories are required",
                             pattern: {
@@ -78,12 +107,14 @@ function CreateDessert() {
                     <TextField 
                         id="outlined-basic" 
                         label="Preparation cost" 
+                        inputRef={costRef}
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("cost", {
                             required: "Cost is required",
                             pattern: {
                                 value: /^\d+(\.\d{1,2})?$/,
-                                message: "Cost must have max 2 decimal digits"
+                                message: "Cost must be a positive number with max 2 decimal digits"
                             }
                         })}
                         error={!!errors?.cost}
@@ -93,12 +124,14 @@ function CreateDessert() {
                     <TextField 
                         id="outlined-basic"
                         label="Menu price" 
+                        inputRef={priceRef}
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("price", {
                             required: "Price is required",
                             pattern: {
                                 value: /^\d+(\.\d{1,2})?$/,
-                                message: "Price must have max 2 decimal digits"
+                                message: "Price must be a positive number with max 2 decimal digits"
                             }
                         })}
                         error={!!errors?.price}
@@ -110,7 +143,7 @@ function CreateDessert() {
                 </div>
             </form>
         </div>
-        <Snackbar open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
+        <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'right'}} key={'bottom' + 'right'} open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
             <Alert severity={alertSeverity}>{showAlert}</Alert>
         </Snackbar>
     </>

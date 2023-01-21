@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 
 import { Header } from '../../components';
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,12 @@ import TextField from '@mui/material/TextField';
 function CreateRoom() {
     const [showAlert, setShowAlert] = useState(null);
     const [alertSeverity, setAlertSeverity] = useState("error");
+
+    const numberRef = useRef(null);
+    const wingRef = useRef(null);
+    const descriptionRef = useRef(null);
+    const bedsRef = useRef(null);
+    const priceRef = useRef(null);
 
 
     let navigate = useNavigate(); 
@@ -29,6 +35,11 @@ function CreateRoom() {
             if (response) {
                 setAlertSeverity("success");
                 setShowAlert("Room added successfully!");
+                numberRef.current.value = "";
+                wingRef.current.value = "";
+                descriptionRef.current.value = "";
+                bedsRef.current.value = "";
+                priceRef.current.value = "";
                 return;
             }
         } catch (error){
@@ -48,7 +59,9 @@ function CreateRoom() {
                         id="outlined-basic"
                         type="number" 
                         label="Room number" 
+                        inputRef={numberRef}
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("room_id", {
                             required: "Room number is required",
                             pattern: {
@@ -63,8 +76,16 @@ function CreateRoom() {
                     <TextField 
                         id="outlined-basic" 
                         label="Wing" 
+                        inputRef={wingRef}
                         variant="outlined"
-                        {...register("wing", {required: "Wing is required"})}
+                        style={{width: 400}}
+                        {...register("wing", {
+                            required: "Wing is required",
+                            pattern: {
+                                value: /^[\p{Lu}][\p{L}]{0,128}$/u,
+                                message: "Wing must consist of letters, be capitalized and max 128 characters long"
+                            }
+                        })}
                         error={!!errors?.wing}
                         helperText={errors?.wing ? errors.wing.message : null} 
                     />
@@ -72,8 +93,16 @@ function CreateRoom() {
                     <TextField 
                         id="outlined-basic" 
                         label="Description" 
+                        inputRef={descriptionRef}
                         variant="outlined"
-                        {...register("description", {required: "Description is required"})}
+                        style={{width: 400}}
+                        {...register("description", {
+                            required: "Description is required",
+                            pattern: {
+                                value: /^[\p{Lu}][^0-9]{0,256}$/u,
+                                message: "Description cannot consist of numbers, is capitalized and max 256 characters long"
+                            }
+                        })}
                         error={!!errors?.description}
                         helperText={errors?.description ? errors.description.message : null} 
                     />
@@ -82,7 +111,9 @@ function CreateRoom() {
                         id="outlined-basic"
                         type="number" 
                         label="Number of beds" 
+                        inputRef={bedsRef}
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("beds", {
                             required: "Number of beds is required",
                             pattern: {
@@ -97,12 +128,14 @@ function CreateRoom() {
                     <TextField 
                         id="outlined-basic"
                         label="Price per night" 
+                        inputRef={priceRef}
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("price", {
                             required: "Price is required",
                             pattern: {
                                 value: /^\d+(\.\d{1,2})?$/,
-                                message: "Price must have max 2 decimal digits"
+                                message: "Price must be a positive number with max 2 decimal digits"
                             }
                         })}
                         error={!!errors?.price}
@@ -114,7 +147,7 @@ function CreateRoom() {
                 </div>
             </form>
         </div>
-        <Snackbar open={showAlert !== null} autoHideDuration={6000} onClose={() => setShowAlert(null)}>
+        <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'right'}} key={'bottom' + 'right'} open={showAlert !== null} autoHideDuration={6000} onClose={() => setShowAlert(null)}>
             <Alert severity={alertSeverity}>{showAlert}</Alert>
         </Snackbar>
     </>

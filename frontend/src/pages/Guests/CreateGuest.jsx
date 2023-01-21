@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 
 import { Header } from '../../components';
 import { useNavigate } from "react-router-dom";
@@ -14,6 +14,12 @@ function CreateGuest() {
     const [showAlert, setShowAlert] = useState(null);
     const [alertSeverity, setAlertSeverity] = useState("error");
 
+    const ssnRef = useRef(null);
+    const nameRef = useRef(null);
+    const surnameRef = useRef(null);
+    const emailRef = useRef(null);
+    const addressRef = useRef(null);
+
     let navigate = useNavigate(); 
     const routeChange = () =>{ 
         let path = `/guests`; 
@@ -28,6 +34,11 @@ function CreateGuest() {
             if (response) {
                 setAlertSeverity("success");
                 setShowAlert("Guest added successfully!");
+                ssnRef.current.value = "";
+                nameRef.current.value = "";
+                surnameRef.current.value = "";
+                emailRef.current.value = "";
+                addressRef.current.value = "";
                 return;
             }
         } catch (error){
@@ -50,7 +61,9 @@ function CreateGuest() {
                         id="outlined-basic"
                         type="number" 
                         label="Social security number" 
+                        inputRef={ssnRef}
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("social_security_number", {
                             required: "Social security number is required",
                             pattern: {
@@ -65,12 +78,14 @@ function CreateGuest() {
                     <TextField 
                         id="outlined-basic" 
                         label="Name" 
+                        inputRef={nameRef}
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("name", {
                             required: "Name is required",
                             pattern: {
-                                value: /^[\s\p{L}]+$/u,
-                                message: "Invalid name"
+                                value: /^[\p{Lu}][\p{L}\s]{0,128}$/u,
+                                message: "Name must consist of letters, be capitalized and max 128 characters long"
                             }
                         })}
                         error={!!errors?.name}
@@ -80,12 +95,14 @@ function CreateGuest() {
                     <TextField 
                         id="outlined-basic" 
                         label="Surname" 
+                        inputRef={surnameRef}
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("surname", {
                             required: "Surname is required",
                             pattern: {
-                                value: /^[\s\p{L}]+$/u,
-                                message: "Invalid surname"
+                                value: /^[\p{Lu}][\p{L}\s-]{0,128}$/u,
+                                message: "Surname must consist of letters, be capitalized and max 128 characters long"
                             }
                         })}
                         error={!!errors?.surname}
@@ -94,7 +111,9 @@ function CreateGuest() {
                     <TextField 
                         id="outlined-basic" 
                         label="Email address"
+                        inputRef={emailRef}
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("email", {
                             required: "Email is required",
                             pattern: {
@@ -110,8 +129,16 @@ function CreateGuest() {
                     <TextField 
                         id="outlined-basic" 
                         label="Address" 
+                        inputRef={addressRef}
                         variant="outlined" 
-                        {...register("address", {required: "Address is required"})}
+                        style={{width: 400}}
+                        {...register("address", {
+                            required: "Address is required",
+                            pattern: {
+                                value: /^.{0,256}$/,
+                                message: "Address must be max 256 characters long"
+                            }
+                        })}
                         error={!!errors?.address}
                         helperText={errors?.address ? errors.address.message : null}   
                         
@@ -122,7 +149,7 @@ function CreateGuest() {
                 </div>
             </form>
         </div>
-        <Snackbar open={showAlert !== null} autoHideDuration={5000} onClose={() => setShowAlert(null)}>
+        <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'right'}} key={'bottom' + 'right'} open={showAlert !== null} autoHideDuration={5000} onClose={() => setShowAlert(null)}>
             <Alert severity={alertSeverity}>{showAlert}</Alert>
         </Snackbar>
     </>

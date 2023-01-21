@@ -5,7 +5,7 @@ import { BsKanban, BsBarChart, BsBoxSeam, BsCurrencyDollar, BsShield, BsChatLeft
 import { BiColorFill } from 'react-icons/bi';
 import { IoMdContacts } from 'react-icons/io';
 import { RiContactsLine, RiStockLine } from 'react-icons/ri';
-import {FaUtensils, FaCookieBite, FaSkiing, FaMapMarkerAlt, FaTasks, FaDoorOpen, FaCalendarAlt, FaPizzaSlice, FaClipboardList } from 'react-icons/fa';
+import {FaUtensils, FaCookieBite, FaSkiing, FaMapMarkerAlt, FaTasks, FaDoorOpen, FaCalendarAlt, FaPizzaSlice, FaClipboardList, FaBook} from 'react-icons/fa';
 import { MdOutlineSupervisorAccount } from 'react-icons/md';
 import { HiOutlineRefresh } from 'react-icons/hi';
 import { TiTick } from 'react-icons/ti';
@@ -21,7 +21,7 @@ export const sidebarLinks = [
       links: [
         {
           name: 'information',
-          icon: <FiShoppingBag />,
+          icon: <FaBook />,
         },
       ],
     },
@@ -34,12 +34,33 @@ export const sidebarLinks = [
           icon: <FaCalendarAlt />,
         },
         {
+          name: 'meals',
+          icon: <FaUtensils />,
+        },
+        {
+          name: 'rentals',
+          icon: <FaCalendarAlt />,
+        },
+        {
+          name: 'duties',
+          icon: <FaClipboardList />,
+        },
+      ],
+    },
+    {
+      title: 'Administration',
+      links: [
+        {
+          name: 'guests',
+          icon: <RiContactsLine />,
+        },
+        {
           name: 'employees',
           icon: <IoMdContacts />,
         },
         {
-          name: 'guests',
-          icon: <RiContactsLine />,
+          name: 'rooms',
+          icon: <FaDoorOpen />,
         },
         {
           name: 'dishes',
@@ -54,28 +75,12 @@ export const sidebarLinks = [
           icon: <FaSkiing />,
         },
         {
-          name: 'localizations',
-          icon: <FaMapMarkerAlt />,
-        },
-        {
           name: 'tasks',
           icon: <FaTasks />,
         },
         {
-          name: 'rooms',
-          icon: <FaDoorOpen />,
-        },
-        {
-          name: 'rentals',
-          icon: <FaCalendarAlt />,
-        },
-        {
-          name: 'meals',
-          icon: <FaUtensils />,
-        },
-        {
-          name: 'duties',
-          icon: <FaClipboardList />,
+          name: 'localizations',
+          icon: <FaMapMarkerAlt />,
         },
       ],
     },

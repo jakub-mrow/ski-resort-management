@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
 import { Header } from '../../components';
 import { useNavigate } from "react-router-dom";
@@ -32,12 +32,18 @@ const CreateRental = () => {
     const [guest, setGuest] = useState("");
     const [gear, setGear] = useState("");
 
+    const[clearEmployee, setClearEmployee] = useState(Math.random().toString());
+    const[clearGuest, setClearGuest] = useState(Math.random().toString());
+    const[clearGear, setClearGear] = useState(Math.random().toString());
+
+    const priceRef = useRef(null);
+
     useEffect(() => {
         const fetchRentalOptionsdata = async () => {
             const data = await getRentalCreateData();
             setRentalOptionsData(data);
-            setEmployeeSelect(Object.keys(data.employees).map((key) => { return `${data.employees[key].name} ${data.employees[key].surname} ${data.employees[key].social_security_number}`;}));
-            setGuestSelect(Object.keys(data.guests).map((key) => { return `${data.guests[key].name} ${data.guests[key].surname} ${data.guests[key].social_security_number}`;}));
+            setEmployeeSelect(Object.keys(data.employees).map((key) => { return `${data.employees[key].name} ${data.employees[key].surname}, ${data.employees[key].social_security_number}`;}));
+            setGuestSelect(Object.keys(data.guests).map((key) => { return `${data.guests[key].name} ${data.guests[key].surname}, ${data.guests[key].social_security_number}`;}));
             setGearSelect(Object.keys(data.gear).map((key) => {return `${data.gear[key].name} ${data.gear[key].size}`}))
         }
         fetchRentalOptionsdata();
@@ -86,8 +92,8 @@ const CreateRental = () => {
     const onSubmit = async (data) => {
         data["date_from"] = dateFrom.toISOString().split('T')[0];
         data["date_to"] = dateTo.toISOString().split('T')[0];
-        data["employee"] = getEmployeeIdBySocialNum(employee.split(" ")[2]);
-        data["guest"] = getGuestIdBySocialNum(guest.split(" ")[2]);
+        data["employee"] = getEmployeeIdBySocialNum(employee.split(" ")[employee.split(" ").length - 1]);
+        data["guest"] = getGuestIdBySocialNum(guest.split(" ")[guest.split(" ").length - 1]);
         data["gear"] = getGearIdByGearName(gear.split(" ").slice(0, -1).join(" "));
         console.log(data);
         try{
@@ -95,6 +101,10 @@ const CreateRental = () => {
             if (response) {
                 setAlertSeverity("success");
                 setShowAlert("Rental added successfully!");
+                setClearEmployee(Math.random().toString());
+                setClearGuest(Math.random().toString());
+                setClearGear(Math.random().toString());
+                priceRef.current.value = "";
                 return;
             }
         } catch (error){
@@ -159,6 +169,8 @@ const CreateRental = () => {
                     <Autocomplete
                         disablePortal
                         id="employeeSelectBox"
+                        key={clearEmployee}
+                        style={{width: 400}}
                         onChange={(event, newValue) => {
                             setEmployee(newValue);
                         }}
@@ -171,6 +183,8 @@ const CreateRental = () => {
                     <Autocomplete
                         disablePortal
                         id="guestSelectBox"
+                        key={clearGuest}
+                        style={{width: 400}}
                         onChange={(event, newValue) => {
                             setGuest(newValue);
                         }}
@@ -182,6 +196,8 @@ const CreateRental = () => {
                     <Autocomplete
                         disablePortal
                         id="gearSelectBox"
+                        key={clearGear}
+                        style={{width: 400}}
                         onChange={(event, newValue) => {
                             setGear(newValue);
                         }}
@@ -193,13 +209,14 @@ const CreateRental = () => {
                     <TextField 
                         id="outlined-basic" 
                         label="Price"
-                        type="number" 
+                        inputRef={priceRef}
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("price", {
                             required: "Price is required",
                             pattern: {
-                                value: /^[0-9]*\.?[0-9]+$/,
-                                message: "Number must be positive"
+                                value: /^\d+(\.\d{1,2})?$/,
+                                message: "Price must be a positive number with max 2 decimal digits"
                             }
                         })}
                         error={!!errors?.price}
@@ -212,7 +229,7 @@ const CreateRental = () => {
                 </div>
             </form>
         </div>
-        <Snackbar open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
+        <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'right'}} key={'bottom' + 'right'} open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
             <Alert severity={alertSeverity}>{showAlert}</Alert>
         </Snackbar>
     </>

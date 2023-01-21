@@ -41,7 +41,7 @@ const EditMeal = () => {
       const fetchMealOptionsdata = async () => {
           const data = await getMealCreateData();
           setMealOptionsData(data);
-          setGuestSelect(Object.keys(data.guests).map((key) => { return `${data.guests[key].name} ${data.guests[key].surname} ${data.guests[key].social_security_number}`;}));
+          setGuestSelect(Object.keys(data.guests).map((key) => { return `${data.guests[key].name} ${data.guests[key].surname}, ${data.guests[key].social_security_number}`;}));
           setDishSelect(Object.keys(data.dishes).map((key) => { return String(data.dishes[key].name)}));
           setDessertSelect(Object.keys(data.desserts).map((key) => {return String(data.desserts[key].name)}));
       }
@@ -100,6 +100,7 @@ const EditMeal = () => {
             if (response) {
                 setAlertSeverity("success");
                 setShowAlert("Meal edited successfully!");
+                routeChange();
                 return;
             }
         } catch (error){
@@ -137,6 +138,7 @@ const EditMeal = () => {
                         disablePortal
                         id="guestSelectBox"
                         value={guest}
+                        style={{width: 400}}
                         onChange={(event, newValue) => {
                             setGuest(newValue);
                         }}
@@ -163,6 +165,7 @@ const EditMeal = () => {
                         id="outlined-basic" 
                         label="Time of day"
                         variant="outlined"
+                        style={{width: 400}}
                         {...register("time_of_day", {required: "Time of day is required"})}
                         defaultValue={mealObject.time_of_day}
                         error={!!errors?.time_of_day}
@@ -173,6 +176,7 @@ const EditMeal = () => {
                     <Autocomplete
                         disablePortal
                         id="dishSelectBox"
+                        style={{width: 400}}
                         onChange={(event, newValue) => {
                             setDish(newValue);
                         }}
@@ -185,6 +189,7 @@ const EditMeal = () => {
                     <Autocomplete
                         disablePortal
                         id="dessertSelectBox"
+                        style={{width: 400}}
                         onChange={(event, newValue) => {
                             setDessert(newValue);
                         }}
@@ -199,7 +204,7 @@ const EditMeal = () => {
                 </div>
             </form>
         </div>
-        <Snackbar open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
+        <Snackbar anchorOrigin={{vertical: 'bottom', horizontal: 'right'}} key={'bottom' + 'right'} open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
             <Alert severity={alertSeverity}>{showAlert}</Alert>
         </Snackbar>
     </>

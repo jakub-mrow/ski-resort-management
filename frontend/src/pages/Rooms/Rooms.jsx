@@ -79,22 +79,22 @@ const Rooms = () => {
         {
             field: "room_id",
             headerName: "Room number",
-            width: 200
+            width: 100
         },
         {
             field: "wing",
             headerName: "Wing",
-            width: 200
+            width: 100
         },
         {
             field: "description",
             headerName: "Description",
-            width: 300
+            width: 700
         },
         {
             field: "beds",
             headerName: "Number of beds",
-            width: 200
+            width: 100
         },
         {
             field: "price",
@@ -108,12 +108,12 @@ const Rooms = () => {
         <Header category="Page" title="Rooms" />
 
         <div className="flex flex-wrap lg:flex-nowrap justify-center">
-            <Box sx={{ height: 400, width: '100%' }}>
+            <Box sx={{ height: 650, width: '100%' }}>
                 <DataGrid
                     rows={rooms}
                     columns={columns.concat(actionColumn)}
-                    pageSize={5}
-                    rowsPerPageOptions={[5]}
+                    pageSize={10}
+                    rowsPerPageOptions={[10]}
                     checkboxSelection
                     disableSelectionOnClick
                     getRowId={(row) => row.room_id}
