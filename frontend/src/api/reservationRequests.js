@@ -84,5 +84,5 @@ export async function updateReservation(id, data) {
         return true;
     }
 
-    throw new Error(`Response ${response.status}: ${response.statusText} - ${await response.text()}`);
+    throw new Error(`${await response.text()}`);
 }

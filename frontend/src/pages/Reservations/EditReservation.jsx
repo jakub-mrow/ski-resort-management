@@ -33,7 +33,7 @@ function EditReservation() {
 
     const [employee, setEmployee] = useState("");
     const [guest, setGuest] = useState("");
-    const [room, setRoom] = useState(0);
+    const [room, setRoom] = useState(undefined);
 
     const [unavailabiltyList, setUnavailabilityList] = useState(false);
 
@@ -47,9 +47,6 @@ function EditReservation() {
             setEmployeeSelect(Object.keys(data.employees).map((key) => { return `${data.employees[key].name} ${data.employees[key].surname}, ${data.employees[key].social_security_number}`;}));
             setGuestSelect(Object.keys(data.guests).map((key) => { return `${data.guests[key].name} ${data.guests[key].surname}, ${data.guests[key].social_security_number}`;}));
             setRoomSelect(Object.keys(data.rooms).map((key) => {return String(data.rooms[key].room_id)}))
-            // let emptyObject = {};
-            // setReservationOptionsData({emptyObject, ...employeeObject});
-            // setTimeout(() => console.log(employeeObject), 3000);
             console.log(reservationObject);
         }
         fetchReservationOptionsdata();
@@ -79,22 +76,52 @@ function EditReservation() {
         }
     }
 
+    const capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     const onSubmit = async (data) => {
         data["date_from"] = dateFrom.toISOString().split('T')[0];
         data["date_to"] = dateTo.toISOString().split('T')[0];
         data["employee"] = getEmployeeIdBySocialNum(employee.split(" ")[employee.split(" ").length - 1]);
         data["guest"] = getGuestIdBySocialNum(guest.split(" ")[guest.split(" ").length - 1]);
-        data["room"] = parseInt(room);
-
-        const response = await updateReservation(params.id, data);
-        if (!response) {
-            setShowAlert("Internal server error");
-            return;
+        if (typeof(room) === 'string'){
+            data["room"] = parseInt(room)
+        } else {
+            data["room"] = room;
         }
 
-        setAlertSeverity("success");
-        setShowAlert("Reservation edited successfully!");
-        routeChange();
+        try {
+            const response = await updateReservation(params.id, data);
+            if (response){
+                setAlertSeverity("success");
+                setShowAlert("Reservation edited successfully!");
+                routeChange();
+            }
+        } catch (error) {
+            setAlertSeverity("error");
+            const errorMsg = JSON.parse(error.message);
+            console.log(errorMsg)
+            if (errorMsg.hasOwnProperty("non_field_errors")){
+                setShowAlert(errorMsg.non_field_errors)
+                return
+            }
+
+            if (errorMsg.hasOwnProperty("msg")){
+                setShowAlert(errorMsg.msg)
+                return
+            }
+
+            let errorUserResponse = ""
+            for (const [key, value] of Object.entries(errorMsg)){
+                const splitted = value[0].split(" ");
+                splitted.shift()
+                const joined = splitted.join(" ")
+                errorUserResponse += `${capitalizeFirstLetter(key)} ${joined} `
+            }
+            setShowAlert(errorUserResponse);
+        }
+    
     }
 
     const handleDateFromChange = (newDate) => {
@@ -106,7 +133,7 @@ function EditReservation() {
     }
 
     const disableUnavailableDates = (date) => {
-        const normalizedDate = date.toISOString().split("T")[0];
+        const normalizedDate = dayjs(date).format('YYYY-MM-DD');
         const dates = unavailabiltyList;
 
         if (dates !== false){
@@ -129,7 +156,7 @@ function EditReservation() {
                         <DesktopDatePicker
                             label="Date from Picker"
                             inputFormat="MM/DD/YYYY"
-                            //value={reservationObject.date_from}
+                            value={dateFrom}
                             onChange={handleDateFromChange}
                             disablePast={true}
                             shouldDisableDate={disableUnavailableDates}
@@ -138,7 +165,7 @@ function EditReservation() {
                         <DesktopDatePicker
                             label="Date to Picker"
                             inputFormat="MM/DD/YYYY"
-                            //value={reservationObject.date_to}
+                            value={dateTo}
                             onChange={handleDateToChange}
                             disablePast={true}
                             shouldDisableDate={disableUnavailableDates}
@@ -177,7 +204,11 @@ function EditReservation() {
                         id="roomSelectBox"
                         style={{width: 400}}
                         onChange={(event, newValue) => {
-                            setRoom(newValue);
+                            if (Object.is(newValue, null)){
+                                setRoom(undefined);
+                            } else {
+                                setRoom(newValue);
+                            }
                             const getUnavailabiltyList = async (room_id) => {
                                 const data = await getRoomUnavailabilty(room_id);
                                 setUnavailabilityList(data);

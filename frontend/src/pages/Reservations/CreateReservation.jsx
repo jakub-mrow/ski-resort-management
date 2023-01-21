@@ -15,7 +15,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import TextField from '@mui/material/TextField';
-
+import dayjs from 'dayjs';
 
 function CreateReservation() {
     const [showAlert, setShowAlert] = useState(null);
@@ -31,7 +31,7 @@ function CreateReservation() {
 
     const [employee, setEmployee] = useState("");
     const [guest, setGuest] = useState("");
-    const [room, setRoom] = useState(0);
+    const [room, setRoom] = useState(undefined);
 
     const[clearEmployee, setClearEmployee] = useState(Math.random().toString());
     const[clearGuest, setClearGuest] = useState(Math.random().toString());
@@ -76,12 +76,21 @@ function CreateReservation() {
         }
     }
 
+    const capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     const onSubmit = async (data) => {
+        console.log(dateFrom.toISOString());
         data["date_from"] = dateFrom.toISOString().split('T')[0];
         data["date_to"] = dateTo.toISOString().split('T')[0];
         data["employee"] = getEmployeeIdBySocialNum(employee.split(" ")[employee.split(" ").length - 1]);
         data["guest"] = getGuestIdBySocialNum(guest.split(" ")[guest.split(" ").length - 1]);
-        data["room"] = parseInt(room);
+        if (typeof(room) === 'string'){
+            data["room"] = parseInt(room)
+        } else {
+            data["room"] = room;
+        }
         console.log(data);
 
         try{
@@ -98,15 +107,30 @@ function CreateReservation() {
         } catch (error){
             setAlertSeverity("error");
             const errorMsg = JSON.parse(error.message);
-            if ("msg" in errorMsg){
-                setShowAlert(errorMsg.msg);
-            } else {
-                setShowAlert("Internal server error. Redo the operation or contact administrator.")
+            console.log(errorMsg)
+            if (errorMsg.hasOwnProperty("non_field_errors")){
+                setShowAlert(errorMsg.non_field_errors)
+                return
             }
+
+            if (errorMsg.hasOwnProperty("msg")){
+                setShowAlert(errorMsg.msg)
+                return
+            }
+
+            let errorUserResponse = ""
+            for (const [key, value] of Object.entries(errorMsg)){
+                const splitted = value[0].split(" ");
+                splitted.shift()
+                const joined = splitted.join(" ")
+                errorUserResponse += `${capitalizeFirstLetter(key)} ${joined} `
+            }
+            setShowAlert(errorUserResponse);
         }
     }
 
     const handleDateFromChange = (newDate) => {
+        console.log(newDate)
         setDateFrom(newDate);
     }
 
@@ -115,7 +139,7 @@ function CreateReservation() {
     }
 
     const disableUnavailableDates = (date) => {
-        const normalizedDate = date.toISOString().split("T")[0];
+        const normalizedDate = dayjs(date).format('YYYY-MM-DD');
         const dates = unavailabiltyList;
 
         if (dates !== false){
@@ -126,7 +150,6 @@ function CreateReservation() {
         }
 
     }
-
 
     return (
         <>
@@ -191,7 +214,11 @@ function CreateReservation() {
                         key={clearRoom}
                         style={{width: 400}}
                         onChange={(event, newValue) => {
-                            setRoom(newValue);
+                            if (Object.is(newValue, null)){
+                                setRoom(undefined);
+                            } else {
+                                setRoom(newValue);
+                            }
                             const getUnavailabiltyList = async (room_id) => {
                                 const data = await getRoomUnavailabilty(room_id);
                                 setUnavailabilityList(data);

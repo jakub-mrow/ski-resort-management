@@ -24,6 +24,7 @@ def date_range_overlap(first_date_range, second_date_range):
     delta = (earliest_end - latest_start).days + 1
     overlap = max(0, delta)
 
-    if overlap >= 0:
+    if overlap > 0:
+        print(overlap)
         return True
     return False 

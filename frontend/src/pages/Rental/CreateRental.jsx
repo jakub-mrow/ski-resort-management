@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import { postRental, getRentalCreateData } from '../../api/rentalRequests';
+import { getGearUnavailabilty } from '../../api/gearRequests';
 
 import { Button, Alert, Snackbar, Autocomplete } from '@mui/material';
 
@@ -13,8 +14,9 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
-import TextField from '@mui/material/TextField';
 
+import TextField from '@mui/material/TextField';
+import dayjs from 'dayjs';
 
 const CreateRental = () => {
     const [showAlert, setShowAlert] = useState(null);
@@ -35,6 +37,8 @@ const CreateRental = () => {
     const[clearEmployee, setClearEmployee] = useState(Math.random().toString());
     const[clearGuest, setClearGuest] = useState(Math.random().toString());
     const[clearGear, setClearGear] = useState(Math.random().toString());
+
+    const [unavailabiltyList, setUnavailabilityList] = useState(false);
 
     const priceRef = useRef(null);
 
@@ -88,6 +92,17 @@ const CreateRental = () => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
+    const disableUnavailableDates = (date) => {
+        const normalizedDate = dayjs(date).format('YYYY-MM-DD');
+        const dates = unavailabiltyList;
+        
+        if (dates !== false){
+            if (dates.includes(normalizedDate)){
+                return true;
+            }
+        }
+    }
+
 
     const onSubmit = async (data) => {
         data["date_from"] = dateFrom.toISOString().split('T')[0];
@@ -114,6 +129,12 @@ const CreateRental = () => {
                 setShowAlert(errorMsg.non_field_errors)
                 return
             }
+
+            if (errorMsg.hasOwnProperty("msg")){
+                setShowAlert(errorMsg.msg)
+                return
+            }
+
             console.log(errorMsg);
             let errorUserResponse = ""
             for (const [key, value] of Object.entries(errorMsg)){
@@ -151,7 +172,7 @@ const CreateRental = () => {
                             value={dateFrom}
                             onChange={handleDateFromChange}
                             disablePast={true}
-                            //shouldDisableDate={disableUnavailableDates}
+                            shouldDisableDate={disableUnavailableDates}
                             renderInput={(params) => <TextField {...params} />}
                         />
                         <DesktopDatePicker
@@ -160,7 +181,7 @@ const CreateRental = () => {
                             value={dateTo}
                             onChange={handleDateToChange}
                             disablePast={true}
-                            //shouldDisableDate={disableUnavailableDates}
+                            shouldDisableDate={disableUnavailableDates}
                             renderInput={(params) => <TextField {...params} />}
                         />
                     </LocalizationProvider>
@@ -199,7 +220,12 @@ const CreateRental = () => {
                         key={clearGear}
                         style={{width: 400}}
                         onChange={(event, newValue) => {
-                            setGear(newValue);
+                            setGear(newValue)
+                            const getUnavailabiltyList = async (room_id) => {
+                                const data = await getGearUnavailabilty(room_id);
+                                setUnavailabilityList(data);
+                            }
+                            getUnavailabiltyList(getGearIdByGearName(newValue.split(" ").slice(0, -1).join(" ")));
                         }}
                         options={gearSelect}
                         sx={{ width: 300 }}

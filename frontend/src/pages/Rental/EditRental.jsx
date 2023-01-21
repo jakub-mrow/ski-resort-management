@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import { updateRental, getRentalCreateData } from '../../api/rentalRequests';
+import { getGearUnavailabilty } from '../../api/gearRequests';
 
 import { Button, Alert, Snackbar, Autocomplete } from '@mui/material';
 
@@ -15,6 +16,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import TextField from '@mui/material/TextField';
 import { useStateContext } from '../../context/ContextProvider';
+
+import dayjs from 'dayjs';
 
 
 const EditRental = () => {
@@ -34,6 +37,8 @@ const EditRental = () => {
     const [employee, setEmployee] = useState("");
     const [guest, setGuest] = useState("");
     const [gear, setGear] = useState("");
+
+    const [unavailabiltyList, setUnavailabilityList] = useState(false);
 
     const params = useParams();
 
@@ -130,6 +135,17 @@ const EditRental = () => {
         setDateTo(newDate);
     }
 
+    const disableUnavailableDates = (date) => {
+        const normalizedDate = dayjs(date).format('YYYY-MM-DD');
+        const dates = unavailabiltyList;
+        
+        if (dates !== false){
+            if (dates.includes(normalizedDate)){
+                return true;
+            }
+        }
+    }
+
 
     return (
         <>
@@ -146,7 +162,7 @@ const EditRental = () => {
                             value={dateFrom}
                             onChange={handleDateFromChange}
                             disablePast={true}
-                            //shouldDisableDate={disableUnavailableDates}
+                            shouldDisableDate={disableUnavailableDates}
                             renderInput={(params) => <TextField {...params} />}
                         />
                         <DesktopDatePicker
@@ -155,7 +171,7 @@ const EditRental = () => {
                             value={dateTo}
                             onChange={handleDateToChange}
                             disablePast={true}
-                            //shouldDisableDate={disableUnavailableDates}
+                            shouldDisableDate={disableUnavailableDates}
                             renderInput={(params) => <TextField {...params} />}
                         />
                     </LocalizationProvider>
@@ -192,6 +208,11 @@ const EditRental = () => {
                         style={{width: 400}}
                         onChange={(event, newValue) => {
                             setGear(newValue);
+                            const getUnavailabiltyList = async (room_id) => {
+                                const data = await getGearUnavailabilty(room_id);
+                                setUnavailabilityList(data);
+                            }
+                            getUnavailabiltyList(getGearIdByGearName(newValue.split(" ").slice(0, -1).join(" ")));
                         }}
                         options={gearSelect}
                         sx={{ width: 300 }}

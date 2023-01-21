@@ -68,6 +68,8 @@ class RoomsViewSet(viewsets.ModelViewSet):
             date_range = generate_range_of_dates(date_from, date_to)
             unavailable_dates.extend(date_range)
 
+        logging.info("Unavailable dates: {}".format(unavailable_dates))
+
         return Response(data=unavailable_dates)
 
 
@@ -189,10 +191,11 @@ class ReservationsViewSet(viewsets.ModelViewSet):
             date_from = reservation.get("date_from")
             date_to = reservation.get("date_to")
             date_range = generate_range_of_dates(date_from, date_to)
-            unavailable_dates.extend(date_range)
+            unavailable_dates.append(date_range)
 
-        if date_range_overlap(new_date_range, unavailable_dates):
-            return Response(data={"msg": "Chosen date range overlaps with unavailable dates"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+        for unavailable_dates_range in unavailable_dates:
+            if date_range_overlap(new_date_range, unavailable_dates_range):
+                return Response(data={"msg": "Chosen date range overlaps with unavailable dates"}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
         reservation_serializer.save()
 
@@ -463,9 +466,31 @@ class RentalsViewSet(viewsets.ModelViewSet):
         rental_serializer = serializers.RentalSerializer(data=request.data)
         rental_serializer.is_valid(raise_exception=True)
 
+        new_date_from = request.data["date_from"]
+        new_date_to = request.data["date_to"]
+        new_date_range = generate_range_of_dates(new_date_from, new_date_to)
+
+        gear_id = request.data["gear"]
+        rentals = models.Rental.objects.filter(gear_id=gear_id)
+
+        unavailability_serializer = serializers.GearUnavailabiltySerializer(rentals, many=True)
+
+        unavailable_dates = []
+        for rental in unavailability_serializer.data:
+            date_from = rental.get("date_from")
+            date_to = rental.get("date_to")
+            date_range = generate_range_of_dates(date_from, date_to)
+            unavailable_dates.append(date_range)
+
+        for unavailable_date_range in unavailable_dates:
+            if date_range_overlap(new_date_range, unavailable_date_range):
+                print(new_date_range)
+                print(unavailable_dates)
+                return Response(data={"msg": "Chosen date range overlaps with unavailable dates"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+
         rental_serializer.save()
 
-        return Response({"msg": "Rental created"}, status=status.HTTP_201_CREATED)
+        return Response(data={"msg": "Rental created"}, status=status.HTTP_201_CREATED)
 
     def list(self, request):
         """
@@ -476,18 +501,6 @@ class RentalsViewSet(viewsets.ModelViewSet):
         serialized_rental_list = rental_serializer(qs, many=True)
 
         return Response(serialized_rental_list.data, status=status.HTTP_200_OK)
-
-
-    def update(self, request, pk):
-        """
-        Update a rental
-        """
-        rental_serializer = serializers.RentalSerializer(data=request.data)
-        rental_serializer.is_valid(raise_exception=True)
-
-        rental_serializer.save()
-
-        return Response({"msg": "Rental edited"}, status=status.HTTP_200_OK)
 
 
 class RentalData(APIView):
@@ -575,6 +588,23 @@ class GearViewSet(viewsets.ModelViewSet):
         gear.save()
 
         return Response({"msg": "Gear edited successfully"}, status=status.HTTP_200_OK)
+
+
+    @action(detail=False, methods=["get"])
+    def unavailabilty(self, request):   
+        gear_id = request.GET["gear_id"]
+        rentals = models.Rental.objects.filter(gear=gear_id)
+
+        unavailability_serializer = serializers.GearUnavailabiltySerializer(rentals, many=True)
+
+        unavailable_dates = []
+        for rental in unavailability_serializer.data:
+            date_from = rental.get("date_from")
+            date_to = rental.get("date_to")
+            date_range = generate_range_of_dates(date_from, date_to)
+            unavailable_dates.extend(date_range)
+
+        return Response(data=unavailable_dates)
 
 
 class DutiesViewSet(viewsets.ModelViewSet):
