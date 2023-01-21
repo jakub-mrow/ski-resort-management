@@ -15,9 +15,6 @@ def date_range_overlap(first_date_range, second_date_range):
         return False
     Range = namedtuple('Range', ['start', 'end'])
 
-    print(len(first_date_range))
-    print(len(second_date_range))
-
     r1 = Range(start=datetime.strptime(first_date_range[0], "%Y-%m-%d"), end=datetime.strptime(first_date_range[len(first_date_range) - 1], "%Y-%m-%d"))
     r2 = Range(start=datetime.strptime(second_date_range[0], "%Y-%m-%d"), end=datetime.strptime(second_date_range[len(second_date_range) - 1], "%Y-%m-%d"))
 
@@ -26,8 +23,6 @@ def date_range_overlap(first_date_range, second_date_range):
 
     delta = (earliest_end - latest_start).days + 1
     overlap = max(0, delta)
-
-    print(overlap)
 
     if overlap >= 0:
         return True
