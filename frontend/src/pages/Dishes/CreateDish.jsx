@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 
 import { Header } from '../../components';
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,12 @@ import TextField from '@mui/material/TextField';
 function CreateDish() {
     const [showAlert, setShowAlert] = useState(null);
     const [alertSeverity, setAlertSeverity] = useState("error");
+
+    const nameRef = useRef(null);
+    const descriptionRef = useRef(null);
+    const caloriesRef = useRef(null);
+    const costRef = useRef(null);
+    const priceRef = useRef(null);
 
 
     let navigate = useNavigate(); 
@@ -32,6 +38,11 @@ function CreateDish() {
 
         setAlertSeverity("success");
         setShowAlert("Dish added successfully!");
+        nameRef.current.value = "";
+        descriptionRef.current.value = "";
+        caloriesRef.current.value = "";
+        costRef.current.value = "";
+        priceRef.current.value = "";
     }
 
     return (
@@ -44,6 +55,7 @@ function CreateDish() {
                     <TextField 
                         id="outlined-basic" 
                         label="Name" 
+                        inputRef={nameRef}
                         variant="outlined"
                         style={{width: 400}}
                         {...register("name", {
@@ -60,6 +72,7 @@ function CreateDish() {
                     <TextField 
                         id="outlined-basic" 
                         label="Description" 
+                        inputRef={descriptionRef}
                         variant="outlined"
                         style={{width: 400}}
                         {...register("description", {
@@ -77,6 +90,7 @@ function CreateDish() {
                         id="outlined-basic"
                         type="number" 
                         label="Calories" 
+                        inputRef={caloriesRef}
                         variant="outlined"
                         style={{width: 400}}
                         {...register("calories", {
@@ -93,6 +107,7 @@ function CreateDish() {
                     <TextField 
                         id="outlined-basic" 
                         label="Preparation cost" 
+                        inputRef={costRef}
                         variant="outlined"
                         style={{width: 400}}
                         {...register("cost", {
@@ -109,6 +124,7 @@ function CreateDish() {
                     <TextField 
                         id="outlined-basic"
                         label="Menu price" 
+                        inputRef={priceRef}
                         variant="outlined"
                         style={{width: 400}}
                         {...register("price", {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 
 import { Header } from '../../components';
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,9 @@ import TextField from '@mui/material/TextField';
 function CreateTask() {
     const [showAlert, setShowAlert] = useState(null);
     const [alertSeverity, setAlertSeverity] = useState("error");
+
+    const nameRef = useRef(null);
+    const descriptionRef = useRef(null);
 
 
     let navigate = useNavigate(); 
@@ -32,6 +35,8 @@ function CreateTask() {
 
         setAlertSeverity("success");
         setShowAlert("Task added successfully!");
+        nameRef.current.value = "";
+        descriptionRef.current.value = "";
     }
 
     return (
@@ -44,6 +49,7 @@ function CreateTask() {
                     <TextField 
                         id="outlined-basic" 
                         label="Name" 
+                        inputRef={nameRef}
                         variant="outlined"
                         style={{width: 400}}
                         {...register("name", {
@@ -60,6 +66,7 @@ function CreateTask() {
                     <TextField 
                         id="outlined-basic" 
                         label="Description" 
+                        inputRef={descriptionRef}
                         variant="outlined"
                         style={{width: 400}}
                         {...register("description", {

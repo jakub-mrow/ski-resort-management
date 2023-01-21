@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 
 import { Header } from '../../components';
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,12 @@ import TextField from '@mui/material/TextField';
 function CreateGear() {
     const [showAlert, setShowAlert] = useState(null);
     const [alertSeverity, setAlertSeverity] = useState("error");
+
+    const codeRef = useRef(null);
+    const typeRef = useRef(null);
+    const nameRef = useRef(null);
+    const brandRef = useRef(null);
+    const sizeRef = useRef(null);
 
 
     let navigate = useNavigate(); 
@@ -29,6 +35,11 @@ function CreateGear() {
             if (response) {
                 setAlertSeverity("success");
                 setShowAlert("Gear added successfully!");
+                codeRef.current.value = "";
+                typeRef.current.value = "";
+                nameRef.current.value = "";
+                brandRef.current.value = "";
+                sizeRef.current.value = "";
                 return;
             }
         } catch (error){
@@ -48,6 +59,7 @@ function CreateGear() {
                     <TextField 
                         id="outlined-basic" 
                         label="Code" 
+                        inputRef={codeRef}
                         variant="outlined"
                         style={{width: 400}}
                         {...register("code", {
@@ -64,6 +76,7 @@ function CreateGear() {
                     <TextField 
                         id="outlined-basic" 
                         label="Type" 
+                        inputRef={typeRef}
                         variant="outlined"
                         style={{width: 400}}
                         {...register("type", {
@@ -80,6 +93,7 @@ function CreateGear() {
                     <TextField 
                         id="outlined-basic" 
                         label="Name" 
+                        inputRef={nameRef}
                         variant="outlined"
                         style={{width: 400}}
                         {...register("name", {
@@ -96,6 +110,7 @@ function CreateGear() {
                     <TextField 
                         id="outlined-basic" 
                         label="Brand" 
+                        inputRef={brandRef}
                         variant="outlined"
                         style={{width: 400}}
                         {...register("brand", {
@@ -112,6 +127,7 @@ function CreateGear() {
                     <TextField 
                         id="outlined-basic" 
                         label="Size" 
+                        inputRef={sizeRef}
                         variant="outlined"
                         style={{width: 400}}
                         {...register("size", {

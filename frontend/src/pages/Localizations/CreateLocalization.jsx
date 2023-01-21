@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 
 import { Header } from '../../components';
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,9 @@ import TextField from '@mui/material/TextField';
 function CreateLocalization() {
     const [showAlert, setShowAlert] = useState(null);
     const [alertSeverity, setAlertSeverity] = useState("error");
+
+    const nameRef = useRef(null);
+    const addressRef = useRef(null);
 
 
     let navigate = useNavigate(); 
@@ -29,9 +32,11 @@ function CreateLocalization() {
             setShowAlert("Internal server error");
             return;
         }
-
+        
         setAlertSeverity("success");
         setShowAlert("Localization added successfully!");
+        nameRef.current.value = "";
+        addressRef.current.value = "";
     }
 
     return (
@@ -44,6 +49,7 @@ function CreateLocalization() {
                     <TextField 
                         id="outlined-basic" 
                         label="Name" 
+                        inputRef={nameRef}
                         variant="outlined"
                         style={{width: 400}}
                         {...register("name", {
@@ -60,6 +66,7 @@ function CreateLocalization() {
                     <TextField 
                         id="outlined-basic" 
                         label="Address" 
+                        inputRef={addressRef}
                         variant="outlined"
                         style={{width: 400}}
                         {...register("address", {

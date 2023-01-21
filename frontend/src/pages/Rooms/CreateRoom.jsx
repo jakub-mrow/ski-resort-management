@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 
 import { Header } from '../../components';
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,12 @@ import TextField from '@mui/material/TextField';
 function CreateRoom() {
     const [showAlert, setShowAlert] = useState(null);
     const [alertSeverity, setAlertSeverity] = useState("error");
+
+    const numberRef = useRef(null);
+    const wingRef = useRef(null);
+    const descriptionRef = useRef(null);
+    const bedsRef = useRef(null);
+    const priceRef = useRef(null);
 
 
     let navigate = useNavigate(); 
@@ -29,6 +35,11 @@ function CreateRoom() {
             if (response) {
                 setAlertSeverity("success");
                 setShowAlert("Room added successfully!");
+                numberRef.current.value = "";
+                wingRef.current.value = "";
+                descriptionRef.current.value = "";
+                bedsRef.current.value = "";
+                priceRef.current.value = "";
                 return;
             }
         } catch (error){
@@ -48,6 +59,7 @@ function CreateRoom() {
                         id="outlined-basic"
                         type="number" 
                         label="Room number" 
+                        inputRef={numberRef}
                         variant="outlined"
                         style={{width: 400}}
                         {...register("room_id", {
@@ -64,6 +76,7 @@ function CreateRoom() {
                     <TextField 
                         id="outlined-basic" 
                         label="Wing" 
+                        inputRef={wingRef}
                         variant="outlined"
                         style={{width: 400}}
                         {...register("wing", {
@@ -80,6 +93,7 @@ function CreateRoom() {
                     <TextField 
                         id="outlined-basic" 
                         label="Description" 
+                        inputRef={descriptionRef}
                         variant="outlined"
                         style={{width: 400}}
                         {...register("description", {
@@ -97,6 +111,7 @@ function CreateRoom() {
                         id="outlined-basic"
                         type="number" 
                         label="Number of beds" 
+                        inputRef={bedsRef}
                         variant="outlined"
                         style={{width: 400}}
                         {...register("beds", {
@@ -113,6 +128,7 @@ function CreateRoom() {
                     <TextField 
                         id="outlined-basic"
                         label="Price per night" 
+                        inputRef={priceRef}
                         variant="outlined"
                         style={{width: 400}}
                         {...register("price", {
