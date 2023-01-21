@@ -31,6 +31,10 @@ const CreateMeal = () => {
     const [dish, setDish] = useState("");
     const [dessert, setDessert] = useState("");
 
+    const [clearGuest, setClearGuest] = useState(Math.random().toString());
+    const [clearDish, setClearDish] = useState(Math.random().toString());
+    const [clearDessert, setClearDessert] = useState(Math.random().toString());
+
     useEffect(() => {
         const fetchMealOptionsdata = async () => {
             const data = await getMealCreateData();
@@ -93,6 +97,9 @@ const CreateMeal = () => {
             if (response) {
                 setAlertSeverity("success");
                 setShowAlert("Meal added successfully!");
+                setClearGuest(Math.random().toString());
+                setClearDish(Math.random().toString());
+                setClearDessert(Math.random().toString());
                 return;
             }
         } catch (error){
@@ -130,6 +137,7 @@ const CreateMeal = () => {
                     <Autocomplete
                         disablePortal
                         id="guestSelectBox"
+                        key={clearGuest}
                         style={{width: 400}}
                         onChange={(event, newValue) => {
                             setGuest(newValue);
@@ -167,6 +175,7 @@ const CreateMeal = () => {
                     <Autocomplete
                         disablePortal
                         id="dishSelectBox"
+                        key={clearDish}
                         style={{width: 400}}
                         onChange={(event, newValue) => {
                             setDish(newValue);
@@ -180,6 +189,7 @@ const CreateMeal = () => {
                     <Autocomplete
                         disablePortal
                         id="dessertSelectBox"
+                        key={clearDessert}
                         style={{width: 400}}
                         onChange={(event, newValue) => {
                             setDessert(newValue);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
 import { Header } from '../../components';
 import { useNavigate } from "react-router-dom";
@@ -31,6 +31,12 @@ const CreateRental = () => {
     const [employee, setEmployee] = useState("");
     const [guest, setGuest] = useState("");
     const [gear, setGear] = useState("");
+
+    const[clearEmployee, setClearEmployee] = useState(Math.random().toString());
+    const[clearGuest, setClearGuest] = useState(Math.random().toString());
+    const[clearGear, setClearGear] = useState(Math.random().toString());
+
+    const priceRef = useRef(null);
 
     useEffect(() => {
         const fetchRentalOptionsdata = async () => {
@@ -95,6 +101,10 @@ const CreateRental = () => {
             if (response) {
                 setAlertSeverity("success");
                 setShowAlert("Rental added successfully!");
+                setClearEmployee(Math.random().toString());
+                setClearGuest(Math.random().toString());
+                setClearGear(Math.random().toString());
+                priceRef.current.value = "";
                 return;
             }
         } catch (error){
@@ -159,6 +169,7 @@ const CreateRental = () => {
                     <Autocomplete
                         disablePortal
                         id="employeeSelectBox"
+                        key={clearEmployee}
                         style={{width: 400}}
                         onChange={(event, newValue) => {
                             setEmployee(newValue);
@@ -172,6 +183,7 @@ const CreateRental = () => {
                     <Autocomplete
                         disablePortal
                         id="guestSelectBox"
+                        key={clearGuest}
                         style={{width: 400}}
                         onChange={(event, newValue) => {
                             setGuest(newValue);
@@ -184,6 +196,7 @@ const CreateRental = () => {
                     <Autocomplete
                         disablePortal
                         id="gearSelectBox"
+                        key={clearGear}
                         style={{width: 400}}
                         onChange={(event, newValue) => {
                             setGear(newValue);
@@ -196,6 +209,7 @@ const CreateRental = () => {
                     <TextField 
                         id="outlined-basic" 
                         label="Price"
+                        inputRef={priceRef}
                         variant="outlined"
                         style={{width: 400}}
                         {...register("price", {

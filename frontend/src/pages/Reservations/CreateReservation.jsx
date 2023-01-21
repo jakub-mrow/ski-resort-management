@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
 import { Header } from '../../components';
 import { useNavigate } from "react-router-dom";
@@ -32,6 +32,12 @@ function CreateReservation() {
     const [employee, setEmployee] = useState("");
     const [guest, setGuest] = useState("");
     const [room, setRoom] = useState(0);
+
+    const[clearEmployee, setClearEmployee] = useState(Math.random().toString());
+    const[clearGuest, setClearGuest] = useState(Math.random().toString());
+    const[clearRoom, setClearRoom] = useState(Math.random().toString());
+    
+    const numberRef = useRef(null);
 
     const [unavailabiltyList, setUnavailabilityList] = useState(false);
 
@@ -85,6 +91,10 @@ function CreateReservation() {
 
         setAlertSeverity("success");
         setShowAlert("Reservation added successfully!");
+        setClearEmployee(Math.random().toString());
+        setClearGuest(Math.random().toString());
+        setClearRoom(Math.random().toString());
+        numberRef.current.value = "";
     }
 
     const handleDateFromChange = (newDate) => {
@@ -142,6 +152,7 @@ function CreateReservation() {
                     <Autocomplete
                         disablePortal
                         id="employeeSelectBox"
+                        key={clearEmployee}
                         style={{width: 400}}
                         onChange={(event, newValue) => {
                             setEmployee(newValue);
@@ -155,6 +166,7 @@ function CreateReservation() {
                     <Autocomplete
                         disablePortal
                         id="guestSelectBox"
+                        key={clearGuest}
                         style={{width: 400}}
                         onChange={(event, newValue) => {
                             setGuest(newValue);
@@ -167,6 +179,7 @@ function CreateReservation() {
                     <Autocomplete
                         disablePortal
                         id="roomSelectBox"
+                        key={clearRoom}
                         style={{width: 400}}
                         onChange={(event, newValue) => {
                             setRoom(newValue);
@@ -184,6 +197,7 @@ function CreateReservation() {
                     <TextField 
                         id="outlined-basic" 
                         label="Number of people"
+                        inputRef={numberRef}
                         type="number" 
                         variant="outlined"
                         style={{width: 400}}

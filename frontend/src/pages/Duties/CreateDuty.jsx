@@ -22,6 +22,10 @@ const CreateDuty = () => {
     const [task, setTask] = useState("");
     const [localization, setLocalization] = useState("");
 
+    const [clearEmployee, setClearEmployee] = useState(Math.random().toString());
+    const [clearTask, setClearTask] = useState(Math.random().toString());
+    const [clearLocalization, setClearLocalization] = useState(Math.random().toString());
+
     useEffect(() => {
         const fetchDutyOptionsdata = async () => {
             const data = await getDutyCreateData();
@@ -84,6 +88,9 @@ const CreateDuty = () => {
             if (response) {
                 setAlertSeverity("success");
                 setShowAlert("Duty added successfully!");
+                setClearEmployee(Math.random().toString());
+                setClearTask(Math.random().toString());
+                setClearLocalization(Math.random().toString());
                 return;
             }
         } catch (error){
@@ -117,6 +124,7 @@ const CreateDuty = () => {
                     <Autocomplete
                         disablePortal
                         id="employeeSelectBox"
+                        key={clearEmployee}
                         style={{width: 400}}
                         onChange={(event, newValue) => {
                             setEmployee(newValue);
@@ -131,6 +139,7 @@ const CreateDuty = () => {
                         disablePortal
                         id="taskSelectBox"
                         style={{width: 400}}
+                        key={clearTask}
                         onChange={(event, newValue) => {
                             setTask(newValue);
                         }}
@@ -144,6 +153,7 @@ const CreateDuty = () => {
                         disablePortal
                         id="localizationSelectBox"
                         style={{width: 400}}
+                        key={clearLocalization}
                         onChange={(event, newValue) => {
                             setLocalization(newValue);
                         }}
