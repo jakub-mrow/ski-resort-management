@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Navbar, Sidebar } from './components';
 
 import { Dashboard, Information, Employees, CreateEmployee, EditEmployee, 
-         Guests, CreateGuest, EditGuest, 
+         Guests, CreateGuest, EditGuest, GuestInfo, 
          Reservations, CreateReservation, EditReservation, 
          Dishes, CreateDish, EditDish, 
          Desserts, CreateDessert, EditDessert, 
@@ -53,6 +53,7 @@ const App = () => {
                                 <Route path="/guests" element={<Guests/>}></Route>
                                 <Route path="/guests/create" element={<CreateGuest/>}></Route>
                                 <Route path="/guests/:id/edit" element={<EditGuest/>}></Route>
+                                <Route path="/guests/:id/info" element={<GuestInfo/>}></Route>
                                 <Route path="/dishes" element={<Dishes/>}></Route>
                                 <Route path="/dishes/create" element={<CreateDish/>}></Route>
                                 <Route path="/dishes/:id/edit" element={<EditDish/>}></Route>

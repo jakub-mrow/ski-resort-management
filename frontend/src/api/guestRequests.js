@@ -89,3 +89,23 @@ export async function getGuest(id) {
 
     throw new Error(`Response ${response.status}: ${response.statusText} - ${await response.text()}`);
 }
+
+
+export async function getGuestInfo(id) {
+    const endpoint = `http://localhost:8000/api/guests/${id}/info/`;
+
+    const response = await fetch(endpoint, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: "GET",
+    });
+
+    if (response.ok) {
+        const json = await response.json();
+        console.log(json);
+        return json;
+    }
+
+    throw new Error(`${await response.text()}`);
+}
