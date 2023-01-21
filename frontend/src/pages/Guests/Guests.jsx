@@ -47,6 +47,11 @@ const Guests = () => {
         navigate(path)
     }
 
+    const navigateInfoRoute = (id) => {
+        let path = `/guests/${id}/info`;
+        navigate(path)
+    }
+
     const handleDelete = (id) => {
         try {
             deleteGuest(id);
@@ -60,7 +65,7 @@ const Guests = () => {
         {
             field: "action",
             headerName: "Action",
-            width: 200,
+            width: 300,
             renderCell: (params) => {
                 return (
                     <div className="p-2 space-x-4">
@@ -76,6 +81,9 @@ const Guests = () => {
                                 backgroundColor: "#e31809",
                             }}  
                             onClick={() => handleDelete(params.row.id)}>Delete</Button>
+
+                        <Button variant="contained" 
+                            onClick={() => navigateInfoRoute(params.row.id)}>Info</Button>
                     </div>
                 )
             }
