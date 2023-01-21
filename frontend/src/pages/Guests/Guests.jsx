@@ -71,6 +71,8 @@ const Guests = () => {
         setConfirmDialog({...confirmDialog, isOpen: false})
         deleteGuest(id);
         setGuests(guests.filter((item) => item.id !== id))
+        setAlertSeverity("success");
+        setShowAlert("Guest deleted successfully");
     }
 
     const actionColumn = [
@@ -153,7 +155,7 @@ const Guests = () => {
                     <Button variant="contained" onClick={routeChange}>Add new guest</Button>
                 </div>
             </div>
-            <Snackbar open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
+            <Snackbar  anchorOrigin={{vertical: "bottom", horizontal: "right"}}open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
                 <Alert severity={alertSeverity}>{showAlert}</Alert>
             </Snackbar>
             <ConfirmDialog 
