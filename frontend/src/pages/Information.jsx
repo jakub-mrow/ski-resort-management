@@ -1,13 +1,12 @@
 import React from 'react'
+import Statistics from '../components/Statistics.jsx'
 
 function Information() {
   return (
-    <div className="mt-12">
-        <div className="flex flex-wrap lg:flex-nowrap justify-center">
-            Information
-        </div>
+    <div>
+      <Statistics />
     </div>
   )
 }
 
-export default Information
+export default Information;
