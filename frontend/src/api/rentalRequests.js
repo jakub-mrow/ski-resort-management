@@ -86,3 +86,22 @@ export async function updateRental(id, data) {
 
     throw new Error(`${await response.text()}`)
 }
+
+
+export async function getRental(id) {
+    const endpoint = `http://localhost:8000/api/rentals/${id}/`;
+
+    const response = await fetch(endpoint, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: "GET",
+    });
+
+    if (response.ok) {
+        const json = await response.json();
+        return json;
+    }
+
+    throw new Error(`${await response.text()}`);
+}

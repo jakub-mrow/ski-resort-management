@@ -24,7 +24,6 @@ const Rental = () => {
 
     const fetchRentals = async () => {
         const rentals = await getRentals();
-        console.log(rentals)
         setRentals(rentals);
     }
 

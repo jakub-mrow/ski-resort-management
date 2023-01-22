@@ -5,12 +5,15 @@ import { useNavigate } from "react-router-dom";
 import { Header } from '../../components';
 
 import { getReservations, deleteReservation } from '../../api/reservationRequests';
+import { getReservationCost } from '../../api/reservationCostRequest';
 
 import { Button, Alert, Snackbar } from '@mui/material';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import { useStateContext } from '../../context/ContextProvider';
 import { ConfirmDialog } from '../../components';
+
+import { ReservationCostModal } from '../../components';
 
 function Reservations() {
     const [reservations, setReservations] = useState([]);
@@ -68,12 +71,21 @@ function Reservations() {
         setShowAlert("Reservation deleted successfully");
     }
 
+    const handleCostModal = async (reservationId) => {
+        const data = await getReservationCost(reservationId);
 
+        setConfirmDialog({
+            isOpen: true,
+            title: `${data.reservation_cost} PLN`,
+            subtitle: `Total cost of the reservation: ${reservationId}`
+        })
+    }
+    
     const actionColumn = [
         {
             field: "action",
             headerName: "Action",
-            width: 200,
+            width: 300,
             renderCell: (params) => {
                 return (
                     <div className="p-2 space-x-4">
@@ -92,6 +104,8 @@ function Reservations() {
                                 backgroundColor: "#e31809",
                             }}
                             onClick={() => handleDeleteReservation(params.row.id)}>Delete
+                        </Button>
+                        <Button variant="contained" onClick={() => handleCostModal(params.row.id)}>Cost
                         </Button>
                     </div>
                 )
@@ -156,7 +170,6 @@ function Reservations() {
                         />
                     </Box>
                 </div>
-
                 <div className="flex flex-col space-y-4 mx-auto justify-center items-center">
                     <Button variant="contained" onClick={navigateCreateRoute}>Add new reservation</Button>
                 </div>
@@ -165,6 +178,11 @@ function Reservations() {
                 <Alert severity={alertSeverity}>{showAlert}</Alert>
             </Snackbar>
             <ConfirmDialog
+              confirmDialog={confirmDialog}
+                setConfirmDialog={setConfirmDialog}
+            />
+
+            <ReservationCostModal 
                 confirmDialog={confirmDialog}
                 setConfirmDialog={setConfirmDialog}
             />
