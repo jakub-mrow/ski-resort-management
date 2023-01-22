@@ -69,7 +69,7 @@ const EditEmployee = () => {
                         <TextField 
                             id="outlined-basic"
                             type="number" 
-                            label="Social security number" 
+                            label="Social security number / PESEL" 
                             variant="outlined"
                             style={{width: 400}}
                             {...register("social_security_number", {

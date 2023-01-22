@@ -127,7 +127,8 @@ function EditReservation() {
             if (response){
                 setAlertSeverity("success");
                 setShowAlert("Reservation edited successfully!");
-                //routeChange();
+                routeChange();
+                return;
             }
         } catch (error) {
             setAlertSeverity("error");

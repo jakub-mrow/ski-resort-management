@@ -54,7 +54,7 @@ const EditRental = () => {
     }
 
     useEffect(() => {
-        const fetchCosTam = async () => {
+        const fetchData = async () => {
             const data = await getRentalCreateData();
             setRentalOptionsData(data);
             setEmployeeSelect(Object.keys(data.employees).map((key) => { return `${data.employees[key].name} ${data.employees[key].surname}, ${data.employees[key].social_security_number}`;}));
@@ -62,7 +62,7 @@ const EditRental = () => {
             setGearSelect(Object.keys(data.gear).map((key) => {return `${data.gear[key].name} ${data.gear[key].size}`}))
         }
 
-        fetchCosTam();
+        fetchData();
     }, []);
 
     useEffect(() => {
@@ -81,11 +81,9 @@ const EditRental = () => {
         const fetchRentalOptionsdata = async () => {
             const specificRentalData = await getRental(params.id);
 
-            if (employee !== "" || guest !== "" || gear !== "") {
-                setGuest(`${specificRentalData.guest.name} ${specificRentalData.guest.surname}, ${specificRentalData.guest.social_security_number}`);
-                setEmployee(`${specificRentalData.employee.name} ${specificRentalData.employee.surname}, ${specificRentalData.employee.social_security_number}`);
-                setGear(`${specificRentalData.gear.name} ${specificRentalData.gear.size}`);
-            }
+            setGuest(`${specificRentalData.guest.name} ${specificRentalData.guest.surname}, ${specificRentalData.guest.social_security_number}`);
+            setEmployee(`${specificRentalData.employee.name} ${specificRentalData.employee.surname}, ${specificRentalData.employee.social_security_number}`);
+            setGear(`${specificRentalData.gear.name} ${specificRentalData.gear.size}`);
 
             if (Object.keys(rentalOptionsData).length !== 0) {
                 getUnavailabiltyList(await getGearIdByGearName(specificRentalData.gear.name, specificRentalData.gear.size));
@@ -121,7 +119,7 @@ const EditRental = () => {
         }
     }
 
-    const getGearIdByGearName = async (gearName, gearSize) => {
+    const getGearIdByGearName = (gearName, gearSize) => {
         for (let i in rentalOptionsData.gear){
             if ((rentalOptionsData.gear[i].name === gearName) && (rentalOptionsData.gear[i].size === gearSize)){
                 return rentalOptionsData.gear[i].id;
@@ -202,7 +200,7 @@ const EditRental = () => {
                             inputFormat="MM-DD-YYYY"
                             value={dateFrom}
                             onChange={handleDateFromChange}
-                            disablePast={true}
+                            //disablePast={true}
                             shouldDisableDate={disableUnavailableDates}
                             renderInput={(params) => <TextField {...params} />}
                         />
@@ -211,7 +209,7 @@ const EditRental = () => {
                             inputFormat="MM-DD-YYYY"
                             value={dateTo}
                             onChange={handleDateToChange}
-                            disablePast={true}
+                            //disablePast={true}
                             shouldDisableDate={disableUnavailableDates}
                             renderInput={(params) => <TextField {...params} />}
                         />
@@ -236,7 +234,7 @@ const EditRental = () => {
                         disablePortal
                         id="guestSelectBox"
                         style={{width: 400}}
-                        value={employee}
+                        value={guest}
                         onChange={(event, newValue) => {
                             setGuest(newValue);
                         }}
