@@ -54,37 +54,46 @@ const EditRental = () => {
     }
 
     useEffect(() => {
-        const fetchRentalOptionsdata = async () => {
+        const fetchCosTam = async () => {
             const data = await getRentalCreateData();
-            const specificRentalData = await getRental(params.id);
-
             setRentalOptionsData(data);
             setEmployeeSelect(Object.keys(data.employees).map((key) => { return `${data.employees[key].name} ${data.employees[key].surname}, ${data.employees[key].social_security_number}`;}));
             setGuestSelect(Object.keys(data.guests).map((key) => { return `${data.guests[key].name} ${data.guests[key].surname}, ${data.guests[key].social_security_number}`;}));
             setGearSelect(Object.keys(data.gear).map((key) => {return `${data.gear[key].name} ${data.gear[key].size}`}))
-
-            setGuest(`${specificRentalData.guest.name} ${specificRentalData.guest.surname}, ${specificRentalData.guest.social_security_number}`);
-            setEmployee(`${specificRentalData.employee.name} ${specificRentalData.employee.surname}, ${specificRentalData.employee.social_security_number}`);
-            setGear(`${specificRentalData.gear.name} ${specificRentalData.gear.size}`)
-
-            const getUnavailabiltyList = async (gear_id) => {
-                const data = await getGearUnavailabilty(gear_id);
-                const datesToExclude = generateDateRange(rentalObject.date_from, rentalObject.date_to);
-                for (let i = 0; i < data.length; i++) {
-                    if (datesToExclude.includes(data[i])){
-                        data.splice(i, 1);
-                        i--;
-                    }
-                }
-                setUnavailabilityList(data);
-            }
-            getUnavailabiltyList(getGearIdByGearName(specificRentalData.gear.name, specificRentalData.gear.size));
-
-
         }
-        fetchRentalOptionsdata();
-    }, [])
 
+        fetchCosTam();
+    }, []);
+
+    useEffect(() => {
+        const getUnavailabiltyList = async (gear_id) => {
+            const data = await getGearUnavailabilty(gear_id);
+            const datesToExclude = generateDateRange(rentalObject.date_from, rentalObject.date_to);
+            for (let i = 0; i < data.length; i++) {
+                if (datesToExclude.includes(data[i])){
+                    data.splice(i, 1);
+                    i--;
+                }
+            }
+            setUnavailabilityList(data);
+        }
+
+        const fetchRentalOptionsdata = async () => {
+            const specificRentalData = await getRental(params.id);
+
+            if (employee !== "" || guest !== "" || gear !== "") {
+                setGuest(`${specificRentalData.guest.name} ${specificRentalData.guest.surname}, ${specificRentalData.guest.social_security_number}`);
+                setEmployee(`${specificRentalData.employee.name} ${specificRentalData.employee.surname}, ${specificRentalData.employee.social_security_number}`);
+                setGear(`${specificRentalData.gear.name} ${specificRentalData.gear.size}`);
+            }
+
+            if (Object.keys(rentalOptionsData).length !== 0) {
+                getUnavailabiltyList(await getGearIdByGearName(specificRentalData.gear.name, specificRentalData.gear.size));
+            }
+        }
+
+        fetchRentalOptionsdata();
+    }, [rentalOptionsData]);
 
     let navigate = useNavigate(); 
     const routeChange = () =>{ 
@@ -112,11 +121,8 @@ const EditRental = () => {
         }
     }
 
-    const getGearIdByGearName = (gearName, gearSize) => {
-        console.log("TEST")
-        console.log(rentalOptionsData)
+    const getGearIdByGearName = async (gearName, gearSize) => {
         for (let i in rentalOptionsData.gear){
-            console.log("I")
             if ((rentalOptionsData.gear[i].name === gearName) && (rentalOptionsData.gear[i].size === gearSize)){
                 return rentalOptionsData.gear[i].id;
             }
