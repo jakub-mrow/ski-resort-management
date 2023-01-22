@@ -6,14 +6,21 @@ import { Header } from '../../components';
 
 import { getDuties, deleteDuty } from '../../api/dutyRequests';
 
-import Button from '@mui/material/Button';
+import { Button, Alert, Snackbar } from '@mui/material';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import { useStateContext } from '../../context/ContextProvider';
+import { ConfirmDialog } from '../../components';
 
 const Duties = () => {
     const [duties, setDuties] = useState([]);
     const { dutyObject, setDutyObject } = useStateContext();
+
+    const [showAlert, setShowAlert] = useState(null);
+    const [alertSeverity, setAlertSeverity] = useState("error");
+
+    const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: "", subtitle: "" })
+
 
     const fetchDuties = async () => {
         const duties = await getDuties();
@@ -29,24 +36,36 @@ const Duties = () => {
         setDutyObject(data);
     }
 
-    let navigate = useNavigate(); 
+    let navigate = useNavigate();
     const navigateEditRoute = (id) => {
         let path = `/duties/${id}/edit`;
         navigate(path);
     }
 
-    const navigateCreateRoute = () =>{ 
-        let path = `/duties/create`; 
+    const navigateCreateRoute = () => {
+        let path = `/duties/create`;
         navigate(path);
     }
 
     const handleDeleteDuty = (id) => {
         try {
-            deleteDuty(id);
-            setDuties(duties.filter((item) => item.id !== id));
+            setConfirmDialog({
+                isOpen: true,
+                title: "Are you sure you want to delete this record?",
+                subtitle: "",
+                onConfirm: () => { deleteDutyAction(id) }
+            })
         } catch (error) {
             console.log(error);
         }
+    }
+
+    const deleteDutyAction = (id) => {
+        setConfirmDialog({ ...confirmDialog, isOpen: false })
+        deleteDuty(id);
+        setDuties(duties.filter((item) => item.id !== id));
+        setAlertSeverity("success");
+        setShowAlert("Duty deleted successfully");
     }
 
     const actionColumn = [
@@ -60,16 +79,17 @@ const Duties = () => {
                         <Button variant="contained"
                             style={{
                                 backgroundColor: "#21b6ae",
-                            }} 
+                            }}
                             onClick={() => {
-                            sendDutyData(params.row);
-                            navigateEditRoute(params.row.id)}}>
+                                sendDutyData(params.row);
+                                navigateEditRoute(params.row.id)
+                            }}>
                             Edit
                         </Button>
                         <Button variant="contained"
                             style={{
                                 backgroundColor: "#e31809",
-                            }} 
+                            }}
                             onClick={() => handleDeleteDuty(params.row.id)}>Delete
                         </Button>
                     </div>
@@ -102,27 +122,36 @@ const Duties = () => {
 
 
     return (
-        <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl space-y-4">
-            <Header category="Page" title="Duties" />
+        <>
+            <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl space-y-4">
+                <Header category="Page" title="Duties" />
 
-            <div className="flex flex-wrap lg:flex-nowrap justify-center">
-                <Box sx={{ height: 650, width: '100%' }}>
-                    <DataGrid
-                        rows={duties}
-                        columns={columns.concat(actionColumn)}
-                        pageSize={10}
-                        rowsPerPageOptions={[10]}
-                        checkboxSelection
-                        disableSelectionOnClick
-                        experimentalFeatures={{ newEditingApi: true }}
-                    />
-                </Box>
+                <div className="flex flex-wrap lg:flex-nowrap justify-center">
+                    <Box sx={{ height: 650, width: '100%' }}>
+                        <DataGrid
+                            rows={duties}
+                            columns={columns.concat(actionColumn)}
+                            pageSize={10}
+                            rowsPerPageOptions={[10]}
+                            checkboxSelection
+                            disableSelectionOnClick
+                            experimentalFeatures={{ newEditingApi: true }}
+                        />
+                    </Box>
+                </div>
+
+                <div className="flex flex-col space-y-4 mx-auto justify-center items-center">
+                    <Button variant="contained" onClick={navigateCreateRoute}>Add new duty</Button>
+                </div>
             </div>
-        
-            <div className="flex flex-col space-y-4 mx-auto justify-center items-center">
-                <Button variant="contained" onClick={navigateCreateRoute}>Add new duty</Button>
-            </div>
-        </div>
+            <Snackbar anchorOrigin={{ vertical: "bottom", horizontal: "right" }} open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
+                <Alert severity={alertSeverity}>{showAlert}</Alert>
+            </Snackbar>
+            <ConfirmDialog
+                confirmDialog={confirmDialog}
+                setConfirmDialog={setConfirmDialog}
+            />
+        </>
     )
 }
 

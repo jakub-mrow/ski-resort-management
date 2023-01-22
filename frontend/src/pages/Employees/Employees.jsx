@@ -6,15 +6,22 @@ import { Header } from '../../components';
 
 import { getEmployees, deleteEmployee } from '../../api/employeeRequests';
 
-import Button from '@mui/material/Button';
+import { Button, Alert, Snackbar } from '@mui/material';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import { useStateContext } from '../../context/ContextProvider';
+import { ConfirmDialog } from '../../components';
 
 const Employees = () => {
 
     const [employees, setEmployees] = useState([]);
     const { employeeObject, setEmployeeObject } = useStateContext();
+
+    const [showAlert, setShowAlert] = useState(null);
+    const [alertSeverity, setAlertSeverity] = useState("error");
+
+    const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: "", subtitle: "" })
+
 
     const sendEmployeeData = (data) => {
         setEmployeeObject(data)
@@ -29,9 +36,9 @@ const Employees = () => {
         fetchEmployees();
     }, [])
 
-    let navigate = useNavigate(); 
-    const routeChange = () =>{ 
-        let path = `/employees/create`; 
+    let navigate = useNavigate();
+    const routeChange = () => {
+        let path = `/employees/create`;
         navigate(path);
     }
 
@@ -42,11 +49,23 @@ const Employees = () => {
 
     const handleDelete = (id) => {
         try {
-            deleteEmployee(id);
-            setEmployees(employees.filter((item) => item.id !== id))
+            setConfirmDialog({
+                isOpen: true,
+                title: "Are you sure you want to delete this record?",
+                subtitle: "It may affect other relations",
+                onConfirm: () => { deleteEmployeeAction(id) }
+            })
         } catch (error) {
             console.log(error)
         }
+    }
+
+    const deleteEmployeeAction = (id) => {
+        setConfirmDialog({ ...confirmDialog, isOpen: false })
+        deleteEmployee(id);
+        setEmployees(employees.filter((item) => item.id !== id))
+        setAlertSeverity("success");
+        setShowAlert("Employee deleted successfully");
     }
 
     const actionColumn = [
@@ -62,12 +81,13 @@ const Employees = () => {
                                 backgroundColor: "#21b6ae",
                             }}
                             onClick={() => {
-                            sendEmployeeData(params.row);
-                            navigateEditRoute(params.row.id)}}>Edit</Button>
+                                sendEmployeeData(params.row);
+                                navigateEditRoute(params.row.id)
+                            }}>Edit</Button>
                         <Button variant="contained"
                             style={{
                                 backgroundColor: "#e31809",
-                            }} 
+                            }}
                             onClick={() => handleDelete(params.row.id)}>Delete</Button>
                     </div>
                 )
@@ -104,27 +124,36 @@ const Employees = () => {
     ]
 
     return (
-    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl space-y-4">
-        <Header category="Page" title="Employees" />
+        <>
+            <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl space-y-4">
+                <Header category="Page" title="Employees" />
 
-        <div className="flex flex-wrap lg:flex-nowrap justify-center">
-            <Box sx={{ height: 650, width: '100%' }}>
-                <DataGrid
-                    rows={employees}
-                    columns={columns.concat(actionColumn)}
-                    pageSize={10}
-                    rowsPerPageOptions={[10]}
-                    checkboxSelection
-                    disableSelectionOnClick
-                    experimentalFeatures={{ newEditingApi: true }}
-                />
-            </Box>
-        </div>
+                <div className="flex flex-wrap lg:flex-nowrap justify-center">
+                    <Box sx={{ height: 650, width: '100%' }}>
+                        <DataGrid
+                            rows={employees}
+                            columns={columns.concat(actionColumn)}
+                            pageSize={10}
+                            rowsPerPageOptions={[10]}
+                            checkboxSelection
+                            disableSelectionOnClick
+                            experimentalFeatures={{ newEditingApi: true }}
+                        />
+                    </Box>
+                </div>
 
-        <div class="flex flex-col space-y-4 mx-auto justify-center items-center">
-            <Button variant="contained" onClick={routeChange}>Add new employee</Button>
-        </div>
-    </div>
+                <div class="flex flex-col space-y-4 mx-auto justify-center items-center">
+                    <Button variant="contained" onClick={routeChange}>Add new employee</Button>
+                </div>
+            </div>
+            <Snackbar anchorOrigin={{ vertical: "bottom", horizontal: "right" }} open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
+                <Alert severity={alertSeverity}>{showAlert}</Alert>
+            </Snackbar>
+            <ConfirmDialog
+                confirmDialog={confirmDialog}
+                setConfirmDialog={setConfirmDialog}
+            />
+        </>
     )
 };
 export default Employees;

@@ -7,10 +7,11 @@ import { Header } from '../../components';
 import { getReservations, deleteReservation } from '../../api/reservationRequests';
 import { getReservationCost } from '../../api/reservationCostRequest';
 
-import Button from '@mui/material/Button';
+import { Button, Alert, Snackbar } from '@mui/material';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import { useStateContext } from '../../context/ContextProvider';
+import { ConfirmDialog } from '../../components';
 
 import { ReservationCostModal } from '../../components';
 
@@ -18,7 +19,10 @@ function Reservations() {
     const [reservations, setReservations] = useState([]);
     const { reservationObject, setReservationObject } = useStateContext();
 
-    const [confirmDialog, setConfirmDialog] = useState({isOpen: false, title: "", subtitle: ""})
+    const [showAlert, setShowAlert] = useState(null);
+    const [alertSeverity, setAlertSeverity] = useState("error");
+
+    const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: "", subtitle: "" })
 
     const fetchReservations = async () => {
         const reservations = await getReservations();
@@ -34,25 +38,37 @@ function Reservations() {
     }
 
 
-    let navigate = useNavigate(); 
+    let navigate = useNavigate();
     const navigateEditRoute = (id) => {
         let path = `/reservations/${id}/edit`;
         navigate(path);
     }
 
-    const navigateCreateRoute = () =>{ 
-        let path = `/reservations/create`; 
+    const navigateCreateRoute = () => {
+        let path = `/reservations/create`;
         navigate(path);
     }
 
 
     const handleDeleteReservation = (id) => {
         try {
-            deleteReservation(id);
-            setReservations(reservations.filter((item) => item.id !== id));
+            setConfirmDialog({
+                isOpen: true,
+                title: "Are you sure you want to delete this record?",
+                subtitle: "",
+                onConfirm: () => { deleteReservationAction(id) }
+            })
         } catch (error) {
             console.log(error);
         }
+    }
+
+    const deleteReservationAction = (id) => {
+        setConfirmDialog({ ...confirmDialog, isOpen: false })
+        deleteReservation(id);
+        setReservations(reservations.filter((item) => item.id !== id));
+        setAlertSeverity("success");
+        setShowAlert("Reservation deleted successfully");
     }
 
     const handleCostModal = async (reservationId) => {
@@ -76,16 +92,17 @@ function Reservations() {
                         <Button variant="contained"
                             style={{
                                 backgroundColor: "#21b6ae",
-                            }} 
+                            }}
                             onClick={() => {
-                            sendReservationData(params.row);
-                            navigateEditRoute(params.row.id)}}>
+                                sendReservationData(params.row);
+                                navigateEditRoute(params.row.id)
+                            }}>
                             Edit
                         </Button>
                         <Button variant="contained"
                             style={{
                                 backgroundColor: "#e31809",
-                            }} 
+                            }}
                             onClick={() => handleDeleteReservation(params.row.id)}>Delete
                         </Button>
                         <Button variant="contained" onClick={() => handleCostModal(params.row.id)}>Cost
@@ -153,11 +170,18 @@ function Reservations() {
                         />
                     </Box>
                 </div>
-            
                 <div className="flex flex-col space-y-4 mx-auto justify-center items-center">
                     <Button variant="contained" onClick={navigateCreateRoute}>Add new reservation</Button>
                 </div>
             </div>
+            <Snackbar anchorOrigin={{ vertical: "bottom", horizontal: "right" }} open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
+                <Alert severity={alertSeverity}>{showAlert}</Alert>
+            </Snackbar>
+            <ConfirmDialog
+              confirmDialog={confirmDialog}
+                setConfirmDialog={setConfirmDialog}
+            />
+
             <ReservationCostModal 
                 confirmDialog={confirmDialog}
                 setConfirmDialog={setConfirmDialog}
