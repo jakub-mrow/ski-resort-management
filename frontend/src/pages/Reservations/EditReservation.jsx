@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useStateContext } from '../../context/ContextProvider';
 
-import { getReservationCreateData, updateReservation } from '../../api/reservationRequests';
+import { getReservationCreateData, updateReservation, getReservation } from '../../api/reservationRequests';
 import { getRoomUnavailabilty } from '../../api/roomRequests';
 
 import { Button, Alert, Snackbar, Autocomplete } from '@mui/material';
@@ -24,8 +24,10 @@ function EditReservation() {
     const [alertSeverity, setAlertSeverity] = useState("error");
     const [reservationOptionsData, setReservationOptionsData] = useState({});
 
-    const [dateFrom, setDateFrom] = useState(new Date());
-    const [dateTo, setDateTo] = useState(new Date());
+    const { reservationObject, setReservationObject } = useStateContext();
+
+    const [dateFrom, setDateFrom] = useState(new Date(reservationObject.date_from));
+    const [dateTo, setDateTo] = useState(new Date(reservationObject.date_to));
 
     const [employeeSelect, setEmployeeSelect] = useState([]);
     const [guestSelect, setGuestSelect] = useState([]);
@@ -37,17 +39,46 @@ function EditReservation() {
 
     const [unavailabiltyList, setUnavailabilityList] = useState(false);
 
-    const { reservationObject, setReservationObject } = useStateContext();
     const params = useParams();
+
+    const generateDateRange = (start, end) => {
+        let dateArr = [];
+        let current = new Date(start);
+        let last = new Date(end);
+        while (current <= last) {
+            dateArr.push(current.toISOString().slice(0, 10));
+            current.setDate(current.getDate() + 1);
+        }
+        return dateArr;
+    }
 
     useEffect(() => {
         const fetchReservationOptionsdata = async () => {
             const data = await getReservationCreateData();
+            const specificReservationData = await getReservation(params.id);
+
             setReservationOptionsData(data);
             setEmployeeSelect(Object.keys(data.employees).map((key) => { return `${data.employees[key].name} ${data.employees[key].surname}, ${data.employees[key].social_security_number}`;}));
             setGuestSelect(Object.keys(data.guests).map((key) => { return `${data.guests[key].name} ${data.guests[key].surname}, ${data.guests[key].social_security_number}`;}));
             setRoomSelect(Object.keys(data.rooms).map((key) => {return String(data.rooms[key].room_id)}))
-            console.log(reservationObject);
+
+            setGuest(`${specificReservationData.guest.name} ${specificReservationData.guest.surname}, ${specificReservationData.guest.social_security_number}`);
+            setRoom(reservationObject.room);
+            setEmployee(`${specificReservationData.employee.name} ${specificReservationData.employee.surname}, ${specificReservationData.employee.social_security_number}`);
+
+            const getUnavailabiltyList = async (room_id) => {
+                const data = await getRoomUnavailabilty(room_id);
+                const datesToExclude = generateDateRange(reservationObject.date_from, reservationObject.date_to);
+                for (let i = 0; i < data.length; i++) {
+                    if (datesToExclude.includes(data[i])){
+                        data.splice(i, 1);
+                        i--;
+                    }
+                }
+                setUnavailabilityList(data);
+            }
+            getUnavailabiltyList(reservationObject.room);
+
         }
         fetchReservationOptionsdata();
     }, [])
@@ -96,7 +127,7 @@ function EditReservation() {
             if (response){
                 setAlertSeverity("success");
                 setShowAlert("Reservation edited successfully!");
-                routeChange();
+                //routeChange();
             }
         } catch (error) {
             setAlertSeverity("error");
@@ -178,6 +209,7 @@ function EditReservation() {
                         disablePortal
                         id="employeeSelectBox"
                         style={{width: 400}}
+                        value={employee}
                         onChange={(event, newValue) => {
                             setEmployee(newValue);
                         }}
@@ -191,6 +223,7 @@ function EditReservation() {
                         disablePortal
                         id="guestSelectBox"
                         style={{width: 400}}
+                        value={guest}
                         onChange={(event, newValue) => {
                             setGuest(newValue);
                         }}
@@ -203,6 +236,7 @@ function EditReservation() {
                         disablePortal
                         id="roomSelectBox"
                         style={{width: 400}}
+                        value={String(room)}
                         onChange={(event, newValue) => {
                             if (Object.is(newValue, null)){
                                 setRoom(undefined);

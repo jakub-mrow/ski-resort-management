@@ -226,6 +226,16 @@ class ReservationsViewSet(viewsets.ModelViewSet):
             return Response(data={"msg": "Internal Server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+    def retrieve(self, request, pk):
+        if models.Reservation.objects.filter(pk=pk).exists():
+            reservation = models.Reservation.objects.filter(pk=pk).first()
+
+            reservation_serializer = serializers.ReservationRetrieveSerializer(reservation)
+            return Response(reservation_serializer.data)
+        else:
+            return Response(data={"msg": "Reservation with id {} does not exist".format(pk)}, status=status.HTTP_404_NOT_FOUND)
+
+
 class EmployeesViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.EmployeeSerializer
     queryset = models.Employee.objects.all()
@@ -501,6 +511,15 @@ class RentalsViewSet(viewsets.ModelViewSet):
         serialized_rental_list = rental_serializer(qs, many=True)
 
         return Response(serialized_rental_list.data, status=status.HTTP_200_OK)
+
+    def retrieve(self, request, pk):
+        if models.Rental.objects.filter(pk=pk).exists():
+            rental = models.Rental.objects.filter(pk=pk).first()
+
+            rental_serializer = serializers.RentalRetrieveSerializer(rental)
+            return Response(rental_serializer.data)
+        else:
+            return Response(data={"msg": "Rental with id {} does not exist".format(pk)}, status=status.HTTP_404_NOT_FOUND)
 
 
 class RentalData(APIView):

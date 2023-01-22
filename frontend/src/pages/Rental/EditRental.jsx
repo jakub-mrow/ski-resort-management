@@ -4,7 +4,7 @@ import { Header } from '../../components';
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import { updateRental, getRentalCreateData } from '../../api/rentalRequests';
+import { updateRental, getRentalCreateData, getRental } from '../../api/rentalRequests';
 import { getGearUnavailabilty } from '../../api/gearRequests';
 
 import { Button, Alert, Snackbar, Autocomplete } from '@mui/material';
@@ -28,7 +28,7 @@ const EditRental = () => {
     const { rentalObject, setRentalObject } = useStateContext();
 
     const [dateFrom, setDateFrom] = useState(new Date(rentalObject.date_from));
-    const [dateTo, setDateTo] = useState(new Date(rentalObject.date_from));
+    const [dateTo, setDateTo] = useState(new Date(rentalObject.date_to));
 
     const [employeeSelect, setEmployeeSelect] = useState([]);
     const [guestSelect, setGuestSelect] = useState([]);
@@ -42,13 +42,45 @@ const EditRental = () => {
 
     const params = useParams();
 
+    const generateDateRange = (start, end) => {
+        let dateArr = [];
+        let current = new Date(start);
+        let last = new Date(end);
+        while (current <= last) {
+            dateArr.push(current.toISOString().slice(0, 10));
+            current.setDate(current.getDate() + 1);
+        }
+        return dateArr;
+    }
+
     useEffect(() => {
         const fetchRentalOptionsdata = async () => {
             const data = await getRentalCreateData();
+            const specificRentalData = await getRental(params.id);
+
             setRentalOptionsData(data);
             setEmployeeSelect(Object.keys(data.employees).map((key) => { return `${data.employees[key].name} ${data.employees[key].surname}, ${data.employees[key].social_security_number}`;}));
             setGuestSelect(Object.keys(data.guests).map((key) => { return `${data.guests[key].name} ${data.guests[key].surname}, ${data.guests[key].social_security_number}`;}));
             setGearSelect(Object.keys(data.gear).map((key) => {return `${data.gear[key].name} ${data.gear[key].size}`}))
+
+            setGuest(`${specificRentalData.guest.name} ${specificRentalData.guest.surname}, ${specificRentalData.guest.social_security_number}`);
+            setEmployee(`${specificRentalData.employee.name} ${specificRentalData.employee.surname}, ${specificRentalData.employee.social_security_number}`);
+            setGear(`${specificRentalData.gear.name} ${specificRentalData.gear.size}`)
+
+            const getUnavailabiltyList = async (gear_id) => {
+                const data = await getGearUnavailabilty(gear_id);
+                const datesToExclude = generateDateRange(rentalObject.date_from, rentalObject.date_to);
+                for (let i = 0; i < data.length; i++) {
+                    if (datesToExclude.includes(data[i])){
+                        data.splice(i, 1);
+                        i--;
+                    }
+                }
+                setUnavailabilityList(data);
+            }
+            getUnavailabiltyList(getGearIdByGearName(specificRentalData.gear.name, specificRentalData.gear.size));
+
+
         }
         fetchRentalOptionsdata();
     }, [])
@@ -80,9 +112,12 @@ const EditRental = () => {
         }
     }
 
-    const getGearIdByGearName = (gearName) => {
+    const getGearIdByGearName = (gearName, gearSize) => {
+        console.log("TEST")
+        console.log(rentalOptionsData)
         for (let i in rentalOptionsData.gear){
-            if (rentalOptionsData.gear[i].name == gearName){
+            console.log("I")
+            if ((rentalOptionsData.gear[i].name === gearName) && (rentalOptionsData.gear[i].size === gearSize)){
                 return rentalOptionsData.gear[i].id;
             }
         }
@@ -98,7 +133,7 @@ const EditRental = () => {
         data["date_to"] = dateTo.toISOString().split('T')[0];
         data["employee"] = getEmployeeIdBySocialNum(employee.split(" ")[employee.split(" ").length - 1]);
         data["guest"] = getGuestIdBySocialNum(guest.split(" ")[guest.split(" ").length - 1]);
-        data["gear"] = getGearIdByGearName(gear.split(" ").slice(0, -1).join(" "));
+        data["gear"] = getGearIdByGearName(gear.split(" ").slice(0, -1).join(" "), gear.split(" ")[gear.split(" ").length - 1]);
         console.log(data);
         try{
             const response = await updateRental(params.id, data);
@@ -181,6 +216,7 @@ const EditRental = () => {
                         disablePortal
                         id="employeeSelectBox"
                         style={{width: 400}}
+                        value={employee}
                         onChange={(event, newValue) => {
                             setEmployee(newValue);
                         }}
@@ -194,6 +230,7 @@ const EditRental = () => {
                         disablePortal
                         id="guestSelectBox"
                         style={{width: 400}}
+                        value={employee}
                         onChange={(event, newValue) => {
                             setGuest(newValue);
                         }}
@@ -206,6 +243,7 @@ const EditRental = () => {
                         disablePortal
                         id="gearSelectBox"
                         style={{width: 400}}
+                        value={gear}
                         onChange={(event, newValue) => {
                             setGear(newValue);
                             const getUnavailabiltyList = async (room_id) => {
@@ -223,7 +261,7 @@ const EditRental = () => {
                         id="outlined-basic" 
                         label="Price"
                         variant="outlined"
-                        //defaultValue={rentalObject.price}
+                        defaultValue={rentalObject.price}
                         style={{width: 400}}
                         {...register("price", {
                             required: "Price is required",
