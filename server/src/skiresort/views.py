@@ -186,6 +186,9 @@ class ReservationsViewSet(viewsets.ModelViewSet):
 
         unavailability_serializer = serializers.RoomUnavailabiltySerializer(reservations, many=True)
 
+        logging.info("ROOMS")
+        logging.info(unavailability_serializer.data)
+
         unavailable_dates = []
         for reservation in unavailability_serializer.data:
             date_from = reservation.get("date_from")
@@ -200,6 +203,47 @@ class ReservationsViewSet(viewsets.ModelViewSet):
         reservation_serializer.save()
 
         return Response(data={"msg": "Reservation created"}, status=status.HTTP_201_CREATED)
+
+
+    def update(self, request, pk):
+        reservation_serializer = serializers.ReservationSerializer(data=request.data)
+        reservation_serializer.is_valid(raise_exception=True)
+
+        new_date_from = request.data["date_from"]
+        new_date_to = request.data["date_to"]
+        new_date_range = generate_range_of_dates(new_date_from, new_date_to)
+
+        room_id = request.data["room"]
+        reservations = models.Reservation.objects.filter(room_id=room_id)
+
+        unavailability_serializer = serializers.RoomUnavailabiltySerializer(reservations, many=True)
+
+        logging.info("ROOMS")
+        logging.info(unavailability_serializer.data)
+
+        unavailable_dates = []
+        for reservation in unavailability_serializer.data:
+            date_from = reservation.get("date_from")
+            date_to = reservation.get("date_to")
+            date_range = generate_range_of_dates(date_from, date_to)
+            unavailable_dates.append(date_range)
+
+        for unavailable_dates_range in unavailable_dates:
+            if date_range_overlap(new_date_range, unavailable_dates_range):
+                return Response(data={"msg": "Chosen date range overlaps with unavailable dates"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+        reservation_object = models.Reservation.objects.filter(id=pk).first()
+
+        reservation_object["date_from"] = request.data["date_from"]
+        reservation_object["date_to"] = request.data["date_to"]
+        reservation_object["employee"] = request.data["employee"]
+        reservation_object["guest"] = request.data["guest"]
+        reservation_object["number_of_people"] = request.data["number_of_people"]
+        reservation_object["room"] = request.data["room"]
+
+        reservation_object.save()
+
+        return Response(data={"msg": "Reservation edited"}, status=status.HTTP_201_CREATED)
 
     def list(self, request):
         """
