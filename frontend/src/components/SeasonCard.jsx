@@ -74,10 +74,10 @@ const SeasonCard = ({ title, textToDisplay, procedureName, procedureNameNice, ac
 
     return (
         <>
-            <Card className={classes.card} sx={{ maxWidth: 1000, minWidth: 300 }}>
+            <Card className={classes.card} sx={{ maxWidth: 1100, minWidth: 400 }}>
                 <CardContent>
-                    <Typography className={classes.infoLabel1} align='left'>{title}</Typography>
-                    <Typography className={classes.infoLabel2} align='left'>{textToDisplay}</Typography>
+                    <Typography align='left' style={{fontSize: 26, fontWeight: 'bold'}}>{title}</Typography>
+                    <Typography align='left' style={{fontSize: 16}}>{textToDisplay}</Typography>
                 </CardContent>
                 <CardActions>
                     <form onSubmit={handleSubmit(onSubmit)}>
