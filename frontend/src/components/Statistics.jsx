@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     },
     verticalContainer: {
         display: 'grid',
-        gridTemplateRows: 'repeat(3, 1fr)',
+        gridTemplateRows: 'repeat(2, 1fr)',
         alignItems: 'center',
         justifyContent: 'space-between',
         height: '100%'
