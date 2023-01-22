@@ -67,6 +67,34 @@ class ReservationSerializer(serializers.ModelSerializer):
 
         return reservation
 
+    def validate(self, data):
+        if data["date_from"] >= data["date_to"]:
+            raise serializers.ValidationError("'Date from' should be set up to happen before 'Date to'")
+        return data
+
+
+class ReservationRetrieveSerializer(serializers.ModelSerializer):
+    room = RoomSerializer()
+    date_from = serializers.DateField()
+    date_to = serializers.DateField()
+    number_of_people = serializers.IntegerField()
+    employee = EmployeeSerializer()
+    guest = GuestSerializer()
+
+    class Meta:
+        model = models.Reservation
+        fields = "__all__"
+
+    def create(self, validated_data):
+        reservation = models.Reservation.objects.create(**validated_data)
+
+        return reservation
+
+    def validate(self, data):
+        if data["date_from"] >= data["date_to"]:
+            raise serializers.ValidationError("'Date from' should be set up to happen before 'Date to'")
+        return data
+
 
 class ReservationListSerializer(serializers.ModelSerializer):
     date_from = serializers.DateField()
@@ -155,6 +183,15 @@ class GearSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class GearUnavailabiltySerializer(serializers.ModelSerializer):
+    date_from = serializers.DateField()
+    date_to = serializers.DateField()
+
+    class Meta:
+        model = models.Rental
+        fields = ('date_from', 'date_to')
+
+
 class RentalSerializer(serializers.ModelSerializer):
     date_from = serializers.DateField()
     date_to = serializers.DateField()
@@ -173,7 +210,29 @@ class RentalSerializer(serializers.ModelSerializer):
         return rental
 
     def validate(self, data):
-        if data["date_from"] >= data["date_to"]:
+        if data["date_from"] > data["date_to"]:
+            raise serializers.ValidationError("'Date from' should be set up to happen before 'Date to'")
+        return data
+
+class RentalRetrieveSerializer(serializers.ModelSerializer):
+    date_from = serializers.DateField()
+    date_to = serializers.DateField()
+    price = serializers.FloatField()
+    employee = EmployeeSerializer()
+    gear = GearSerializer()
+    guest = GuestSerializer()    
+
+    class Meta:
+        model = models.Rental
+        fields = "__all__"
+
+    def create(self, validated_data):
+        rental = models.Rental.objects.create(**validated_data)
+
+        return rental
+
+    def validate(self, data):
+        if data["date_from"] > data["date_to"]:
             raise serializers.ValidationError("'Date from' should be set up to happen before 'Date to'")
         return data
 

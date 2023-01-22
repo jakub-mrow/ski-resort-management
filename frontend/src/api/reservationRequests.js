@@ -10,7 +10,7 @@ export async function getReservations(){
         return json;
     }
 
-    throw new Error(`Response ${response.status}: ${response.statusText} - ${await response.text()}`);
+    throw new Error(`${await response.text()}`);
 }
 
 
@@ -26,7 +26,7 @@ export async function getReservationCreateData(){
         return json;
     }
 
-    throw new Error(`Response ${response.status}: ${response.statusText} - ${await response.text()}`);
+    throw new Error(`${await response.text()}`);
 }
 
 
@@ -65,7 +65,7 @@ export async function postReservation(data) {
         return true;
     }
 
-    throw new Error(`Response ${response.status}: ${response.statusText} - ${await response.text()}`);
+    throw new Error(`${await response.text()}`);
 }
 
 
@@ -84,5 +84,24 @@ export async function updateReservation(id, data) {
         return true;
     }
 
-    throw new Error(`Response ${response.status}: ${response.statusText} - ${await response.text()}`);
+    throw new Error(`${await response.text()}`);
+}
+
+
+export async function getReservation(id) {
+    const endpoint = `http://localhost:8000/api/reservations/${id}/`;
+
+    const response = await fetch(endpoint, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: "GET",
+    });
+
+    if (response.ok) {
+        const json = await response.json();
+        return json;
+    }
+
+    throw new Error(`${await response.text()}`);
 }

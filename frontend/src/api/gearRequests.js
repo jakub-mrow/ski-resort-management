@@ -86,3 +86,22 @@ export async function getGear(id) {
 
     throw new Error(`${await response.text()}`);
 }
+
+
+export async function getGearUnavailabilty(gear_id){
+    const endpoint = `http://localhost:8000/api/gear/unavailabilty/?gear_id=${gear_id}`;
+
+    const response = await fetch(endpoint, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: "GET"
+    });
+
+    if (response.ok) {
+        const json = await response.json();
+        return json;
+    }
+
+    throw new Error(`${response.statusText}`)
+}
