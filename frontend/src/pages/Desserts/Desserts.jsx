@@ -6,15 +6,22 @@ import { Header } from '../../components';
 
 import { getDesserts, deleteDessert } from '../../api/dessertRequests';
 
-import Button from '@mui/material/Button';
+import { Button, Alert, Snackbar } from '@mui/material';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import { useStateContext } from '../../context/ContextProvider';
+
+import { ConfirmDialog } from '../../components';
 
 const Desserts = () => {
 
     const [desserts, setDesserts] = useState([]);
     const { dessertObject, setDessertObject } = useStateContext();
+
+    const [showAlert, setShowAlert] = useState(null);
+    const [alertSeverity, setAlertSeverity] = useState("error");
+
+    const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: "", subtitle: "" })
 
     const sendDessertData = (data) => {
         setDessertObject(data)
@@ -29,9 +36,9 @@ const Desserts = () => {
         fetchDesserts();
     }, [])
 
-    let navigate = useNavigate(); 
-    const routeChange = () =>{ 
-        let path = `/desserts/create`; 
+    let navigate = useNavigate();
+    const routeChange = () => {
+        let path = `/desserts/create`;
         navigate(path);
     }
 
@@ -42,11 +49,24 @@ const Desserts = () => {
 
     const handleDelete = (id) => {
         try {
-            deleteDessert(id);
-            setDesserts(desserts.filter((item) => item.id !== id))
+            setConfirmDialog({
+                isOpen: true,
+                title: "Are you sure you want to delete this record?",
+                subtitle: "It may affect other relations",
+                onConfirm: () => { deleteDessertAction(id) }
+            })
+
         } catch (error) {
             console.log(error)
         }
+    }
+
+    const deleteDessertAction = (id) => {
+        setConfirmDialog({ ...confirmDialog, isOpen: false })
+        deleteDessert(id);
+        setDesserts(desserts.filter((item) => item.id !== id))
+        setAlertSeverity("success");
+        setShowAlert("Dessert deleted successfully");
     }
 
     const actionColumn = [
@@ -60,14 +80,15 @@ const Desserts = () => {
                         <Button variant="contained"
                             style={{
                                 backgroundColor: "#21b6ae",
-                            }} 
+                            }}
                             onClick={() => {
-                            sendDessertData(params.row);
-                            navigateEditRoute(params.row.id)}}>Edit</Button>
-                        <Button variant="contained" 
+                                sendDessertData(params.row);
+                                navigateEditRoute(params.row.id)
+                            }}>Edit</Button>
+                        <Button variant="contained"
                             style={{
                                 backgroundColor: "#e31809",
-                            }} 
+                            }}
                             onClick={() => handleDelete(params.row.id)}>Delete</Button>
                     </div>
                 )
@@ -104,27 +125,36 @@ const Desserts = () => {
     ]
 
     return (
-    <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl space-y-4">
-        <Header category="Page" title="Desserts" />
+        <>
+            <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl space-y-4">
+                <Header category="Page" title="Desserts" />
 
-        <div className="flex flex-wrap lg:flex-nowrap justify-center">
-            <Box sx={{ height: 650, width: '100%' }}>
-                <DataGrid
-                    rows={desserts}
-                    columns={columns.concat(actionColumn)}
-                    pageSize={10}
-                    rowsPerPageOptions={[10]}
-                    checkboxSelection
-                    disableSelectionOnClick
-                    experimentalFeatures={{ newEditingApi: true }}
-                />
-            </Box>
-        </div>
+                <div className="flex flex-wrap lg:flex-nowrap justify-center">
+                    <Box sx={{ height: 650, width: '100%' }}>
+                        <DataGrid
+                            rows={desserts}
+                            columns={columns.concat(actionColumn)}
+                            pageSize={10}
+                            rowsPerPageOptions={[10]}
+                            checkboxSelection
+                            disableSelectionOnClick
+                            experimentalFeatures={{ newEditingApi: true }}
+                        />
+                    </Box>
+                </div>
 
-        <div class="flex flex-col space-y-4 mx-auto justify-center items-center">
-            <Button variant="contained" onClick={routeChange}>Add new dessert</Button>
-        </div>
-    </div>
+                <div class="flex flex-col space-y-4 mx-auto justify-center items-center">
+                    <Button variant="contained" onClick={routeChange}>Add new dessert</Button>
+                </div>
+            </div>
+            <Snackbar anchorOrigin={{ vertical: "bottom", horizontal: "right" }} open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
+                <Alert severity={alertSeverity}>{showAlert}</Alert>
+            </Snackbar>
+            <ConfirmDialog
+                confirmDialog={confirmDialog}
+                setConfirmDialog={setConfirmDialog}
+            />
+        </>
     )
 };
 export default Desserts;

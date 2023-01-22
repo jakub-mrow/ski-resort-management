@@ -6,14 +6,21 @@ import { Header } from '../../components';
 
 import { getRentals, deleteRental } from '../../api/rentalRequests';
 
-import Button from '@mui/material/Button';
+import { Button, Alert, Snackbar } from '@mui/material';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import { useStateContext } from '../../context/ContextProvider';
+import { ConfirmDialog } from '../../components';
 
 const Rental = () => {
     const [rentals, setRentals] = useState([]);
     const { rentalObject, setRentalObject } = useStateContext();
+
+    const [showAlert, setShowAlert] = useState(null);
+    const [alertSeverity, setAlertSeverity] = useState("error");
+
+    const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: "", subtitle: "" })
+
 
     const fetchRentals = async () => {
         const rentals = await getRentals();
@@ -29,24 +36,36 @@ const Rental = () => {
         setRentalObject(data);
     }
 
-    let navigate = useNavigate(); 
+    let navigate = useNavigate();
     const navigateEditRoute = (id) => {
         let path = `/rentals/${id}/edit`;
         navigate(path);
     }
 
-    const navigateCreateRoute = () =>{ 
-        let path = `/rentals/create`; 
+    const navigateCreateRoute = () => {
+        let path = `/rentals/create`;
         navigate(path);
     }
 
     const handleDeleteRental = (id) => {
         try {
-            deleteRental(id);
-            setRentals(rentals.filter((item) => item.id !== id));
+            setConfirmDialog({
+                isOpen: true,
+                title: "Are you sure you want to delete this record?",
+                subtitle: "",
+                onConfirm: () => { deleteRentalAction(id) }
+            })
         } catch (error) {
             console.log(error);
         }
+    }
+
+    const deleteRentalAction = (id) => {
+        setConfirmDialog({ ...confirmDialog, isOpen: false })
+        deleteRental(id);
+        setRentals(rentals.filter((item) => item.id !== id));
+        setAlertSeverity("success");
+        setShowAlert("Rental deleted successfully");
     }
 
     const actionColumn = [
@@ -60,16 +79,17 @@ const Rental = () => {
                         <Button variant="contained"
                             style={{
                                 backgroundColor: "#21b6ae",
-                            }} 
+                            }}
                             onClick={() => {
-                            sendRentalData(params.row);
-                            navigateEditRoute(params.row.id)}}>
+                                sendRentalData(params.row);
+                                navigateEditRoute(params.row.id)
+                            }}>
                             Edit
                         </Button>
                         <Button variant="contained"
                             style={{
                                 backgroundColor: "#e31809",
-                            }} 
+                            }}
                             onClick={() => handleDeleteRental(params.row.id)}>Delete
                         </Button>
                     </div>
@@ -117,27 +137,36 @@ const Rental = () => {
 
 
     return (
-        <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl space-y-4">
-            <Header category="Page" title="Rentals" />
+        <>
+            <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl space-y-4">
+                <Header category="Page" title="Rentals" />
 
-            <div className="flex flex-wrap lg:flex-nowrap justify-center">
-                <Box sx={{ height: 650, width: '100%' }}>
-                    <DataGrid
-                        rows={rentals}
-                        columns={columns.concat(actionColumn)}
-                        pageSize={10}
-                        rowsPerPageOptions={[10]}
-                        checkboxSelection
-                        disableSelectionOnClick
-                        experimentalFeatures={{ newEditingApi: true }}
-                    />
-                </Box>
+                <div className="flex flex-wrap lg:flex-nowrap justify-center">
+                    <Box sx={{ height: 650, width: '100%' }}>
+                        <DataGrid
+                            rows={rentals}
+                            columns={columns.concat(actionColumn)}
+                            pageSize={10}
+                            rowsPerPageOptions={[10]}
+                            checkboxSelection
+                            disableSelectionOnClick
+                            experimentalFeatures={{ newEditingApi: true }}
+                        />
+                    </Box>
+                </div>
+
+                <div className="flex flex-col space-y-4 mx-auto justify-center items-center">
+                    <Button variant="contained" onClick={navigateCreateRoute}>Add new rental</Button>
+                </div>
             </div>
-        
-            <div className="flex flex-col space-y-4 mx-auto justify-center items-center">
-                <Button variant="contained" onClick={navigateCreateRoute}>Add new rental</Button>
-            </div>
-        </div>
+            <Snackbar anchorOrigin={{ vertical: "bottom", horizontal: "right" }} open={showAlert !== null} autoHideDuration={3000} onClose={() => setShowAlert(null)}>
+                <Alert severity={alertSeverity}>{showAlert}</Alert>
+            </Snackbar>
+            <ConfirmDialog
+                confirmDialog={confirmDialog}
+                setConfirmDialog={setConfirmDialog}
+            />
+        </>
     )
 }
 
