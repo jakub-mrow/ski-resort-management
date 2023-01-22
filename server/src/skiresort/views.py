@@ -744,7 +744,7 @@ class ReservationCost(APIView):
 
     def get(self, request):
         try:
-            reservation_id = request.data["reservation_id"]
+            reservation_id = request.GET["reservation_id"]
             with connection.cursor() as cursor:
 
                 query = """
