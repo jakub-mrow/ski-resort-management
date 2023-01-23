@@ -89,11 +89,16 @@ const EditDuty = () => {
   }
 
 
-
   const onSubmit = async (data) => {
-    data["employee"] = getEmployeeIdBySocialNum(employee.split(" ")[2]);
-    data["task"] = getTaskIdByTaskName(task);
-    data["localization"] = getLocalizationIdByLocalizationName(localization);
+    if (employee !== ""){
+      data["employee"] = getEmployeeIdBySocialNum(employee.split(" ")[2]);
+    }
+    if (task !== ""){
+      data["task"] = getTaskIdByTaskName(task);
+    }
+    if (localization !== ""){
+      data["localization"] = getLocalizationIdByLocalizationName(localization);
+    }
     console.log(data);
     try{
       const response = await updateDuty(params.id, data);
@@ -136,7 +141,11 @@ const EditDuty = () => {
               style={{width: 400}}
               value={employee}
               onChange={(event, newValue) => {
+                if (Object.is(newValue, null)){
+                  setEmployee("");
+                } else {
                   setEmployee(newValue);
+                }
               }}
               options={employeeSelect}
               sx={{ width: 300 }}
@@ -164,7 +173,11 @@ const EditDuty = () => {
               style={{width: 400}}
               value={localization}
               onChange={(event, newValue) => {
-                  setLocalization(newValue);
+                  if (Object.is(newValue, null)){
+                    setLocalization("");
+                  } else {
+                    setLocalization(newValue);
+                  }
               }}
               options={localizationSelect}
               sx={{ width: 300 }}

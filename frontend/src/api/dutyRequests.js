@@ -84,7 +84,7 @@ export async function updateDuty(id, data) {
         return true;
     }
 
-    throw new Error(`${response.statusText}`)
+    throw new Error(`${await response.text()}`)
 }
 
 
