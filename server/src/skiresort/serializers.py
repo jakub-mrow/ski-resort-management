@@ -159,6 +159,23 @@ class MealSerializer(serializers.ModelSerializer):
         return meal
 
 
+class MealRetrieveSerializer(serializers.ModelSerializer):
+    date = serializers.DateField()
+    time_of_day = serializers.CharField(max_length=128)
+    guest = GuestSerializer()
+    dish = DishSerializer()
+    dessert = DessertSerializer()
+
+    class Meta:
+        model = models.Meal
+        fields = "__all__"
+    
+    def create(self, validated_data):
+        meal = models.Meal.objects.create(**validated_data)
+
+        return meal
+
+
 class MealListSerializer(serializers.ModelSerializer):
     date = serializers.DateField()
     time_of_day = serializers.CharField()
@@ -272,6 +289,21 @@ class DutySerializer(serializers.ModelSerializer):
     # employee = EmployeeSerializer()
     # localization = LocalizationSerializer()
     # task = TaskSerializer()    
+
+    class Meta:
+        model = models.Duty
+        fields = "__all__"
+
+    def create(self, validated_data):
+        duty = models.Duty.objects.create(**validated_data)
+
+        return duty
+
+
+class DutyRetrieveSerializer(serializers.ModelSerializer):
+    employee = EmployeeSerializer()
+    localization = LocalizationSerializer()
+    task = TaskSerializer()    
 
     class Meta:
         model = models.Duty

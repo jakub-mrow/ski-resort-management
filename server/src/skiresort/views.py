@@ -461,6 +461,15 @@ class MealsViewSet(viewsets.ModelViewSet):
         serialized_meal_list = meal_serializer(qs, many=True)
 
         return Response(serialized_meal_list.data, status=status.HTTP_200_OK)
+
+    def retrieve(self, request, pk):
+        if models.Meal.objects.filter(pk=pk).exists():
+            meal = models.Meal.objects.filter(pk=pk).first()
+
+            meal_serializer = serializers.MealRetrieveSerializer(meal)
+            return Response(meal_serializer.data)
+        else:
+            return Response(data={"msg": "Meal with id {} does not exist".format(pk)}, status=status.HTTP_404_NOT_FOUND)
     
     # def update(self, request, pk):
     #     """
@@ -699,6 +708,16 @@ class DutiesViewSet(viewsets.ModelViewSet):
         serialized_duty_list = duty_serializer(qs, many=True)
 
         return Response(serialized_duty_list.data, status=status.HTTP_200_OK)
+
+
+    def retrieve(self, request, pk):
+        if models.Duty.objects.filter(pk=pk).exists():
+            duty = models.Duty.objects.filter(pk=pk).first()
+
+            duty_serializer = serializers.DutyRetrieveSerializer(duty)
+            return Response(duty_serializer.data)
+        else:
+            return Response(data={"msg": "Duty with id {} does not exist".format(pk)}, status=status.HTTP_404_NOT_FOUND)
 
 
 class DutyData(APIView):
