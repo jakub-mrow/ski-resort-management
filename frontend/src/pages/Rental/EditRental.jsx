@@ -135,9 +135,15 @@ const EditRental = () => {
     const onSubmit = async (data) => {
         data["date_from"] = dateFrom.toISOString().split('T')[0];
         data["date_to"] = dateTo.toISOString().split('T')[0];
-        data["employee"] = getEmployeeIdBySocialNum(employee.split(" ")[employee.split(" ").length - 1]);
-        data["guest"] = getGuestIdBySocialNum(guest.split(" ")[guest.split(" ").length - 1]);
-        data["gear"] = getGearIdByGearName(gear.split(" ").slice(0, -1).join(" "), gear.split(" ")[gear.split(" ").length - 1]);
+        if (employee !== ""){
+            data["employee"] = getEmployeeIdBySocialNum(employee.split(" ")[employee.split(" ").length - 1]);
+        }
+        if (employee !== ""){
+            data["guest"] = getGuestIdBySocialNum(guest.split(" ")[guest.split(" ").length - 1]);
+        }
+        if (employee !== ""){
+            data["gear"] = getGearIdByGearName(gear.split(" ").slice(0, -1).join(" "), gear.split(" ")[gear.split(" ").length - 1]);
+        }
         console.log(data);
         try{
             const response = await updateRental(params.id, data);
@@ -222,7 +228,11 @@ const EditRental = () => {
                         style={{width: 400}}
                         value={employee}
                         onChange={(event, newValue) => {
-                            setEmployee(newValue);
+                            if (Object.is(newValue, null)){
+                                setEmployee("");
+                            } else {
+                                setEmployee(newValue);
+                            }
                         }}
                         options={employeeSelect}
                         sx={{ width: 300 }}
@@ -236,7 +246,11 @@ const EditRental = () => {
                         style={{width: 400}}
                         value={guest}
                         onChange={(event, newValue) => {
-                            setGuest(newValue);
+                            if (Object.is(newValue, null)){
+                                setGuest("");
+                            } else {
+                                setGuest(newValue);
+                            }
                         }}
                         options={guestSelect}
                         sx={{ width: 300 }}
@@ -249,12 +263,17 @@ const EditRental = () => {
                         style={{width: 400}}
                         value={gear}
                         onChange={(event, newValue) => {
-                            setGear(newValue);
-                            const getUnavailabiltyList = async (room_id) => {
-                                const data = await getGearUnavailabilty(room_id);
-                                setUnavailabilityList(data);
+                            if (Object.is(newValue, null)){
+                                setGear("");
+                            } else {
+                                setGear(newValue);
+                                const getUnavailabiltyList = async (room_id) => {
+                                    const data = await getGearUnavailabilty(room_id);
+                                    setUnavailabilityList(data);
+                                }
+                                getUnavailabiltyList(getGearIdByGearName(newValue.split(" ").slice(0, -1).join(" ")));
                             }
-                            getUnavailabiltyList(getGearIdByGearName(newValue.split(" ").slice(0, -1).join(" ")));
+                            
                         }}
                         options={gearSelect}
                         sx={{ width: 300 }}
