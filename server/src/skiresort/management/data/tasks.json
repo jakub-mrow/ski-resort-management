@@ -16,7 +16,7 @@
         "description": "Maintaining the hotel's garden and landscaping, including planting, watering, and trimming"
     },
     {
-        "name": "Inventory management",
+        "name": "Hotel inventory management",
         "description": "Managing and replenishing the hotel's inventory of supplies such as linens, cleaning products, and guest amenities"
     },
     {
@@ -48,7 +48,7 @@
         "description": "Organizing and stocking equipment for guests"
     },
     {
-        "name": "Inventory management",
+        "name": "Resort inventory management",
         "description": "Managing and replenishing the resort's inventory of supplies such as rental equipment, ski wax, and first aid supplies"
     },
     {

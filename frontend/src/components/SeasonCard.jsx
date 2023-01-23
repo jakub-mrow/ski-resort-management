@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { makeStyles } from "@material-ui/core/styles";
+import { Box } from '@material-ui/core';
 import { useForm } from "react-hook-form";
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -9,6 +10,7 @@ import { Button, Alert, Snackbar } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { decreasePrices, increasePrices } from '../api/procedureRequests';
+import {FaHandPointUp, FaHandPointDown} from 'react-icons/fa';
 
 import { useNavigate } from "react-router-dom";
 
@@ -98,7 +100,14 @@ const SeasonCard = ({ title, textToDisplay, procedureName, procedureNameNice, ac
                                 error={!!errors?.[action]}
                                 helperText={errors?.[action] ? errors?.[action].message : null}
                             />
-                            <Button type="submit" className={classes.button} variant="contained" style={action == 'increase' ? { backgroundColor: "#21b6ae" } : { backgroundColor: "#e31809" }}>{procedureNameNice}</Button>
+                            <Box display="flex" alignSelf="flex-start">
+                                <Button type="submit" 
+                                className={classes.button} 
+                                variant="contained" 
+                                style={action == 'increase' ? { backgroundColor: "#21b6ae" } : { backgroundColor: "#e31809" }}>
+                                    {procedureNameNice} &nbsp; {action == 'increase' ? <FaHandPointUp />  :  <FaHandPointDown /> }
+                                </Button>
+                            </Box>
                         </div>
                     </form>
                 </CardActions>

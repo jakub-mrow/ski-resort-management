@@ -17,6 +17,9 @@ class Room(models.Model):
     beds = models.PositiveIntegerField(help_text="Number of beds in a room")
     price = models.FloatField(validators=[MinValueValidator(0.0)], help_text="Price of the room")
 
+    class Meta:
+        ordering = ("room_id", )
+
 
 class Guest(models.Model):
     social_security_number = models.CharField(max_length=11, help_text="Polish social security number PESEL", unique=True)
@@ -27,6 +30,9 @@ class Guest(models.Model):
 
     def get_full_name(self):
         return "{} {}".format(self.name, self.surname)
+
+    class Meta:
+        ordering = ("surname", "name")
 
 
 class Employee(models.Model):
@@ -39,6 +45,8 @@ class Employee(models.Model):
     def get_full_name(self):
         return "{} {}".format(self.name, self.surname)
 
+    class Meta:
+        ordering = ("surname", "name")
 
 class Reservation(models.Model):
     guest = models.ForeignKey(Guest, on_delete=models.CASCADE, related_name="reservations")
@@ -48,6 +56,9 @@ class Reservation(models.Model):
     number_of_people = models.IntegerField()
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="reservations")
 
+    class Meta:
+        ordering = ("date_from", "date_to")
+
 
 class Dish(models.Model):
     name = models.CharField(max_length=128)
@@ -55,6 +66,9 @@ class Dish(models.Model):
     calories = models.PositiveIntegerField()
     cost = models.FloatField(validators=[MinValueValidator(0.0)])
     price = models.FloatField(validators=[MinValueValidator(0.0)])
+
+    class Meta:
+        ordering = ("name", )
 
 
 class Dessert(models.Model):
@@ -64,6 +78,9 @@ class Dessert(models.Model):
     cost = models.FloatField(validators=[MinValueValidator(0.0)])
     price = models.FloatField(validators=[MinValueValidator(0.0)])
 
+    class Meta:
+        ordering = ("name", )
+
 
 class Meal(models.Model):
     date = models.DateField()
@@ -72,6 +89,9 @@ class Meal(models.Model):
     dish = models.ForeignKey(Dish, on_delete=models.CASCADE, related_name="meals")
     dessert = models.ForeignKey(Dessert, on_delete=models.CASCADE, related_name="meals")
 
+    class Meta:
+        ordering = ("date", "time_of_day")
+
 
 class Gear(models.Model):
     code = models.CharField(max_length=128, unique=True)
@@ -79,6 +99,9 @@ class Gear(models.Model):
     name = models.CharField(max_length=128)
     brand = models.CharField(max_length=128)
     size = models.CharField(max_length=128)
+
+    class Meta:
+        ordering = ("type", "name", "code")
 
 
 class Rental(models.Model):
@@ -89,18 +112,29 @@ class Rental(models.Model):
     gear = models.ForeignKey(Gear, on_delete=models.CASCADE, related_name="rentals")
     guest = models.ForeignKey(Guest, on_delete=models.CASCADE, related_name="rentals")
 
+    class Meta:
+        ordering = ("date_from", "date_to")
+
 
 class Localization(models.Model):
     name = models.CharField(max_length=128)
     address = models.CharField(max_length=256)
+
+    class Meta:
+        ordering = ("name", )
 
 
 class Task(models.Model):
     name = models.CharField(max_length=128)
     description = models.CharField(max_length=256)
 
+    class Meta:
+        ordering = ("name", )
 
 class Duty(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="duties")
     localization = models.ForeignKey(Localization, on_delete=models.CASCADE, related_name="duties")
     task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name="duties")
+
+    class Meta:
+        ordering = ("employee", "task")

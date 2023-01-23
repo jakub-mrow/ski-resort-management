@@ -199,6 +199,11 @@ class ReservationsViewSet(viewsets.ModelViewSet):
         for unavailable_dates_range in unavailable_dates:
             if date_range_overlap(new_date_range, unavailable_dates_range):
                 return Response(data={"msg": "Chosen date range overlaps with unavailable dates"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+        
+        beds = models.Room.objects.filter(room_id=room_id).first().beds
+        if int(request.data["number_of_people"]) > beds:
+            return Response(data={"msg": "Number of people is too big for the room"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+
 
         reservation_serializer.save()
 
