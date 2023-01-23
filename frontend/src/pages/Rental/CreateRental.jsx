@@ -170,7 +170,7 @@ const CreateRental = () => {
                         
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DesktopDatePicker
-                            label="Date from Picker"
+                            label="Date from"
                             inputFormat="MM-DD-YYYY"
                             value={dateFrom}
                             onChange={handleDateFromChange}
@@ -179,7 +179,7 @@ const CreateRental = () => {
                             renderInput={(params) => <TextField {...params} />}
                         />
                         <DesktopDatePicker
-                            label="Date to Picker"
+                            label="Date to"
                             inputFormat="MM-DD-YYYY"
                             value={dateTo}
                             onChange={handleDateToChange}
