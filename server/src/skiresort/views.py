@@ -234,12 +234,12 @@ class ReservationsViewSet(viewsets.ModelViewSet):
 
         reservation_object = models.Reservation.objects.filter(id=pk).first()
 
-        reservation_object["date_from"] = request.data["date_from"]
-        reservation_object["date_to"] = request.data["date_to"]
-        reservation_object["employee"] = request.data["employee"]
-        reservation_object["guest"] = request.data["guest"]
-        reservation_object["number_of_people"] = request.data["number_of_people"]
-        reservation_object["room"] = request.data["room"]
+        reservation_object.date_from = request.data["date_from"]
+        reservation_object.date_to = request.data["date_to"]
+        reservation_object.employee = models.Employee.objects.filter(id=request.data["employee"]).first()
+        reservation_object.guest = models.Guest.objects.filter(id=request.data["guest"]).first()
+        reservation_object.number_of_people = request.data["number_of_people"]
+        reservation_object.room = models.Room.objects.filter(room_id=request.data["room"]).first()
 
         reservation_object.save()
 
