@@ -23,6 +23,7 @@ function Reservations() {
     const [alertSeverity, setAlertSeverity] = useState("error");
 
     const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: "", subtitle: "" })
+    const [reservationModal, setReservationModal] = useState({ isOpen: false, title: "", subtitle: "" });
 
     const fetchReservations = async () => {
         const reservations = await getReservations();
@@ -74,7 +75,7 @@ function Reservations() {
     const handleCostModal = async (reservationId) => {
         const data = await getReservationCost(reservationId);
 
-        setConfirmDialog({
+        setReservationModal({
             isOpen: true,
             title: `${data.reservation_cost} PLN`,
             subtitle: `Total cost of the reservation: ${reservationId}`
@@ -150,8 +151,6 @@ function Reservations() {
         }
     ]
 
-
-
     return (
         <>
             <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl space-y-4">
@@ -178,13 +177,13 @@ function Reservations() {
                 <Alert severity={alertSeverity}>{showAlert}</Alert>
             </Snackbar>
             <ConfirmDialog
-              confirmDialog={confirmDialog}
+                confirmDialog={confirmDialog}
                 setConfirmDialog={setConfirmDialog}
             />
 
             <ReservationCostModal 
-                confirmDialog={confirmDialog}
-                setConfirmDialog={setConfirmDialog}
+                reservationModal={reservationModal}
+                setReservationModal={setReservationModal}
             />
         </>
     )

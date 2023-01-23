@@ -1,7 +1,6 @@
 import { Dialog, DialogActions, DialogContent, DialogTitle, Typography, Button, IconButton } from '@mui/material'
 import { makeStyles } from '@mui/styles';
 import React from 'react'
-import { MdNotListedLocation } from 'react-icons/md';
 import { FaCalendarAlt } from 'react-icons/fa';
 
 const useStyles = makeStyles(theme => ({
@@ -29,28 +28,29 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const ReservationCostModal = (props) => {
-    const {confirmDialog, setConfirmDialog} = props;
+    const {reservationModal, setReservationModal} = props;
     const classes = useStyles();
 
     return (
-        <Dialog open={confirmDialog.isOpen} classes={{ paper: classes.dialog }}>
+        <Dialog open={reservationModal.isOpen} classes={{ paper: classes.dialog }}>
             <DialogTitle textAlign="center">
-                <IconButton disableRipple className={classes.titleIcon}>
-                    <FaCalendarAlt size={100}/>
+                {/* <IconButton disableRipple className={classes.titleIcon}> */}
+                <IconButton disableRipple>
+                    <FaCalendarAlt size={100} color="e31809"/>
                 </IconButton>
             </DialogTitle>
 
             <DialogContent className={classes.dialogContent}>
                 <Typography variant="h5">
-                    {confirmDialog.title}
+                    {reservationModal.title}
                 </Typography>
                 <Typography variant="subtitle1">
-                    {confirmDialog.subtitle}
+                    {reservationModal.subtitle}
                 </Typography>
             </DialogContent>
 
             <Button variant="contained" style={{backgroundColor: "#F7F7F7", color: "#000000"}}
-                onClick={() => setConfirmDialog({...confirmDialog, isOpen: false})}>Back
+                onClick={() => setReservationModal({...reservationModal, isOpen: false})}>Back
             </Button>
         </Dialog>
     )

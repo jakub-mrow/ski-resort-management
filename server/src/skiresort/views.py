@@ -186,6 +186,9 @@ class ReservationsViewSet(viewsets.ModelViewSet):
 
         unavailability_serializer = serializers.RoomUnavailabiltySerializer(reservations, many=True)
 
+        logging.info("ROOMS")
+        logging.info(unavailability_serializer.data)
+
         unavailable_dates = []
         for reservation in unavailability_serializer.data:
             date_from = reservation.get("date_from")
@@ -196,10 +199,57 @@ class ReservationsViewSet(viewsets.ModelViewSet):
         for unavailable_dates_range in unavailable_dates:
             if date_range_overlap(new_date_range, unavailable_dates_range):
                 return Response(data={"msg": "Chosen date range overlaps with unavailable dates"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+        
+        beds = models.Room.objects.filter(room_id=room_id).first().beds
+        if int(request.data["number_of_people"]) > beds:
+            return Response(data={"msg": "Number of people is too big for the room"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+
 
         reservation_serializer.save()
 
         return Response(data={"msg": "Reservation created"}, status=status.HTTP_201_CREATED)
+
+
+    def update(self, request, pk):
+        reservation_serializer = serializers.ReservationSerializer(data=request.data)
+        reservation_serializer.is_valid(raise_exception=True)
+
+        new_date_from = request.data["date_from"]
+        new_date_to = request.data["date_to"]
+        new_date_range = generate_range_of_dates(new_date_from, new_date_to)
+
+        room_id = request.data["room"]
+        reservations = models.Reservation.objects.filter(room_id=room_id)
+
+        unavailability_serializer = serializers.RoomUnavailabiltySerializer(reservations, many=True)
+
+        logging.info("ROOMS")
+        logging.info(unavailability_serializer.data)
+
+        unavailable_dates = []
+        for reservation in unavailability_serializer.data:
+            date_from = reservation.get("date_from")
+            date_to = reservation.get("date_to")
+            if date_to != new_date_to and date_from != new_date_from:
+                date_range = generate_range_of_dates(date_from, date_to)
+                unavailable_dates.append(date_range)
+
+        for unavailable_dates_range in unavailable_dates:
+            if date_range_overlap(new_date_range, unavailable_dates_range):
+                return Response(data={"msg": "Chosen date range overlaps with unavailable dates"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+        reservation_object = models.Reservation.objects.filter(id=pk).first()
+
+        reservation_object.date_from = request.data["date_from"]
+        reservation_object.date_to = request.data["date_to"]
+        reservation_object.employee = models.Employee.objects.filter(id=request.data["employee"]).first()
+        reservation_object.guest = models.Guest.objects.filter(id=request.data["guest"]).first()
+        reservation_object.number_of_people = request.data["number_of_people"]
+        reservation_object.room = models.Room.objects.filter(room_id=request.data["room"]).first()
+
+        reservation_object.save()
+
+        return Response(data={"msg": "Reservation edited"}, status=status.HTTP_201_CREATED)
 
     def list(self, request):
         """
@@ -417,6 +467,15 @@ class MealsViewSet(viewsets.ModelViewSet):
         serialized_meal_list = meal_serializer(qs, many=True)
 
         return Response(serialized_meal_list.data, status=status.HTTP_200_OK)
+
+    def retrieve(self, request, pk):
+        if models.Meal.objects.filter(pk=pk).exists():
+            meal = models.Meal.objects.filter(pk=pk).first()
+
+            meal_serializer = serializers.MealRetrieveSerializer(meal)
+            return Response(meal_serializer.data)
+        else:
+            return Response(data={"msg": "Meal with id {} does not exist".format(pk)}, status=status.HTTP_404_NOT_FOUND)
     
     # def update(self, request, pk):
     #     """
@@ -655,6 +714,16 @@ class DutiesViewSet(viewsets.ModelViewSet):
         serialized_duty_list = duty_serializer(qs, many=True)
 
         return Response(serialized_duty_list.data, status=status.HTTP_200_OK)
+
+
+    def retrieve(self, request, pk):
+        if models.Duty.objects.filter(pk=pk).exists():
+            duty = models.Duty.objects.filter(pk=pk).first()
+
+            duty_serializer = serializers.DutyRetrieveSerializer(duty)
+            return Response(duty_serializer.data)
+        else:
+            return Response(data={"msg": "Duty with id {} does not exist".format(pk)}, status=status.HTTP_404_NOT_FOUND)
 
 
 class DutyData(APIView):

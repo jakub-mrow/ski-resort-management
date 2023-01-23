@@ -40,11 +40,11 @@ const StatsCard = ({ objects, title, subtitle, tableName }) => {
   }
 
   return (
-    <Card className={classes.card} sx={{ maxWidth: 1000, minWidth: 210 }}>
+    <Card className={classes.card} sx={{ maxWidth: 1100, minWidth: 310 }}>
       <CardContent>
-        <Typography className={classes.infoLabel1} align='left'>{title}</Typography>
-        <Typography className={classes.guestCount} align='left'>{objects.length}</Typography>
-        <Typography className={classes.infoLabel2} align='left'>{subtitle}</Typography>
+        <Typography className={classes.infoLabel1} align='left' style={{fontSize: 18}}>{title}</Typography>  
+        <Typography className={classes.guestCount} align='left' style={{fontSize: 26, fontWeight: 'bold'}}>{objects.length}</Typography>
+        <Typography className={classes.infoLabel2} align='left' style={{fontSize: 18}}>{subtitle}</Typography>
       </CardContent>
       <CardActions>
         <Button variant="contained" className={classes.button} style={{ backgroundColor: "#5fceed" }} onClick={routeChange}>See {tableName}</Button>

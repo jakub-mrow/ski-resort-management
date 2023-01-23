@@ -21,18 +21,18 @@
         "salary": 2100.0
     },
     {
-        "social_security_number": "03270943378",
-        "surname": "Wiśniewski",
-        "name": "Tomasz",
+        "social_security_number": "01271543378",
+        "surname": "Muszynianka",
+        "name": "Julia",
         "job": "Ski patrol",
-        "salary": 2500.0
+        "salary": 2450.0
     },
     {
         "social_security_number": "84070379756",
-        "surname": "Kowalczyk",
+        "surname": "Lewandowska",
         "name": "Ewa",
         "job": "Lift operator",
-        "salary": 1500.0
+        "salary": 1850.0
     },
     {
         "social_security_number": "55110199151",
@@ -50,10 +50,10 @@
     },
     {
         "social_security_number": "84073009430",
-        "surname": "Woźniak",
-        "name": "Katarzyna",
+        "surname": "Matczak",
+        "name": "Aleksandra",
         "job": "Ski school administrator",
-        "salary": 2400.0
+        "salary": 2890.0
     },
     {
         "social_security_number": "46060321194",
@@ -71,17 +71,17 @@
     },
     {
         "social_security_number": "88122280351",
-        "surname": "Kowalski",
-        "name": "Marek",
+        "surname": "Błaszczykowski",
+        "name": "Szymon",
         "job": "Front desk clerk",
-        "salary": 2000.0
+        "salary": 2280.0
     },
     {
-        "social_security_number": "72070690874",
-        "surname": "Nowakowski",
-        "name": "Grzegorz",
-        "job": "Housekeeping supervisor",
-        "salary": 2100.0
+        "social_security_number": "01322790874",
+        "surname": "Puławski",
+        "name": "Jan",
+        "job": "Janitor",
+        "salary": 1700.0
     },
     {
         "social_security_number": "37032029347",
@@ -99,17 +99,17 @@
     },
     {
         "social_security_number": "39111318494",
-        "surname": "Zieliński",
-        "name": "Jan",
-        "job": "Room service waiter",
-        "salary": 1800.0
+        "surname": "Filipiak",
+        "name": "Marcin",
+        "job": "IT Technician",
+        "salary": 3500.0
     },
     {
-        "social_security_number": "45061984106",
-        "surname": "Szymańska",
-        "name": "Agnieszka",
-        "job": "Laundry attendant",
-        "salary": 2000.0
+        "social_security_number": "01282984106",
+        "surname": "Majątek",
+        "name": "Hanna",
+        "job": "Graphic designer",
+        "salary": 2670.0
     },
     {
         "social_security_number": "03282424063",
@@ -120,10 +120,10 @@
     },
     {
         "social_security_number": "58060553970",
-        "surname": "Dąbrowski",
+        "surname": "Dębowski",
         "name": "Piotr",
         "job": "Maintenance worker",
-        "salary": 2800.0
+        "salary": 2220.0
     },
     {
         "social_security_number": "63082636725",

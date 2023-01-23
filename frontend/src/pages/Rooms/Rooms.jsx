@@ -99,7 +99,7 @@ const Rooms = () => {
         {
             field: "room_id",
             headerName: "Room number",
-            width: 100
+            width: 150
         },
         {
             field: "wing",
@@ -114,7 +114,7 @@ const Rooms = () => {
         {
             field: "beds",
             headerName: "Number of beds",
-            width: 100
+            width: 150
         },
         {
             field: "price",

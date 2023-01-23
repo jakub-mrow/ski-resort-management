@@ -60,7 +60,7 @@ function CreateGuest() {
                     <TextField 
                         id="outlined-basic"
                         type="number" 
-                        label="Social security number" 
+                        label="Social security number / PESEL" 
                         inputRef={ssnRef}
                         variant="outlined"
                         style={{width: 400}}

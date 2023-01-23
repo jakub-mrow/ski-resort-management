@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from 'react';
-import { makeStyles } from "@material-ui/core/styles";
+//import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from '@mui/styles';
 import { FaChartLine } from 'react-icons/fa';
 import StatsCard from "./StatsCard"
 import SeasonCard from "./SeasonCard"

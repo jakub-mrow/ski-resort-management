@@ -4,7 +4,7 @@ import { Header } from '../../components';
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import { updateDuty, getDutyCreateData } from '../../api/dutyRequests';
+import { updateDuty, getDutyCreateData, getDuty } from '../../api/dutyRequests';
 
 import { Button, Alert, Snackbar, Autocomplete } from '@mui/material';
 
@@ -33,10 +33,18 @@ const EditDuty = () => {
   useEffect(() => {
     const fetchDutyOptionsdata = async () => {
         const data = await getDutyCreateData();
+        const specificData = await getDuty(params.id);
+
         setDutyOptionsData(data);
         setEmployeeSelect(Object.keys(data.employees).map((key) => { return `${data.employees[key].name} ${data.employees[key].surname}, ${data.employees[key].social_security_number}`;}));
         setTaskSelect(Object.keys(data.tasks).map((key) => { return String(data.tasks[key].name)}));
         setLocalizationSelect(Object.keys(data.localizations).map((key) => {return String(data.localizations[key].name)}));
+
+        setEmployee(`${specificData.employee.name} ${specificData.employee.surname}, ${specificData.employee.social_security_number}`)
+        setTask(`${specificData.task.name}`)
+        setLocalization(`${specificData.localization.name}`)
+
+
     }
     fetchDutyOptionsdata();
   }, [])
@@ -81,17 +89,23 @@ const EditDuty = () => {
   }
 
 
-
   const onSubmit = async (data) => {
-    data["employee"] = getEmployeeIdBySocialNum(employee.split(" ")[2]);
-    data["task"] = getTaskIdByTaskName(task);
-    data["localization"] = getLocalizationIdByLocalizationName(localization);
+    if (employee !== ""){
+      data["employee"] = getEmployeeIdBySocialNum(employee.split(" ")[2]);
+    }
+    if (task !== ""){
+      data["task"] = getTaskIdByTaskName(task);
+    }
+    if (localization !== ""){
+      data["localization"] = getLocalizationIdByLocalizationName(localization);
+    }
     console.log(data);
     try{
       const response = await updateDuty(params.id, data);
       if (response) {
         setAlertSeverity("success");
         setShowAlert("Duty edited successfully!");
+        routeChange();
         return;
       }
     } catch (error){
@@ -125,8 +139,13 @@ const EditDuty = () => {
               disablePortal
               id="employeeSelectBox"
               style={{width: 400}}
+              value={employee}
               onChange={(event, newValue) => {
+                if (Object.is(newValue, null)){
+                  setEmployee("");
+                } else {
                   setEmployee(newValue);
+                }
               }}
               options={employeeSelect}
               sx={{ width: 300 }}
@@ -138,6 +157,7 @@ const EditDuty = () => {
               disablePortal
               id="taskSelectBox"
               style={{width: 400}}
+              value={task}
               onChange={(event, newValue) => {
                   setTask(newValue);
               }}
@@ -151,8 +171,13 @@ const EditDuty = () => {
               disablePortal
               id="localizationSelectBox"
               style={{width: 400}}
+              value={localization}
               onChange={(event, newValue) => {
-                  setLocalization(newValue);
+                  if (Object.is(newValue, null)){
+                    setLocalization("");
+                  } else {
+                    setLocalization(newValue);
+                  }
               }}
               options={localizationSelect}
               sx={{ width: 300 }}

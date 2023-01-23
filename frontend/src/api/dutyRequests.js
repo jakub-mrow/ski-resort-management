@@ -84,5 +84,24 @@ export async function updateDuty(id, data) {
         return true;
     }
 
-    throw new Error(`${response.statusText}`)
+    throw new Error(`${await response.text()}`)
+}
+
+
+export async function getDuty(id) {
+    const endpoint = `http://localhost:8000/api/duties/${id}/`;
+
+    const response = await fetch(endpoint, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: "GET",
+    });
+
+    if (response.ok) {
+        const json = await response.json();
+        return json;
+    }
+
+    throw new Error(`${await response.text()}`);
 }

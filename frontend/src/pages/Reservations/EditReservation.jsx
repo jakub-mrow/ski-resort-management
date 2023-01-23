@@ -114,20 +114,29 @@ function EditReservation() {
     const onSubmit = async (data) => {
         data["date_from"] = dateFrom.toISOString().split('T')[0];
         data["date_to"] = dateTo.toISOString().split('T')[0];
-        data["employee"] = getEmployeeIdBySocialNum(employee.split(" ")[employee.split(" ").length - 1]);
-        data["guest"] = getGuestIdBySocialNum(guest.split(" ")[guest.split(" ").length - 1]);
+        if (employee !== ""){
+            console.log("EMPLOYEE not EMPTY")
+            data["employee"] = getEmployeeIdBySocialNum(employee.split(" ")[employee.split(" ").length - 1]);
+        }
+        if (guest !== ""){
+            console.log("guest not empty")
+            data["guest"] = getGuestIdBySocialNum(guest.split(" ")[guest.split(" ").length - 1]);
+        }
+
         if (typeof(room) === 'string'){
             data["room"] = parseInt(room)
         } else {
             data["room"] = room;
         }
 
+        console.log(data)
         try {
             const response = await updateReservation(params.id, data);
             if (response){
                 setAlertSeverity("success");
                 setShowAlert("Reservation edited successfully!");
-                //routeChange();
+                routeChange();
+                return;
             }
         } catch (error) {
             setAlertSeverity("error");
@@ -211,7 +220,11 @@ function EditReservation() {
                         style={{width: 400}}
                         value={employee}
                         onChange={(event, newValue) => {
-                            setEmployee(newValue);
+                            if (Object.is(newValue, null)){
+                                setEmployee("");
+                            } else {
+                                setEmployee(newValue);
+                            }
                         }}
                         options={employeeSelect}
                         sx={{ width: 300 }}
@@ -225,7 +238,11 @@ function EditReservation() {
                         style={{width: 400}}
                         value={guest}
                         onChange={(event, newValue) => {
-                            setGuest(newValue);
+                            if (Object.is(newValue, null)){
+                                setGuest("");
+                            } else {
+                                setGuest(newValue);
+                            }
                         }}
                         options={guestSelect}
                         sx={{ width: 300 }}
@@ -239,7 +256,7 @@ function EditReservation() {
                         value={String(room)}
                         onChange={(event, newValue) => {
                             if (Object.is(newValue, null)){
-                                setRoom(undefined);
+                                setRoom("");
                             } else {
                                 setRoom(newValue);
                             }

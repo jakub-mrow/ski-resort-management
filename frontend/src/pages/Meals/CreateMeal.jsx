@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
 import { Header } from '../../components';
 import { useNavigate } from "react-router-dom";
@@ -34,6 +34,8 @@ const CreateMeal = () => {
     const [clearGuest, setClearGuest] = useState(Math.random().toString());
     const [clearDish, setClearDish] = useState(Math.random().toString());
     const [clearDessert, setClearDessert] = useState(Math.random().toString());
+
+    const timeDayRef = useRef(null);
 
     useEffect(() => {
         const fetchMealOptionsdata = async () => {
@@ -100,6 +102,7 @@ const CreateMeal = () => {
                 setClearGuest(Math.random().toString());
                 setClearDish(Math.random().toString());
                 setClearDessert(Math.random().toString());
+                timeDayRef.current.value = "";
                 return;
             }
         } catch (error){
@@ -169,6 +172,7 @@ const CreateMeal = () => {
                         {...register("time_of_day", {required: "Time of day is required"})}
                         error={!!errors?.time_of_day}
                         helperText={errors?.time_of_day ? errors.time_of_day.message : null} 
+                        inputRef={timeDayRef}
                     />
 
 

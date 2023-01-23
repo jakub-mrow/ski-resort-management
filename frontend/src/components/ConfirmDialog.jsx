@@ -36,7 +36,7 @@ const ConfirmDialog = (props) => {
         <Dialog open={confirmDialog.isOpen} classes={{ paper: classes.dialog }}>
             <DialogTitle textAlign="center">
                 <IconButton disableRipple className={classes.titleIcon}>
-                    <MdNotListedLocation size={70}/>
+                    <MdNotListedLocation size={70} color="#e31809" backgroundColor="#e8e8e8"/>
                 </IconButton>
             </DialogTitle>
 

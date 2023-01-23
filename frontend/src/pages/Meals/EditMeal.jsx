@@ -4,7 +4,7 @@ import { Header } from '../../components';
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import { updateMeal, getMealCreateData } from '../../api/mealRequests';
+import { updateMeal, getMealCreateData, getMeal } from '../../api/mealRequests';
 
 import { Button, Alert, Snackbar, Autocomplete } from '@mui/material';
 
@@ -40,10 +40,16 @@ const EditMeal = () => {
     useEffect(() => {
       const fetchMealOptionsdata = async () => {
           const data = await getMealCreateData();
+          const specificData = await getMeal(params.id);
           setMealOptionsData(data);
           setGuestSelect(Object.keys(data.guests).map((key) => { return `${data.guests[key].name} ${data.guests[key].surname}, ${data.guests[key].social_security_number}`;}));
           setDishSelect(Object.keys(data.dishes).map((key) => { return String(data.dishes[key].name)}));
           setDessertSelect(Object.keys(data.desserts).map((key) => {return String(data.desserts[key].name)}));
+
+          setGuest(`${specificData.guest.name} ${specificData.guest.surname}, ${specificData.guest.social_security_number}`);
+          setDish(`${specificData.dish.name}`);
+          setDessert(`${specificData.dessert.name}`);
+
       }
       fetchMealOptionsdata();
     }, [])
@@ -91,9 +97,16 @@ const EditMeal = () => {
 
     const onSubmit = async (data) => {
         data["date"] = date.toISOString().split('T')[0];
-        data["guest"] = getGuestIdBySocialNum(guest.split(" ")[2]);
-        data["dish"] = getDishIdByDishName(dish);
-        data["dessert"] = getDessertIdByDessertName(dessert);
+        console.log(`GUEST ${guest}`)
+        if (guest !== ""){
+            data["guest"] = getGuestIdBySocialNum(guest.split(" ")[2]);
+        }
+        if (dish !== ""){
+            data["dish"] = getDishIdByDishName(dish);
+        }
+        if (dessert !== ""){
+            data["dessert"] = getDessertIdByDessertName(dessert);
+        }
         console.log(data);
         try{
             const response = await updateMeal(params.id, data);
@@ -104,6 +117,7 @@ const EditMeal = () => {
                 return;
             }
         } catch (error){
+            setAlertSeverity("error");
             const errorMsg = JSON.parse(error.message);
             if (errorMsg.hasOwnProperty("non_field_errors")){
               setShowAlert(errorMsg.non_field_errors)
@@ -140,7 +154,11 @@ const EditMeal = () => {
                         value={guest}
                         style={{width: 400}}
                         onChange={(event, newValue) => {
-                            setGuest(newValue);
+                            if (Object.is(newValue, null)){
+                                setGuest("");
+                            } else {
+                                setGuest(newValue);
+                            }
                         }}
                         options={guestSelect}
                         sx={{ width: 300 }}
@@ -177,8 +195,13 @@ const EditMeal = () => {
                         disablePortal
                         id="dishSelectBox"
                         style={{width: 400}}
+                        value={dish}
                         onChange={(event, newValue) => {
-                            setDish(newValue);
+                            if (Object.is(newValue, null)){
+                                setDish("");
+                            } else {
+                                setDish(newValue);
+                            }
                         }}
                         options={dishSelect}
                         sx={{ width: 300 }}
@@ -190,8 +213,13 @@ const EditMeal = () => {
                         disablePortal
                         id="dessertSelectBox"
                         style={{width: 400}}
+                        value={dessert}
                         onChange={(event, newValue) => {
-                            setDessert(newValue);
+                            if (Object.is(newValue, null)){
+                                setDessert("");
+                            } else {
+                                setDessert(newValue);
+                            }
                         }}
                         options={dessertSelect}
                         sx={{ width: 300 }}

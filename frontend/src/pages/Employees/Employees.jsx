@@ -98,8 +98,8 @@ const Employees = () => {
     const columns = [
         {
             field: "social_security_number",
-            headerName: "Social security number",
-            width: 200
+            headerName: "Social security number / PESEL",
+            width: 250
         },
         {
             field: "name",
@@ -119,7 +119,7 @@ const Employees = () => {
         {
             field: "salary",
             headerName: "Salary",
-            width: 300
+            width: 250
         }
     ]
 

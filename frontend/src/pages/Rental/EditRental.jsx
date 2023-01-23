@@ -54,7 +54,7 @@ const EditRental = () => {
     }
 
     useEffect(() => {
-        const fetchCosTam = async () => {
+        const fetchData = async () => {
             const data = await getRentalCreateData();
             setRentalOptionsData(data);
             setEmployeeSelect(Object.keys(data.employees).map((key) => { return `${data.employees[key].name} ${data.employees[key].surname}, ${data.employees[key].social_security_number}`;}));
@@ -62,7 +62,7 @@ const EditRental = () => {
             setGearSelect(Object.keys(data.gear).map((key) => {return `${data.gear[key].name} ${data.gear[key].size}`}))
         }
 
-        fetchCosTam();
+        fetchData();
     }, []);
 
     useEffect(() => {
@@ -81,11 +81,9 @@ const EditRental = () => {
         const fetchRentalOptionsdata = async () => {
             const specificRentalData = await getRental(params.id);
 
-            if (employee !== "" || guest !== "" || gear !== "") {
-                setGuest(`${specificRentalData.guest.name} ${specificRentalData.guest.surname}, ${specificRentalData.guest.social_security_number}`);
-                setEmployee(`${specificRentalData.employee.name} ${specificRentalData.employee.surname}, ${specificRentalData.employee.social_security_number}`);
-                setGear(`${specificRentalData.gear.name} ${specificRentalData.gear.size}`);
-            }
+            setGuest(`${specificRentalData.guest.name} ${specificRentalData.guest.surname}, ${specificRentalData.guest.social_security_number}`);
+            setEmployee(`${specificRentalData.employee.name} ${specificRentalData.employee.surname}, ${specificRentalData.employee.social_security_number}`);
+            setGear(`${specificRentalData.gear.name} ${specificRentalData.gear.size}`);
 
             if (Object.keys(rentalOptionsData).length !== 0) {
                 getUnavailabiltyList(await getGearIdByGearName(specificRentalData.gear.name, specificRentalData.gear.size));
@@ -121,7 +119,7 @@ const EditRental = () => {
         }
     }
 
-    const getGearIdByGearName = async (gearName, gearSize) => {
+    const getGearIdByGearName = (gearName, gearSize) => {
         for (let i in rentalOptionsData.gear){
             if ((rentalOptionsData.gear[i].name === gearName) && (rentalOptionsData.gear[i].size === gearSize)){
                 return rentalOptionsData.gear[i].id;
@@ -137,9 +135,15 @@ const EditRental = () => {
     const onSubmit = async (data) => {
         data["date_from"] = dateFrom.toISOString().split('T')[0];
         data["date_to"] = dateTo.toISOString().split('T')[0];
-        data["employee"] = getEmployeeIdBySocialNum(employee.split(" ")[employee.split(" ").length - 1]);
-        data["guest"] = getGuestIdBySocialNum(guest.split(" ")[guest.split(" ").length - 1]);
-        data["gear"] = getGearIdByGearName(gear.split(" ").slice(0, -1).join(" "), gear.split(" ")[gear.split(" ").length - 1]);
+        if (employee !== ""){
+            data["employee"] = getEmployeeIdBySocialNum(employee.split(" ")[employee.split(" ").length - 1]);
+        }
+        if (employee !== ""){
+            data["guest"] = getGuestIdBySocialNum(guest.split(" ")[guest.split(" ").length - 1]);
+        }
+        if (employee !== ""){
+            data["gear"] = getGearIdByGearName(gear.split(" ").slice(0, -1).join(" "), gear.split(" ")[gear.split(" ").length - 1]);
+        }
         console.log(data);
         try{
             const response = await updateRental(params.id, data);
@@ -202,7 +206,7 @@ const EditRental = () => {
                             inputFormat="MM-DD-YYYY"
                             value={dateFrom}
                             onChange={handleDateFromChange}
-                            disablePast={true}
+                            //disablePast={true}
                             shouldDisableDate={disableUnavailableDates}
                             renderInput={(params) => <TextField {...params} />}
                         />
@@ -211,7 +215,7 @@ const EditRental = () => {
                             inputFormat="MM-DD-YYYY"
                             value={dateTo}
                             onChange={handleDateToChange}
-                            disablePast={true}
+                            //disablePast={true}
                             shouldDisableDate={disableUnavailableDates}
                             renderInput={(params) => <TextField {...params} />}
                         />
@@ -224,7 +228,11 @@ const EditRental = () => {
                         style={{width: 400}}
                         value={employee}
                         onChange={(event, newValue) => {
-                            setEmployee(newValue);
+                            if (Object.is(newValue, null)){
+                                setEmployee("");
+                            } else {
+                                setEmployee(newValue);
+                            }
                         }}
                         options={employeeSelect}
                         sx={{ width: 300 }}
@@ -236,9 +244,13 @@ const EditRental = () => {
                         disablePortal
                         id="guestSelectBox"
                         style={{width: 400}}
-                        value={employee}
+                        value={guest}
                         onChange={(event, newValue) => {
-                            setGuest(newValue);
+                            if (Object.is(newValue, null)){
+                                setGuest("");
+                            } else {
+                                setGuest(newValue);
+                            }
                         }}
                         options={guestSelect}
                         sx={{ width: 300 }}
@@ -251,12 +263,17 @@ const EditRental = () => {
                         style={{width: 400}}
                         value={gear}
                         onChange={(event, newValue) => {
-                            setGear(newValue);
-                            const getUnavailabiltyList = async (room_id) => {
-                                const data = await getGearUnavailabilty(room_id);
-                                setUnavailabilityList(data);
+                            if (Object.is(newValue, null)){
+                                setGear("");
+                            } else {
+                                setGear(newValue);
+                                const getUnavailabiltyList = async (room_id) => {
+                                    const data = await getGearUnavailabilty(room_id);
+                                    setUnavailabilityList(data);
+                                }
+                                getUnavailabiltyList(getGearIdByGearName(newValue.split(" ").slice(0, -1).join(" ")));
                             }
-                            getUnavailabiltyList(getGearIdByGearName(newValue.split(" ").slice(0, -1).join(" ")));
+                            
                         }}
                         options={gearSelect}
                         sx={{ width: 300 }}
