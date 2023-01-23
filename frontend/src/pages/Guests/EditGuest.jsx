@@ -47,7 +47,9 @@ const EditGuest = () => {
             if (response) {
                 setAlertSeverity("success");
                 setShowAlert("Guest edited successfully!");
-                routeChange();
+                setTimeout(() => {
+                    routeChange();
+                }, 1000);
                 return;
             }
         } catch (error){

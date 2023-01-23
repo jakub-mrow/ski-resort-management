@@ -120,6 +120,9 @@ const CreateRental = () => {
                 setClearGuest(Math.random().toString());
                 setClearGear(Math.random().toString());
                 priceRef.current.value = "";
+                setTimeout(() => {
+                    routeChange();
+                }, 1000);
                 return;
             }
         } catch (error){

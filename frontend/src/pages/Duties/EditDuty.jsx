@@ -105,7 +105,9 @@ const EditDuty = () => {
       if (response) {
         setAlertSeverity("success");
         setShowAlert("Duty edited successfully!");
-        routeChange();
+        setTimeout(() => {
+          routeChange();
+        }, 1000);
         return;
       }
     } catch (error){

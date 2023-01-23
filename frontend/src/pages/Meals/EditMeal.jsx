@@ -113,7 +113,9 @@ const EditMeal = () => {
             if (response) {
                 setAlertSeverity("success");
                 setShowAlert("Meal edited successfully!");
-                routeChange();
+                setTimeout(() => {
+                    routeChange();
+                }, 1000);
                 return;
             }
         } catch (error){

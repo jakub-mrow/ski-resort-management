@@ -48,7 +48,9 @@ const EditEmployee = () => {
             if (response) {
                 setAlertSeverity("success");
                 setShowAlert("Employee edited successfully!");
-                routeChange();
+                setTimeout(() => {
+                    routeChange();
+                }, 1000);
                 return;
             }
         } catch (error){

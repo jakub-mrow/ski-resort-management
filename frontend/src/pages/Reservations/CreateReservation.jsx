@@ -102,6 +102,9 @@ function CreateReservation() {
                 setClearGuest(Math.random().toString());
                 setClearRoom(Math.random().toString());
                 numberRef.current.value = "";
+                setTimeout(() => {
+                    routeChange();
+                }, 1000);
                 return;
             }
         } catch (error){

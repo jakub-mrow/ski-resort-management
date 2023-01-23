@@ -150,7 +150,9 @@ const EditRental = () => {
             if (response) {
                 setAlertSeverity("success");
                 setShowAlert("Rental edited successfully!");
-                routeChange();
+                setTimeout(() => {
+                    routeChange();
+                }, 1000);
                 return;
             }
         } catch (error){

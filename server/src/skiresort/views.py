@@ -202,7 +202,7 @@ class ReservationsViewSet(viewsets.ModelViewSet):
         
         beds = models.Room.objects.filter(room_id=room_id).first().beds
         if int(request.data["number_of_people"]) > beds:
-            return Response(data={"msg": "Number of people is too big for the room"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+            return Response(data={"msg": "Number of people is too big for the room. There are only {} beds. ".format(beds)}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
 
         reservation_serializer.save()

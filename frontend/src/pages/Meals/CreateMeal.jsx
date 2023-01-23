@@ -103,6 +103,9 @@ const CreateMeal = () => {
                 setClearDish(Math.random().toString());
                 setClearDessert(Math.random().toString());
                 timeDayRef.current.value = "";
+                setTimeout(() => {
+                    routeChange();
+                }, 1000);
                 return;
             }
         } catch (error){

@@ -47,7 +47,9 @@ const EditGear = () => {
             if (response) {
                 setAlertSeverity("success");
                 setShowAlert("Gear edited successfully!");
-                routeChange();
+                setTimeout(() => {
+                    routeChange();
+                }, 1000);
                 return;
             }
         } catch (error){

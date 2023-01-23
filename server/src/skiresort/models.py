@@ -100,8 +100,12 @@ class Gear(models.Model):
     brand = models.CharField(max_length=128)
     size = models.CharField(max_length=128)
 
+
+    def get_full_name(self):
+        return "{}, size: {}".format(self.name, self.size)
+
     class Meta:
-        ordering = ("type", "name", "code")
+        ordering = ("name", "size", "code")
 
 
 class Rental(models.Model):

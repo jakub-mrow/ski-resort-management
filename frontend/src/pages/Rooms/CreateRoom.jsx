@@ -40,6 +40,9 @@ function CreateRoom() {
                 descriptionRef.current.value = "";
                 bedsRef.current.value = "";
                 priceRef.current.value = "";
+                setTimeout(() => {
+                    routeChange();
+                }, 1000);
                 return;
             }
         } catch (error){

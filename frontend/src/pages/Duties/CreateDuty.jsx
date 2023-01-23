@@ -91,6 +91,9 @@ const CreateDuty = () => {
                 setClearEmployee(Math.random().toString());
                 setClearTask(Math.random().toString());
                 setClearLocalization(Math.random().toString());
+                setTimeout(() => {
+                    routeChange();
+                }, 1000);
                 return;
             }
         } catch (error){
