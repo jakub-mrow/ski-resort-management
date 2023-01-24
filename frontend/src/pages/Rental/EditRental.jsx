@@ -201,6 +201,29 @@ const EditRental = () => {
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div class="flex flex-col space-y-4 mx-auto justify-center items-center">
+
+                    <Autocomplete
+                        disablePortal
+                        id="gearSelectBox"
+                        style={{width: 400}}
+                        value={gear}
+                        onChange={(event, newValue) => {
+                            if (Object.is(newValue, null)){
+                                setGear("");
+                            } else {
+                                setGear(newValue);
+                                const getUnavailabiltyList = async (room_id) => {
+                                    const data = await getGearUnavailabilty(room_id);
+                                    setUnavailabilityList(data);
+                                }
+                                getUnavailabiltyList(getGearIdByGearName(newValue.split(" ").slice(0, -1).join(" ")));
+                            }
+                            
+                        }}
+                        options={gearSelect}
+                        sx={{ width: 300 }}
+                        renderInput={(params) => <TextField {...params} label="Gear" />}
+                    />
                         
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DesktopDatePicker
@@ -259,28 +282,6 @@ const EditRental = () => {
                         renderInput={(params) => <TextField {...params} label="Guest" />}
                     />
 
-                    <Autocomplete
-                        disablePortal
-                        id="gearSelectBox"
-                        style={{width: 400}}
-                        value={gear}
-                        onChange={(event, newValue) => {
-                            if (Object.is(newValue, null)){
-                                setGear("");
-                            } else {
-                                setGear(newValue);
-                                const getUnavailabiltyList = async (room_id) => {
-                                    const data = await getGearUnavailabilty(room_id);
-                                    setUnavailabilityList(data);
-                                }
-                                getUnavailabiltyList(getGearIdByGearName(newValue.split(" ").slice(0, -1).join(" ")));
-                            }
-                            
-                        }}
-                        options={gearSelect}
-                        sx={{ width: 300 }}
-                        renderInput={(params) => <TextField {...params} label="Gear" />}
-                    />
 
                     <TextField 
                         id="outlined-basic" 

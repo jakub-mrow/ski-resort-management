@@ -172,7 +172,13 @@ const CreateMeal = () => {
                         label="Time of day"
                         variant="outlined"
                         style={{width: 400}}
-                        {...register("time_of_day", {required: "Time of day is required"})}
+                        {...register("time_of_day", {
+                            required: "Time of day is required",
+                            pattern: {
+                                value: /^[\p{Lu}][\p{L}\s]{0,128}$/u,
+                                message: "Time of day must consist of letters, be capitalized and max 128 characters long"
+                            }
+                        })}
                         error={!!errors?.time_of_day}
                         helperText={errors?.time_of_day ? errors.time_of_day.message : null} 
                         inputRef={timeDayRef}

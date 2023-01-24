@@ -161,6 +161,29 @@ function CreateReservation() {
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div class="flex flex-col space-y-4 mx-auto justify-center items-center">
+
+                <Autocomplete
+                        disablePortal
+                        id="roomSelectBox"
+                        key={clearRoom}
+                        style={{width: 400}}
+                        onChange={(event, newValue) => {
+                            if (Object.is(newValue, null)){
+                                setRoom(undefined);
+                            } else {
+                                setRoom(newValue);
+                            }
+                            const getUnavailabiltyList = async (room_id) => {
+                                const data = await getRoomUnavailabilty(room_id);
+                                setUnavailabilityList(data);
+                            }
+                            getUnavailabiltyList(newValue);
+                        }}
+                        options={roomSelect}
+                        sx={{ width: 300 }}
+                        renderInput={(params) => <TextField {...params} label="Room" />}
+                    />
+                    
                         
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DesktopDatePicker
@@ -211,27 +234,6 @@ function CreateReservation() {
                         renderInput={(params) => <TextField {...params} label="Guest" />}
                     />
 
-                    <Autocomplete
-                        disablePortal
-                        id="roomSelectBox"
-                        key={clearRoom}
-                        style={{width: 400}}
-                        onChange={(event, newValue) => {
-                            if (Object.is(newValue, null)){
-                                setRoom(undefined);
-                            } else {
-                                setRoom(newValue);
-                            }
-                            const getUnavailabiltyList = async (room_id) => {
-                                const data = await getRoomUnavailabilty(room_id);
-                                setUnavailabilityList(data);
-                            }
-                            getUnavailabiltyList(newValue);
-                        }}
-                        options={roomSelect}
-                        sx={{ width: 300 }}
-                        renderInput={(params) => <TextField {...params} label="Room" />}
-                    />
 
                     <TextField 
                         id="outlined-basic" 
