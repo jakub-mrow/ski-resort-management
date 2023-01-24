@@ -40,6 +40,9 @@ function CreateEmployee() {
                 surnameRef.current.value = "";
                 jobRef.current.value = "";
                 salaryRef.current.value = "";
+                setTimeout(() => {
+                    routeChange();
+                }, 1000);
                 return;
             }
         } catch (error){

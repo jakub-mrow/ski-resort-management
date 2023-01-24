@@ -50,7 +50,9 @@ const EditLocalization = () => {
 
         setAlertSeverity("success");
         setShowAlert("Localization edited successfully!");
-        routeChange();
+        setTimeout(() => {
+            routeChange();
+        }, 1000);
     }
 
 

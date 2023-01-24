@@ -39,6 +39,9 @@ function CreateGuest() {
                 surnameRef.current.value = "";
                 emailRef.current.value = "";
                 addressRef.current.value = "";
+                setTimeout(() => {
+                    routeChange();
+                }, 1000);
                 return;
             }
         } catch (error){

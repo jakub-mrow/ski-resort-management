@@ -37,6 +37,9 @@ function CreateTask() {
         setShowAlert("Task added successfully!");
         nameRef.current.value = "";
         descriptionRef.current.value = "";
+        setTimeout(() => {
+            routeChange();
+        }, 1000);
     }
 
     return (

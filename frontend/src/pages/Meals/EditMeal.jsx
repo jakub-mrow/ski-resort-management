@@ -113,7 +113,9 @@ const EditMeal = () => {
             if (response) {
                 setAlertSeverity("success");
                 setShowAlert("Meal edited successfully!");
-                routeChange();
+                setTimeout(() => {
+                    routeChange();
+                }, 1000);
                 return;
             }
         } catch (error){
@@ -171,8 +173,8 @@ const EditMeal = () => {
                             label="Date Picker"
                             inputFormat="MM-DD-YYYY"
                             value={date}
+                            //disablePast={true}
                             onChange={handleDateChange}
-                            disablePast={true}
                             //shouldDisableDate={disableUnavailableDates}
                             renderInput={(params) => <TextField {...params} />}
                         />
@@ -184,7 +186,13 @@ const EditMeal = () => {
                         label="Time of day"
                         variant="outlined"
                         style={{width: 400}}
-                        {...register("time_of_day", {required: "Time of day is required"})}
+                        {...register("time_of_day", {
+                            required: "Time of day is required",
+                            pattern: {
+                                value: /^[\p{Lu}][\p{L}\s]{0,128}$/u,
+                                message: "Time of day must consist of letters, be capitalized and max 128 characters long"
+                            }
+                        })}
                         defaultValue={mealObject.time_of_day}
                         error={!!errors?.time_of_day}
                         helperText={errors?.time_of_day ? errors.time_of_day.message : null} 

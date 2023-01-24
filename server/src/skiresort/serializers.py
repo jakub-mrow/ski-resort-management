@@ -260,7 +260,7 @@ class RentalListSerializer(serializers.ModelSerializer):
     price = serializers.FloatField()
     employee = serializers.CharField(source='employee.get_full_name')
     guest = serializers.CharField(source='guest.get_full_name')
-    gear = serializers.CharField(source='gear.name')   
+    gear = serializers.CharField(source='gear.get_full_name')   
 
     class Meta:
         model = models.Rental

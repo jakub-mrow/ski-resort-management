@@ -40,6 +40,9 @@ function CreateGear() {
                 nameRef.current.value = "";
                 brandRef.current.value = "";
                 sizeRef.current.value = "";
+                setTimeout(() => {
+                    routeChange();
+                }, 1000);
                 return;
             }
         } catch (error){

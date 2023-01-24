@@ -135,7 +135,9 @@ function EditReservation() {
             if (response){
                 setAlertSeverity("success");
                 setShowAlert("Reservation edited successfully!");
-                routeChange();
+                setTimeout(() => {
+                    routeChange();
+                }, 1000);
                 return;
             }
         } catch (error) {
@@ -191,23 +193,45 @@ function EditReservation() {
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col space-y-4 mx-auto justify-center items-center">
+
+                <Autocomplete
+                        disablePortal
+                        id="roomSelectBox"
+                        style={{width: 400}}
+                        value={String(room)}
+                        onChange={(event, newValue) => {
+                            if (Object.is(newValue, null)){
+                                setRoom("");
+                            } else {
+                                setRoom(newValue);
+                            }
+                            const getUnavailabiltyList = async (room_id) => {
+                                const data = await getRoomUnavailabilty(room_id);
+                                setUnavailabilityList(data);
+                            }
+                            getUnavailabiltyList(newValue);
+                        }}
+                        options={roomSelect}
+                        sx={{ width: 300 }}
+                        renderInput={(params) => <TextField {...params} label="Room" />}
+                    />
                         
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DesktopDatePicker
-                            label="Date from Picker"
+                            label="Date from"
                             inputFormat="MM/DD/YYYY"
                             value={dateFrom}
                             onChange={handleDateFromChange}
-                            disablePast={true}
+                            // disablePast={true}
                             shouldDisableDate={disableUnavailableDates}
                             renderInput={(params) => <TextField {...params} />}
                         />
                         <DesktopDatePicker
-                            label="Date to Picker"
+                            label="Date to"
                             inputFormat="MM/DD/YYYY"
                             value={dateTo}
                             onChange={handleDateToChange}
-                            disablePast={true}
+                            // disablePast={true}
                             shouldDisableDate={disableUnavailableDates}
                             renderInput={(params) => <TextField {...params} />}
                         />
@@ -248,29 +272,6 @@ function EditReservation() {
                         sx={{ width: 300 }}
                         renderInput={(params) => <TextField {...params} label="Guest" />}
                     />
-
-                    <Autocomplete
-                        disablePortal
-                        id="roomSelectBox"
-                        style={{width: 400}}
-                        value={String(room)}
-                        onChange={(event, newValue) => {
-                            if (Object.is(newValue, null)){
-                                setRoom("");
-                            } else {
-                                setRoom(newValue);
-                            }
-                            const getUnavailabiltyList = async (room_id) => {
-                                const data = await getRoomUnavailabilty(room_id);
-                                setUnavailabilityList(data);
-                            }
-                            getUnavailabiltyList(newValue);
-                        }}
-                        options={roomSelect}
-                        sx={{ width: 300 }}
-                        renderInput={(params) => <TextField {...params} label="Room" />}
-                    />
-
 
 
                     <TextField 

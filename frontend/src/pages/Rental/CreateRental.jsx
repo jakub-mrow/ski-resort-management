@@ -120,6 +120,9 @@ const CreateRental = () => {
                 setClearGuest(Math.random().toString());
                 setClearGear(Math.random().toString());
                 priceRef.current.value = "";
+                setTimeout(() => {
+                    routeChange();
+                }, 1000);
                 return;
             }
         } catch (error){
@@ -164,10 +167,29 @@ const CreateRental = () => {
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div class="flex flex-col space-y-4 mx-auto justify-center items-center">
+
+                    <Autocomplete
+                        disablePortal
+                        id="gearSelectBox"
+                        key={clearGear}
+                        style={{width: 400}}
+                        onChange={(event, newValue) => {
+                            setGear(newValue)
+                            const getUnavailabiltyList = async (room_id) => {
+                                const data = await getGearUnavailabilty(room_id);
+                                setUnavailabilityList(data);
+                            }
+                            getUnavailabiltyList(getGearIdByGearName(newValue.split(" ").slice(0, -1).join(" ")));
+                        }}
+                        options={gearSelect}
+                        sx={{ width: 300 }}
+                        renderInput={(params) => <TextField {...params} label="Gear" />}
+                    />
                         
+
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DesktopDatePicker
-                            label="Date from Picker"
+                            label="Date from"
                             inputFormat="MM-DD-YYYY"
                             value={dateFrom}
                             onChange={handleDateFromChange}
@@ -176,7 +198,7 @@ const CreateRental = () => {
                             renderInput={(params) => <TextField {...params} />}
                         />
                         <DesktopDatePicker
-                            label="Date to Picker"
+                            label="Date to"
                             inputFormat="MM-DD-YYYY"
                             value={dateTo}
                             onChange={handleDateToChange}
@@ -214,23 +236,6 @@ const CreateRental = () => {
                         renderInput={(params) => <TextField {...params} label="Guest" />}
                     />
 
-                    <Autocomplete
-                        disablePortal
-                        id="gearSelectBox"
-                        key={clearGear}
-                        style={{width: 400}}
-                        onChange={(event, newValue) => {
-                            setGear(newValue)
-                            const getUnavailabiltyList = async (room_id) => {
-                                const data = await getGearUnavailabilty(room_id);
-                                setUnavailabilityList(data);
-                            }
-                            getUnavailabiltyList(getGearIdByGearName(newValue.split(" ").slice(0, -1).join(" ")));
-                        }}
-                        options={gearSelect}
-                        sx={{ width: 300 }}
-                        renderInput={(params) => <TextField {...params} label="Gear" />}
-                    />
 
                     <TextField 
                         id="outlined-basic" 

@@ -37,6 +37,9 @@ function CreateLocalization() {
         setShowAlert("Localization added successfully!");
         nameRef.current.value = "";
         addressRef.current.value = "";
+        setTimeout(() => {
+            routeChange();
+        }, 1000);
     }
 
     return (

@@ -43,6 +43,9 @@ function CreateDessert() {
         caloriesRef.current.value = "";
         costRef.current.value = "";
         priceRef.current.value = "";
+        setTimeout(() => {
+            routeChange();
+        }, 1000);
     }
 
     return (
