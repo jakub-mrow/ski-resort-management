@@ -230,8 +230,9 @@ class ReservationsViewSet(viewsets.ModelViewSet):
         for reservation in unavailability_serializer.data:
             date_from = reservation.get("date_from")
             date_to = reservation.get("date_to")
-            date_range = generate_range_of_dates(date_from, date_to)
-            unavailable_dates.append(date_range)
+            if date_to != new_date_to and date_from != new_date_from:
+                date_range = generate_range_of_dates(date_from, date_to)
+                unavailable_dates.append(date_range)
 
         for unavailable_dates_range in unavailable_dates:
             if date_range_overlap(new_date_range, unavailable_dates_range):
